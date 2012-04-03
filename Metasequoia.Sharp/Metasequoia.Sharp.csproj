@@ -57,7 +57,9 @@
     </Compile>
     <Compile Include="Classes\Material.cs" />
     <Compile Include="Classes\Object.cs" />
+    <Compile Include="Classes\ObjectNormal.cs" />
     <Compile Include="Classes\Sharp\Face.cs" />
+    <Compile Include="Classes\Sharp\MathHelper.cs" />
     <Compile Include="Classes\Sharp\Vertex.cs" />
     <Compile Include="Classes\XmlElement.cs" />
     <Compile Include="Enums\Enums.Generated.cs">

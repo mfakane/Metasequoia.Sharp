@@ -76,11 +76,7 @@ namespace Metasequoia.Sharp
 		{
 			get
 			{
-				var rt = new int[this.PointCount];
-
-				this.Object.GetFacePointArray(this.Index, rt);
-
-				return rt;
+				return this.Object.GetFacePointArray(this.Index);
 			}
 		}
 
@@ -88,11 +84,7 @@ namespace Metasequoia.Sharp
 		{
 			get
 			{
-				var rt = new Coordinate[this.PointCount];
-
-				this.Object.GetFaceCoordinateArray(this.Index, rt);
-
-				return rt;
+				return this.Object.GetFaceCoordinateArray(this.Index);
 			}
 			set
 			{
@@ -145,6 +137,32 @@ namespace Metasequoia.Sharp
 			private set;
 		}
 
+		public Point GetNormal()
+		{
+			var pt = this.Points;
+
+			switch (pt.Length)
+			{
+				case 3:
+					return Point.GetNormal
+					(
+						this.Object.GetVertex(pt[0]),
+						this.Object.GetVertex(pt[1]),
+						this.Object.GetVertex(pt[2])
+					);
+				case 4:
+					return Point.GetNormal
+					(
+						this.Object.GetVertex(pt[0]),
+						this.Object.GetVertex(pt[1]),
+						this.Object.GetVertex(pt[2]),
+						this.Object.GetVertex(pt[3])
+					);
+				default:
+					return Point.Zero;
+			}
+		}
+
 		public bool Invert()
 		{
 			return this.Object.InvertFace(this.Index);
@@ -158,6 +176,21 @@ namespace Metasequoia.Sharp
 		public bool Delete(bool deleteVertex)
 		{
 			return this.Object.DeleteFace(this.Index, deleteVertex);
+		}
+
+		public bool IsFrontFace(Scene scene)
+		{
+			return this.Object.IsFrontFace(scene, this.Index);
+		}
+
+		public int SearchInvertedFace()
+		{
+			return this.Object.SearchInvertedFace(this.Index);
+		}
+
+		public int SearchInvertedFace(int begin, int end)
+		{
+			return this.Object.SearchInvertedFace(this.Index, begin, end);
 		}
 	}
 }
