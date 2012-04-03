@@ -49,6 +49,24 @@ namespace Metasequoia
 			this.Children = new ReadOnlyIndexer<Object>(_ => Document.Instance.GetChildObject(this, _), () => Document.Instance.GetChildObjectCount(this));
 		}
 
+		public int[] GetFacePointArray(int face)
+		{
+			var arr = new int[this.GetFacePointCount(face)];
+
+			this.GetFacePointArray(face, arr);
+
+			return arr;
+		}
+
+		public Coordinate[] GetFaceCoordinateArray(int face)
+		{
+			var arr = new Coordinate[this.GetFacePointCount(face)];
+
+			this.GetFaceCoordinateArray(face, arr);
+
+			return arr;
+		}
+
 		/// <summary>
 		/// オブジェクトのインデックスを取得します。
 		/// </summary>
