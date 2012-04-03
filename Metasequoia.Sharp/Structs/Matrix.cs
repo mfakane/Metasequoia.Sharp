@@ -72,6 +72,126 @@
 			};
 		}
 
+		/// <summary>
+		/// 行列のうち左上 3x3 成分のみでベクトルと行列の積を計算します。
+		/// const MQPoint MQMatrix::Mult3(const MQPoint& p);
+		/// </summary>
+		/// <param name="p">ベクトル</param>
+		/// <returns>ベクトルと行列の積</returns>
+		public Point Mult3(Point p)
+		{
+			return new Point
+			(
+				p.X * M11 + p.Y * M21 + p.Z * M31,
+				p.X * M12 + p.Y * M22 + p.Z * M32,
+				p.X * M13 + p.Y * M23 + p.Z * M33
+			);
+		}
+
+		/// <summary>
+		/// 行列のうち左上 3x3 成分のみを転置します。
+		/// void MQMatrix::Transpose3(void);
+		/// </summary>
+		/// <returns>転置行列</returns>
+		public Matrix Transpose3()
+		{
+			return new Matrix
+			(
+				M11, M21, M31, M14,
+				M12, M22, M32, M24,
+				M13, M23, M33, M34,
+				M41, M42, M43, M44
+			);
+		}
+
+		/// <summary>
+		/// SRT 変換行列から拡大成分を抽出して、その XYZ ごとの要素を MQPoint 型として取得します。
+		/// MQPoint MQMatrix::GetScaling(void) const;
+		/// </summary>
+		/// <returns>拡大成分</returns>
+		public Point GetScaling()
+		{
+			var val = new float[3];
+
+			NativeMethods.MQMatrix_FloatValue(this.ToArray(), (int)MQMatrix.GetScaling, val);
+
+			return new Point(val[0], val[1], val[2]);
+		}
+
+		/// <summary>
+		/// SRT 変換行列から回転成分を抽出して、その角度（オイラー角）を MQAngle 型として取得します。
+		/// MQAngle MQMatrix::GetRotation(void) const;
+		/// </summary>
+		/// <returns>回転成分</returns>
+		public Angle GetRotation()
+		{
+			var val = new float[3];
+
+			NativeMethods.MQMatrix_FloatValue(this.ToArray(), (int)MQMatrix.GetRotation, val);
+
+			return new Angle(val[0], val[1], val[2]);
+		}
+
+		/// <summary>
+		/// SRT 変換行列から平行移動成分を抽出して、その移動量を MQPoint 型として取得します。
+		/// MQPoint MQMatrix::GetTranslation(void) const;
+		/// </summary>
+		/// <returns>平行移動成分</returns>
+		public Point GetTranslation()
+		{
+			var val = new float[3];
+
+			NativeMethods.MQMatrix_FloatValue(this.ToArray(), (int)MQMatrix.GetTranslation, val);
+
+			return new Point(val[0], val[1], val[2]);
+		}
+
+		/// <summary>
+		/// SRT 変換行列を設定します。
+		/// void MQMatrix::SetTransform(const MQPoint *scaling, const MQAngle *rotation, const MQPoint *trans);
+		/// </summary>
+		/// <param name="scaling">拡大成分</param>
+		/// <param name="rotation">回転成分</param>
+		/// <param name="trans">平行移動成分</param>
+		/// <returns>設定された行列</returns>
+		public Matrix SetTransform(Point scaling, Angle rotation, Point trans)
+		{
+			var val = new float[]
+			{
+				scaling.X, scaling.Y, scaling.Z,
+				rotation.Head, rotation.Pitch, rotation.Bank,
+				trans.X, trans.Y, trans.Z
+			};
+			var rt = this.ToArray();
+
+			NativeMethods.MQMatrix_FloatValue(rt, (int)MQMatrix.SetTransform, val);
+
+			return new Matrix(rt);
+		}
+
+		/// <summary>
+		/// SRT 変換逆行列を設定します。
+		/// void MQMatrix::SetInverseTransform(const MQPoint *scaling, const MQAngle *rotation, const MQPoint *trans);
+		/// </summary>
+		/// <param name="scaling">拡大成分</param>
+		/// <param name="rotation">回転成分</param>
+		/// <param name="trans">平行移動成分</param>
+		/// <returns>設定された逆行列</returns>
+		public Matrix SetInverseTransform(Point scaling, Angle rotation, Point trans)
+		{
+			var val = new float[]
+			{
+				scaling.X, scaling.Y, scaling.Z,
+				rotation.Head, rotation.Pitch, rotation.Bank,
+				trans.X, trans.Y, trans.Z
+			};
+			var rt = this.ToArray();
+
+			NativeMethods.MQMatrix_FloatValue(rt, (int)MQMatrix.SetInverseTransform, val);
+
+			return new Matrix(rt);
+		}
+
 		public static Matrix operator +(Matrix a, Matrix b)
 		{
 			var result = new Matrix();
