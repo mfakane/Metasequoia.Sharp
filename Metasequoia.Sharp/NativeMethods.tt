@@ -1,0 +1,160 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".Generated.cs" #>
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
+
+namespace Metasequoia
+{
+	/// <summary>
+	/// Metasequoia プラグイン API への直接的なアクセスを提供します。
+	/// </summary>
+	public static class NativeMethods
+	{
+		[SuppressUnmanagedCodeSecurity, DllImport("kernel32", CharSet = CharSet.Ansi)]
+        static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+		[SuppressUnmanagedCodeSecurity, DllImport("kernel32", CharSet = CharSet.Ansi)]
+        static extern IntPtr GetModuleHandle(string lpModuleName);
+
+		static T GetDelegate<T>(IntPtr hModule, string entryPoint)
+		{
+			var proc = GetProcAddress(hModule, entryPoint);
+
+			if (proc == IntPtr.Zero)
+				throw new EntryPointNotFoundException(entryPoint);
+
+			return (T)(object)Marshal.GetDelegateForFunctionPointer(proc, typeof(T));
+		}
+
+<#
+var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "mqsdk", "MQInit.cpp");
+var enc = Encoding.GetEncoding(932);
+var regex = new Regex(@"(?<return>.*?)\s+\(__stdcall \*(?<name>.*)\)\((?<params>.*?)\);", RegexOptions.Compiled);
+var map = new Dictionary<string, string>
+{
+	{ "MQScene", "/* Scene */ IntPtr" },
+	{ "MQDocument", "/* Document */ IntPtr" },
+	{ "MQObject", "/* Object */ IntPtr" },
+	{ "MQMaterial", "/* Material */ IntPtr" },
+	{ "MQXmlElement", "/* XmlElement */ IntPtr" },
+	{ "MQFileDialogInfo *", "ref FileDialogInfo " },
+	{ "MQSendMessageInfo *", "ref SendMessageInfo " },
+	{ "MQPoint *ptsarray", "Point[] ptsarray" },
+	{ "MQPoint *pts", "ref Point pts" },
+	{ "MQPoint *p", "ref Point p" },
+	{ "MQCoordinate *", "Coordinate[] " },
+	{ "MQColor *", "out Color " },
+	{ "MQBool *", "[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] " },
+	{ "const char *", "[MarshalAs(UnmanagedType.LPStr)] string " },
+	{ "char *", "[MarshalAs(UnmanagedType.LPStr)] StringBuilder " },
+	{ "int *", "int[] " },
+	{ "const float *", "float *" },
+	{ "float *", "float[] " },
+	{ "LPVOID *", "out IntPtr " },
+	{ "DWORD", "uint" },
+	{ "BOOL *", "[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] " },
+	{ "BOOL", "[MarshalAs(UnmanagedType.Bool)] bool" },
+	{ "UINT", "uint" },
+	{ "HWND", "IntPtr" },
+	{ "void *", "/* void* */ IntPtr " },
+	{ "MQ", "" },
+};
+var functions = File.ReadLines(path, enc)
+					.Where(_ => !_.StartsWith("//"))
+					.Select(_ => regex.Match(_))
+					.Where(_ => _.Success)
+					.Select(m =>
+					{
+						var returnType = m.Groups["return"].Value;
+						var name = m.Groups["name"].Value;
+						var delegateName = name + "Delegate";
+						var parameters = m.Groups["params"].Value;
+						var attributes = "[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]";
+		
+						returnType = map.Aggregate(returnType, (x, y) => x.Replace(y.Key, y.Value));
+
+						if (returnType.Contains("["))
+						{
+							var idx = returnType.IndexOf("]");
+							var attr = returnType.Substring(0, idx + 1).Trim();
+			
+							returnType = returnType.Substring(idx + 1).Trim();
+							attributes = attributes + "\r\n\t\t" + "[return: " + attr.Trim('[', ']') + "]";
+						}
+
+						if (parameters == "void")
+							parameters = "";
+						else
+							parameters = string.Join(", ", parameters.Split(',')
+																	 .Select(_ => map.Aggregate(_.Trim(), (x, y) => x.Replace(y.Key, y.Value))));
+						
+						switch (name)
+						{
+							case "MQObj_GetVertex":
+								parameters = parameters.Replace("MQPoint[]", "out MQPoint");
+
+								break;
+							case "MQObj_SetVertex":
+								parameters = parameters.Replace("MQPoint[]", "ref MQPoint");
+
+								break;
+							case "MQObj_AddVertex":
+								parameters = parameters.Replace("MQPoint[]", "ref MQPoint");
+
+								break;
+						}
+
+						return new
+						{
+							ReturnType = returnType,
+							Name = name,
+							DelegateName = delegateName,
+							Parameters = parameters,
+							Attributes = attributes,
+						};
+					})
+					.ToArray();
+#>
+		internal static bool Initialize()
+		{
+			try
+			{
+				var hModule = GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName);
+	
+<#
+foreach (var i in functions)
+{
+#>
+				<#=i.Name #> = GetDelegate<<#=i.DelegateName #>>(hModule, "<#=i.Name #>");
+<#
+}
+#>
+				
+				return true;
+			}
+			catch (EntryPointNotFoundException)
+			{
+				return false;
+			}
+		}
+<#
+foreach (var i in functions)
+{
+#>
+		<#=i.Attributes #>
+		public delegate <#=i.ReturnType #> <#=i.DelegateName #>(<#=i.Parameters #>);
+		public static <#=i.DelegateName #> <#=i.Name #>;
+
+<#
+}
+#>
+	}
+}

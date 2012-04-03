@@ -1,0 +1,328 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".Generated.cs" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
+
+namespace Metasequoia
+{
+<#
+var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "..", "mqsdk", "MQPlugin.h");
+var enc = Encoding.GetEncoding(932);
+var regex = new Regex(@"^inline (?<returnType>\w+)\s+MQC(?<className>\w+)\:\:(?<methodName>\w+)\((?<params>.+?)\)\s*\{(?<content>(.|\n)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
+var defs = regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n"))
+				.Cast<Match>()
+				.Select(_ =>
+				{
+					var parameters = _.Groups["params"].Value;
+					 
+					return new
+					{
+						ClassName = _.Groups["className"].Value,
+						ReturnType = _.Groups["returnType"].Value,
+						MethodName = _.Groups["methodName"].Value,
+						Parameters = parameters == "void" ? new string[0] : parameters.Split(','),
+						Content = _.Groups["content"].Value,
+						Handled = new[] { false },
+					};
+				});
+var map = new Dictionary<string, string>
+{
+	{ "MQMatrix&", "ref Matrix" },
+	{ "Matrix", "Matrix" },
+	{ "MQPoint&", "ref Point" },
+	{ "MQAngle&", "ref Angle" },
+	{ "MQColor&", "ref Color" },
+	{ "MQBool *", "[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] " },
+	{ "MQPoint *", "Point[] " },
+	{ "MQCoordinate *", "Coordinate[] " },
+	{ "DWORD", "uint" },
+	{ "BOOL *", "[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] " },
+	{ "BOOL", "bool" },
+	{ "const char *", "string " },
+	{ "char *", "StringBuilder " },
+	{ "float *out_w", "out float out_w" },
+	{ "uint map_type", "Mapping map_type" },
+	{ "float *", "float[] " },
+	{ "int *", "int[] " },
+	{ "UINT", "uint" },
+	{ "MQ", "" },
+};
+var flagMap = new Dictionary<string, string[]>
+{
+	{ "Object.Freeze", new[] { "ObjectFreeze", "flag" } },
+	{ "Object.GetPatchType", new[] { "ObjectPatch", "type" } },
+	{ "Object.GetShading", new[] { "ObjectShade", "type", "int" } },
+	{ "Object.GetMirrorType", new[] { "ObjectMirror", "type", "int" } },
+	{ "Object.GetMirrorAxis", new[] { "ObjectMirrorAxis", "axis" } },
+	{ "Object.GetLatheType", new[] { "ObjectLathe", "type", "int" } },
+	{ "Object.GetLatheAxis", new[] { "ObjectLatheAxis", "axis" } },
+	{ "Material.GetShader", new[] { "MaterialShader", "shader", "int" } },
+	{ "Material.GetVertexColor", new[] { "MaterialVertexcolor", "value", "int" } },
+	{ "Material.GetMappingType", new[] { "MaterialProjection", "type", "int" } },
+};
+var constantRegex = new Regex("NativeMethods.(?:(?<enum>MQSCENE)|MQ(?<enum>OBJ_ID|MAT_ID))_(?<member>[A-Z0-9_]+)", RegexOptions.Compiled);
+
+foreach (var k in defs.GroupBy(_ => _.ClassName))
+{
+#>
+	/// <summary>
+	/// MQ<#=k.Key #>
+	/// </summary>
+	public sealed partial class <#=k.Key #>
+	{
+		/// <summary>
+		/// このオブジェクトの基になるネイティブなポインタを取得します。
+		/// </summary>
+		public IntPtr Handle
+		{
+			get;
+			private set;
+		}
+
+		<#=k.Key #>(IntPtr ptr)
+		{
+			this.Handle = ptr;
+			Initialize();
+		}
+
+		public static implicit operator <#=k.Key #>(IntPtr self)
+		{
+			return self == IntPtr.Zero ? null : new <#=k.Key #>(self);
+		}
+
+		public static implicit operator IntPtr(<#=k.Key #> self)
+		{
+			return self.Handle;
+		}
+
+		partial void Initialize();
+
+<#
+	foreach (var v in k)
+	{
+		if (v.Handled[0])
+			continue;
+
+		var returnType = map.Aggregate(v.ReturnType, (x, y) => x.Replace(y.Key, y.Value));
+		var name = v.MethodName.Replace("ID", "Id").Replace("3D", "3d");
+		var mode = "raw";
+		var setContent = "";
+		var mapName = v.ClassName + "." + v.MethodName;
+
+		if (v.MethodName == "DeleteThis")
+			continue;
+
+		if (name.StartsWith("Get") && !v.Parameters.Any())
+		{
+			mode = "propreadonly";
+			name = name.Substring(3);
+			
+			var setName = v.MethodName.Replace("Get", "Set");
+			var set = k.FirstOrDefault(_ => _.ClassName == v.ClassName
+										 && _.MethodName == setName
+										 && _.Parameters.Length == 1);
+			
+			if (set != null)
+			{
+				var setVar = set.Parameters[0].Split(' ').Last();
+				
+				mode = "prop";
+				setContent = set.Content.Trim();
+
+				if (setVar != "value")
+					setContent = "var " + setVar + " = value; " + setContent;
+
+				set.Handled[0] = true;
+			}
+		}
+
+		Func<string, string> subMap = _ => 
+		{
+			var rt = _
+				.Replace("objindex", "objectIndex")
+				.Replace("vertindex", "vertexIndex")
+				.Replace("faceindex", "faceIndex")
+				.Replace("lineindex", "lineIndex")
+
+				.Replace("out_path", "outPath")
+				.Replace("map_type", "mapType")
+				.Replace("delete_vertex", "deleteVertex")
+				.Replace("out_w", "w");
+
+			if (flagMap.ContainsKey(mapName))
+			{
+				var conv = flagMap[mapName];
+
+				rt = rt.Replace("uint " + conv[1], conv[0] + " " + conv[1]);
+			}
+
+			return rt;
+		};
+		Func<string, string> contentMap = _ =>
+		{
+			var rt = _
+				.Replace("MQDoc_GetGlobalMatrix(this, obj, mtx.t)", "var t = new float[16]; MQDoc_GetGlobalMatrix(this, obj, t); mtx = new Matrix(t)")
+				.Replace("MQDoc_GetGlobalInverseMatrix(this, obj, mtx.t)", "var t = new float[16]; MQDoc_GetGlobalInverseMatrix(this, obj, t); mtx = new Matrix(t)")
+				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, t); mtx = new Matrix(t)")
+				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, t); mtx = new Matrix(t)")
+				.Replace("MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.ToArray());")
+				.Replace("MQDoc_FindMappingFile(this, outPath, filename, mapType)", "MQDoc_FindMappingFile(this, outPath, filename, (uint)mapType)")
+
+				.Replace("if (w != NULL) *w", "w")
+			
+				.Replace("; ", ";\r\n\t\t\t")
+			
+				.Replace("sel.object", "sel.Object")
+				.Replace("sel.face", "sel.Face")
+				.Replace("sel.line", "sel.Line")
+				.Replace("sel.vertex", "sel.Vertex")
+				.Replace(".head;", ".Head;")
+				.Replace(".pich;", ".Pitch;")
+				.Replace(".bank;", ".Bank;")
+				.Replace(".x;", ".X;")
+				.Replace(".y;", ".Y;")
+				.Replace(".z;", ".Z;")
+				.Replace(".r;", ".R;")
+				.Replace(".g;", ".G;")
+				.Replace(".b;", ".B;")
+				.Replace("float val[", "var val = new float[")
+				.Replace("&fov", "new[] { fov }")
+
+				.Replace("MQPoint pts;", "var pts = new Point();")
+				.Replace("MQMatrix mtx;", "var mtx = new Matrix();")
+				.Replace("MQColor color;", "var color = new Color();")
+
+				.Replace("&pts", "ref pts")
+				.Replace("&color", "out color")
+				.Replace("&p", "ref p")
+
+				.Replace("UINT", "uint")
+				.Replace("MQColor(", "new Color(")
+				.Replace("MQPoint(", "new Point(")
+				.Replace("MQAngle(", "new Angle(")
+				.Replace("VALID, flag)", "VALID, flag ? 1 : 0)")
+				.Replace("? TRUE : FALSE", "!= 0")
+
+				.Replace("TRUE", "true")
+				.Replace("MQ", "NativeMethods.MQ")
+				.Replace("\n", "\r\n")
+				.Replace("\r\r\n", "\r\n");
+
+			if (flagMap.ContainsKey(mapName))
+			{
+				var conv = flagMap[mapName];
+
+				rt = rt.Replace(conv[1] + ")", "(" + (conv.Length == 3 ? conv[2] : "uint") + ")" + conv[1] + ")");
+			}
+
+			return rt;
+		};
+		var parameters = v.Parameters
+			.Select(p => subMap(map.Aggregate(p, (x, y) => x.Replace(y.Key, y.Value)).Trim().Replace("const ", "")));
+		var content = contentMap(subMap(v.Content.Trim()));
+
+		content = constantRegex.Replace(content, m => "(int)" +
+		(
+			m.Groups["enum"].Value.StartsWith("MQ")
+				? "MQ" + Capitalize(m.Groups["enum"].Value.ToLower().Substring(2))
+				: Capitalize(m.Groups["enum"].Value.ToLower())
+		) + "." + Capitalize(m.Groups["member"].Value.ToLower()));
+
+		setContent = contentMap(subMap(setContent.Trim()));
+		setContent = constantRegex.Replace(setContent, m => "(int)" +
+		(
+			m.Groups["enum"].Value.StartsWith("MQ")
+				? "MQ" + Capitalize(m.Groups["enum"].Value.ToLower().Substring(2))
+				: Capitalize(m.Groups["enum"].Value.ToLower())
+		) + "." + Capitalize(m.Groups["member"].Value.ToLower()));
+
+		if (mode == "prop")
+		{
+			content = content.Replace("\n", "\n\t");
+			setContent = setContent.Replace("\n", "\n\t");
+		}
+
+		if (flagMap.ContainsKey(mapName) && returnType != "void")
+		{
+			var conv = flagMap[mapName];
+
+			returnType = conv[0];
+			content = content.Replace("return ", "return (" + conv[0] + ")");
+		}
+		
+		switch (mode)
+		{
+			case "raw":
+#>
+		/// <summary>
+		/// <#=v.ReturnType #> <#=v.MethodName #>(<#=string.Join(",", v.Parameters).Replace("&", "&amp;") #>)
+		/// </summary>
+		public <#=returnType #> <#=name #>(<#=string.Join(", ", parameters) #>)
+		{
+			<#=content #>
+		}
+
+<#
+				break;
+			case "propreadonly":
+#>
+		/// <summary>
+		/// <#=v.ReturnType #> <#=v.MethodName #>()
+		/// </summary>
+		public <#=returnType #> <#=name #>
+		{
+			get
+			{
+				<#=content #>
+			}
+		}
+
+<#
+				break;
+			case "prop":
+#>
+		/// <summary>
+		/// <#=v.ReturnType #> <#=v.MethodName #>()
+		/// </summary>
+		public <#=returnType #> <#=name #>
+		{
+			get
+			{
+				<#=content #>
+			}
+			set
+			{
+				<#=setContent #>
+			}
+		}
+
+<#
+				break;
+		}
+	}
+#>
+	}
+
+<#
+}
+#>
+}
+
+<#+
+Regex capitalizeRegex = new Regex(@"(_|^)([a-z0-9])", RegexOptions.Compiled);
+
+string Capitalize(string s)
+{
+	return capitalizeRegex.Replace(s, m => m.Groups[2].Value.ToUpper());
+}
+#>

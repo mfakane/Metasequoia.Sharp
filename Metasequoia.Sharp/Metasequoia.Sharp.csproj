@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7EFAD5F-474E-455A-B939-CCFA70304E52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Metasequoia</RootNamespace>
+    <AssemblyName>Metasequoia.Sharp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\x86\Debug\Metasequoia.Sharp.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\x86\Release\Metasequoia.Sharp.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Document.cs" />
+    <Compile Include="Classes\Classes.Generated.cs">
+      <DependentUpon>Classes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classes\Material.cs" />
+    <Compile Include="Classes\Object.cs" />
+    <Compile Include="Classes\Sharp\Face.cs" />
+    <Compile Include="Classes\Sharp\Vertex.cs" />
+    <Compile Include="Classes\XmlElement.cs" />
+    <Compile Include="Enums\Enums.Generated.cs">
+      <DependentUpon>Enums.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="IPlugin.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Sharp\BasicPluginFeature.cs" />
+    <Compile Include="Sharp\EventArgs\MouseEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\UserMessageEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\DrawEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\KeyEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\DocumentEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\UndoEventArgs.cs" />
+    <Compile Include="Sharp\EventArgs\SceneEventArgs.cs" />
+    <Compile Include="Sharp\ImportExportPluginFeature.cs" />
+    <Compile Include="Sharp\IPluginFeature.cs" />
+    <Compile Include="Sharp\EventArgs\MetasequoiaEventArgs.cs" />
+    <Compile Include="Sharp\MouseButtonFlags.cs" />
+    <Compile Include="Sharp\PluginBase.cs" />
+    <Compile Include="Sharp\PluginAttribute.cs" />
+    <Compile Include="ReadOnlyIndexer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sharp\PluginFeatureBase.cs" />
+    <Compile Include="Sharp\EventArgs\BooleanEventArgs.cs" />
+    <Compile Include="Structs\Angle.cs" />
+    <Compile Include="Structs\Color.cs" />
+    <Compile Include="DllExportAttribute.cs" />
+    <Compile Include="EntryPoint.cs" />
+    <Compile Include="Structs\Matrix.cs" />
+    <Compile Include="Structs\Point.cs" />
+    <Compile Include="StationCallbackProc.cs" />
+    <Compile Include="Structs\SelectVertex.cs" />
+    <Compile Include="Structs\Structures.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Structures.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Structs\Coordinate.cs" />
+    <Compile Include="Structs\SelectLine.cs" />
+    <Compile Include="Structs\SelectFace.cs" />
+    <Compile Include="NativeMethods.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NativeMethods.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReadWriteIndexer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Classes\Classes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Classes.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Enums\Enums.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Enums.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Structs\Structures.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Structures.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="NativeMethods.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NativeMethods.Generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

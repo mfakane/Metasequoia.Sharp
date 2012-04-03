@@ -1,0 +1,89 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".Generated.cs" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
+
+namespace Metasequoia
+{
+<#
+var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "..", "mqsdk", "MQPlugin.h");
+var enc = Encoding.GetEncoding(932);
+var regex = new Regex(@"typedef struct (?<name>.+?)\n{\n(?<content>(?:.|\n)+?)\n} \1;|typedef struct {\n(?<content>(?:.|\n)+?)\n} (?<name>.+?);|struct (?<name>.+?){\n(?<content>(?:.|\n)+?)\n};", RegexOptions.Compiled);
+var fieldRegex = new Regex(@"^\s*(?<type>(const )?[a-zA-Z0-9_]+ \*?)(?<names>[a-zA-Z0-9_,]+);", RegexOptions.Compiled | RegexOptions.Multiline);
+var map = new Dictionary<string, string>
+{
+	{ "DWORD", "uint" },
+	{ "const char*", "[MarshalAs(UnmanagedType.LPStr)] string" },
+	{ "void*", "/* void* */ IntPtr" },
+};
+
+foreach (Match i in regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n")))
+{
+	var name = i.Groups["name"].Value.Replace("MQ", "");
+#>
+	/// <summary>
+	/// MQ<#=name #>
+	/// </summary>
+	public partial struct <#=name #>
+	{
+<#
+	foreach (Match j in fieldRegex.Matches(i.Groups["content"].Value))
+	{
+		var type = j.Groups["type"].Value.Trim().Replace(" *", "*");
+
+		if (map.ContainsKey(type))
+			type = map[type];
+
+		var attr = "";
+
+		if (type.Contains("["))
+		{
+			var sl = type.Split(']');
+
+			attr = sl[0] + "] ";
+			type = sl[1].Trim();
+		}
+
+		foreach (var k in j.Groups["names"].Value.Split(','))
+		{
+			var n = k;
+
+			if (name == "Angle" && n == "pich")
+				continue;
+
+			if (!n.StartsWith("dw"))
+				n = Capitalize(n);
+#>
+		/// <summary>
+		/// <#=j.Groups["type"].Value.Trim() #> <#=k #>
+		/// </summary>
+		<#=attr #>public <#=type #> <#=n #>;
+<#
+		}
+	}
+#>
+	}
+	
+<#
+}
+#>
+}
+
+<#+
+Regex capitalizeRegex = new Regex(@"(_|^)([a-z])", RegexOptions.Compiled);
+
+string Capitalize(string s)
+{
+	return capitalizeRegex.Replace(s, m => m.Groups[2].Value.ToUpper());
+}
+#>
