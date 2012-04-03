@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
@@ -13,6 +14,8 @@ namespace DllExporter
 {
 	class Program
 	{
+		static Encoding encoding = Encoding.Unicode;
+
 		static int Main(string[] args)
 		{
 			try
@@ -110,7 +113,7 @@ namespace DllExporter
 				ilcode = replaceMethods.Aggregate(ilcode, (x, y) => x.Replace(y.Item1, y.Item2));
 
 				if (!string.IsNullOrEmpty(il))
-					File.WriteAllText(il, ilcode);
+					File.WriteAllText(il, ilcode, encoding);
 
 				Assemble(ilcode, output, is64, isDebug);
 
@@ -146,7 +149,7 @@ namespace DllExporter
 		{
 			var temp = Path.GetTempFileName();
 
-			File.WriteAllText(temp, il);
+			File.WriteAllText(temp, il, encoding);
 
 			try
 			{
