@@ -24,6 +24,9 @@ set otherAssemblies=*.dll
 :: その他の ILMerge オプション
 set ilmergeOptions=/wildcards
 
+:: その他の DllExporter オプション
+set dllexporterOptions=
+
 if "%*" equ "" (
 	echo Usage: %~n0 [/debug] [/copyto:dest] ^<primary assembly^>
 
@@ -35,6 +38,7 @@ set targetName=
 set targetNameExt=
 set configuration=release
 set copyTo=
+set il=
 
 call :parseArguments %*
 
@@ -58,6 +62,7 @@ exit /b
 		if "%iSubstring:~0,1%" equ "/" (
 			if /i "%iSubstring:~1%" equ "debug" (
 				set configuration=debug
+				set il=/il
 			) else if /i "%iSubstring:~1,7%" equ "copyto:" (
 				set copyTo=%iSubstring:~8%
 			)
@@ -89,7 +94,7 @@ exit /b
 exit /b
 
 :export
-	%dllexporter% /%configuration% %targetPath%
+	%dllexporter% /%configuration% %il% %dllexporterOptions% %targetPath%
 
 	if errorlevel 1 (
 		echo error from DllExporter, batch job failed
