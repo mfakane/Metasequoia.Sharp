@@ -18,6 +18,10 @@ CreateBoundingBox
 更新履歴
 =======
 
+Version 0.1, Tue, 03 Apr 2012
+
+	マージンや、新しいオブジェクトに作成するかを指定可能に
+
 Version 0.0, Tue, 03 Apr 2012
 
 	製作
