@@ -78,7 +78,7 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 	/// <summary>
 	/// MQ<#=k.Key #>
 	/// </summary>
-	public sealed partial class <#=k.Key #>
+	public partial class <#=k.Key #>
 	{
 		/// <summary>
 		/// このオブジェクトの基になるネイティブなポインタを取得します。
@@ -89,7 +89,7 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 			private set;
 		}
 
-		<#=k.Key #>(IntPtr ptr)
+		protected <#=k.Key #>(IntPtr ptr)
 		{
 			this.Handle = ptr;
 			Initialize();

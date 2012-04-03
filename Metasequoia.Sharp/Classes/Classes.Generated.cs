@@ -10,7 +10,7 @@ namespace Metasequoia
 	/// <summary>
 	/// MQDocument
 	/// </summary>
-	public sealed partial class Document
+	public partial class Document
 	{
 		/// <summary>
 		/// このオブジェクトの基になるネイティブなポインタを取得します。
@@ -21,7 +21,7 @@ namespace Metasequoia
 			private set;
 		}
 
-		Document(IntPtr ptr)
+		protected Document(IntPtr ptr)
 		{
 			this.Handle = ptr;
 			Initialize();
@@ -406,7 +406,7 @@ namespace Metasequoia
 	/// <summary>
 	/// MQScene
 	/// </summary>
-	public sealed partial class Scene
+	public partial class Scene
 	{
 		/// <summary>
 		/// このオブジェクトの基になるネイティブなポインタを取得します。
@@ -417,7 +417,7 @@ namespace Metasequoia
 			private set;
 		}
 
-		Scene(IntPtr ptr)
+		protected Scene(IntPtr ptr)
 		{
 			this.Handle = ptr;
 			Initialize();
@@ -582,7 +582,7 @@ namespace Metasequoia
 	/// <summary>
 	/// MQObject
 	/// </summary>
-	public sealed partial class Object
+	public partial class Object
 	{
 		/// <summary>
 		/// このオブジェクトの基になるネイティブなポインタを取得します。
@@ -593,7 +593,7 @@ namespace Metasequoia
 			private set;
 		}
 
-		Object(IntPtr ptr)
+		protected Object(IntPtr ptr)
 		{
 			this.Handle = ptr;
 			Initialize();
@@ -1262,7 +1262,7 @@ namespace Metasequoia
 	/// <summary>
 	/// MQMaterial
 	/// </summary>
-	public sealed partial class Material
+	public partial class Material
 	{
 		/// <summary>
 		/// このオブジェクトの基になるネイティブなポインタを取得します。
@@ -1273,7 +1273,7 @@ namespace Metasequoia
 			private set;
 		}
 
-		Material(IntPtr ptr)
+		protected Material(IntPtr ptr)
 		{
 			this.Handle = ptr;
 			Initialize();
