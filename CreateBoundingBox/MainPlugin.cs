@@ -6,7 +6,7 @@ using Metasequoia.Sharp;
 namespace Linearstar.Metaseq.CreateBoundingBox
 {
 	[DisplayName("CreateBoundingBox\tCopyright(C) 2012, mfakane")]
-	[Plugin(PluginType.Create, 0xAB86CB1E, 0x394449BD)]
+	[Plugin(PluginType.Select, 0xAB86CB1E, 0x394449BD)]
 	public class MainPlugin : PluginBase
 	{
 		protected override IEnumerable<IPluginFeature> GetFeatures()

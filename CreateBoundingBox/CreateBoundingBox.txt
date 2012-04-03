@@ -5,18 +5,22 @@ CreateBoundingBox
 ====
 
 選択された頂点全てを包み込む大きさの XYZ 軸に沿った直方体を作成します。
-これは Metasequoia 用の Create プラグインです。
+これは Metasequoia 用の Select プラグインです。
 
 このプラグインを使用するには .NET Framework 4.0 以上が必要です。
 
 インストール
 ===========
 
-プラグインフォルダの中の Create フォルダに CreateBoundingBox.dll を置いてください。
+プラグインフォルダの中の Select フォルダに CreateBoundingBox.dll を置いてください。
 すでに旧バージョンがインストールされている場合は、[プラグインについて] ダイアログから上書きすることはできません。手動で入れ替えてください。
 
 更新履歴
 =======
+
+Version 0.2, Tue, 03 Apr 2012
+
+	カテゴリ変更
 
 Version 0.1, Tue, 03 Apr 2012
 

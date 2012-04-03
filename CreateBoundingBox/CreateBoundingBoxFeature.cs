@@ -7,7 +7,7 @@ using Metasequoia.Sharp;
 
 namespace Linearstar.Metaseq.CreateBoundingBox
 {
-	[DisplayName("バウンディングボックス")]
+	[DisplayName("バウンディングボックスの作成")]
 	public class CreateBoundingBoxFeature : BasicPluginFeature
 	{
 		static bool createNewObject = true;
@@ -22,7 +22,7 @@ namespace Linearstar.Metaseq.CreateBoundingBox
 
 			if (vertices.Length == 0)
 			{
-				MessageBox.Show(owner, "対象の頂点がありません。", "バウンディングボックス", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(owner, "対象の頂点がありません。", "バウンディングボックスの作成", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 				return false;
 			}
