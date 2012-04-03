@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="IPlugin.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Sharp\BasicPluginFeature.cs" />
     <Compile Include="Sharp\EventArgs\MouseEventArgs.cs" />
     <Compile Include="Sharp\EventArgs\UserMessageEventArgs.cs" />
