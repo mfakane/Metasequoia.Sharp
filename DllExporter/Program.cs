@@ -26,7 +26,7 @@ namespace DllExporter
 				foreach (var i in args)
 					if (i.StartsWith("/"))
 					{
-						var sl = i.Split(new[] { ':' }, 2);
+						var sl = i.TrimStart('/').Split(new[] { ':' }, 2);
 
 						switch (sl.First().ToLower())
 						{
@@ -69,6 +69,15 @@ namespace DllExporter
 					output = input;
 				else if (!Path.IsPathRooted(output) && Path.IsPathRooted(input))
 					output = Path.Combine(Path.GetDirectoryName(input), output);
+
+				if (!string.IsNullOrEmpty(il))
+				{
+					if (il == "il")
+						il = Path.ChangeExtension(input, ".il");
+
+					if (!Path.IsPathRooted(il) && Path.IsPathRooted(input))
+						il = Path.Combine(Path.GetDirectoryName(input), il);
+				}
 
 				const string attributeName = "System.Runtime.InteropServices.DllExportAttribute";
 				var corFlags = new Regex(@"^\.corflags\s(.+)$", RegexOptions.Compiled | RegexOptions.Multiline);
