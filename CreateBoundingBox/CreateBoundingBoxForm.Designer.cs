@@ -64,7 +64,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(228, 111);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(228, 107);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// label2
@@ -96,7 +96,7 @@
 			this.flowLayoutPanel1.Controls.Add(this.okButton);
 			this.flowLayoutPanel1.Controls.Add(this.cancelButton);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(70, 80);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(70, 76);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(158, 31);
@@ -154,7 +154,7 @@
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 42);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(228, 38);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(228, 34);
 			this.flowLayoutPanel2.TabIndex = 3;
 			// 
 			// newObjectRadioButton
@@ -162,8 +162,8 @@
 			this.newObjectRadioButton.AutoSize = true;
 			this.newObjectRadioButton.Checked = true;
 			this.newObjectRadioButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.newObjectRadioButton.Location = new System.Drawing.Point(0, 1);
-			this.newObjectRadioButton.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+			this.newObjectRadioButton.Location = new System.Drawing.Point(0, 0);
+			this.newObjectRadioButton.Margin = new System.Windows.Forms.Padding(0);
 			this.newObjectRadioButton.Name = "newObjectRadioButton";
 			this.newObjectRadioButton.Size = new System.Drawing.Size(111, 17);
 			this.newObjectRadioButton.TabIndex = 0;
@@ -175,8 +175,8 @@
 			// 
 			this.currentObjectRadioButton.AutoSize = true;
 			this.currentObjectRadioButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.currentObjectRadioButton.Location = new System.Drawing.Point(0, 20);
-			this.currentObjectRadioButton.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+			this.currentObjectRadioButton.Location = new System.Drawing.Point(0, 17);
+			this.currentObjectRadioButton.Margin = new System.Windows.Forms.Padding(0);
 			this.currentObjectRadioButton.Name = "currentObjectRadioButton";
 			this.currentObjectRadioButton.Size = new System.Drawing.Size(114, 17);
 			this.currentObjectRadioButton.TabIndex = 1;
@@ -191,7 +191,7 @@
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(244, 127);
+			this.ClientSize = new System.Drawing.Size(244, 123);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

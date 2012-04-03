@@ -45,7 +45,7 @@ namespace Linearstar.Metaseq.CreateBoundingBox
 		public CreateBoundingBoxForm()
 		{
 			InitializeComponent();
-			this.Font = SystemFonts.DefaultFont;
+			this.Font = SystemFonts.MessageBoxFont;
 		}
 
 		void marginNumericUpDown_Enter(object sender, EventArgs e)
