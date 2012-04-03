@@ -13,95 +13,106 @@ namespace DllExporter
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static int Main(string[] args)
 		{
-			var is64 = false;
-			var isDebug = false;
-			var input = "";
-			var output = "";
-			var il = "";
+			try
+			{
+				var is64 = false;
+				var isDebug = false;
+				var input = "";
+				var output = "";
+				var il = "";
 
-			foreach (var i in args)
-				if (i.StartsWith("/"))
-				{
-					var sl = i.Split(new[] { ':' }, 2);
-
-					switch (sl.First().ToLower())
+				foreach (var i in args)
+					if (i.StartsWith("/"))
 					{
-						case "x64":
-							is64 = true;
+						var sl = i.Split(new[] { ':' }, 2);
 
-							break;
-						case "debug":
-							is64 = true;
+						switch (sl.First().ToLower())
+						{
+							case "x64":
+								is64 = true;
 
-							break;
-						case "out":
-							output = sl.Last();
+								break;
+							case "debug":
+								is64 = true;
 
-							break;
-						case "il":
-							il = sl.Last();
+								break;
+							case "out":
+								output = sl.Last();
 
-							break;
+								break;
+							case "il":
+								il = sl.Last();
+
+								break;
+						}
 					}
+					else
+						input = i;
+
+				if (string.IsNullOrEmpty(input))
+				{
+					Console.WriteLine("Usage: DllExporter [/x64] [/debug] [/il:filename] [/out:filename] <assembly>");
+
+					return 0;
 				}
-				else
-					input = i;
 
-			if (string.IsNullOrEmpty(input))
-			{
-				Console.WriteLine("Usage: DllExporter [/x64] [/debug] [/il:filename] [/out:filename] <assembly>");
+				if (!File.Exists(input))
+				{
+					Console.Error.WriteLine("DllExporter: error : input file " + input + " not found");
 
-				return;
+					return 1;
+				}
+
+				if (string.IsNullOrEmpty(output))
+					output = input;
+				else if (!Path.IsPathRooted(output) && Path.IsPathRooted(input))
+					output = Path.Combine(Path.GetDirectoryName(input), output);
+
+				const string attributeName = "System.Runtime.InteropServices.DllExportAttribute";
+				var corFlags = new Regex(@"^\.corflags\s(.+)$", RegexOptions.Compiled | RegexOptions.Multiline);
+				var method = new Regex(@"\.method\s+([\w\s]+?)\s+(?<marshal>marshal\([\w\s]+?\)\s+)?(?<name>.+?)\(", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.RightToLeft);
+				var dllExport = new Regex(@"(?<indent>\s*)\.custom instance void " + Regex.Escape(attributeName) + @"\:\:\.ctor\((?:.|\s)*?\)\s+=\s+\{(?<args>(?:.|\s)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
+				var dllExportString = new Regex(@"string\(\'(.+?)\'\)", RegexOptions.Compiled);
+				var dllExportInt32 = new Regex(@"int32\((.+?)\)", RegexOptions.Compiled);
+				var replaceMethods = new List<Tuple<string, string>>();
+
+				var ilcode = Disassemble(input);
+				var exportIndex = 1;
+
+				ilcode = corFlags.Replace(ilcode, is64
+					? ".corflags 0x00000008    // 64BITREQUIRED"
+					: ".corflags 0x00000002    // 32BITREQUIRED");
+				ilcode = dllExport.Replace(ilcode, m =>
+				{
+					var content = m.Groups["args"].Value;
+					var indent = m.Groups["indent"].Value;
+					var entryPoint = dllExportString.Match(content).Groups[1].Value;
+					var callingConvention = GetCallingConvention((CallingConvention)int.Parse(dllExportInt32.Match(content).Groups[1].Value));
+					var mm = method.Match(ilcode, m.Index);
+
+					replaceMethods.Add(Tuple.Create(mm.Value, mm.Value.Insert((mm.Groups["marshal"].Success ? mm.Groups["marshal"] : mm.Groups["name"]).Index - mm.Index, string.Format("modopt([mscorlib]{0}) ", callingConvention))));
+
+					Console.WriteLine("Exporting {0} at {1}", entryPoint, exportIndex);
+
+					return string.Format("{0}.export [{1}] as {2}", indent, exportIndex++, entryPoint);
+				});
+				ilcode = replaceMethods.Aggregate(ilcode, (x, y) => x.Replace(y.Item1, y.Item2));
+
+				if (!string.IsNullOrEmpty(il))
+					File.WriteAllText(il, ilcode);
+
+				Assemble(ilcode, output, is64, isDebug);
+
+				return 0;
 			}
-
-			if (!File.Exists(input))
+			catch (Exception ex)
 			{
-				Console.Error.WriteLine("DllExporter: input file " + input + " not found");
+				Console.Error.WriteLine("DllExporter: error : " + ex.Message);
 
-				return;
+				return 2;
 			}
-
-			if (string.IsNullOrEmpty(output))
-				output = input;
-			else if (!Path.IsPathRooted(output) && Path.IsPathRooted(input))
-				output = Path.Combine(Path.GetDirectoryName(input), output);
-
-			const string attributeName = "System.Runtime.InteropServices.DllExportAttribute";
-			var corFlags = new Regex(@"^\.corflags\s(.+)$", RegexOptions.Compiled | RegexOptions.Multiline);
-			var method = new Regex(@"\.method\s+([\w\s]+?)\s+(?<marshal>marshal\([\w\s]+?\)\s+)?(?<name>.+?)\(", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.RightToLeft);
-			var dllExport = new Regex(@"(?<indent>\s*)\.custom instance void " + Regex.Escape(attributeName) + @"\:\:\.ctor\((?:.|\s)*?\)\s+=\s+\{(?<args>(?:.|\s)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
-			var dllExportString = new Regex(@"string\(\'(.+?)\'\)", RegexOptions.Compiled);
-			var dllExportInt32 = new Regex(@"int32\((.+?)\)", RegexOptions.Compiled);
-			var replaceMethods = new List<Tuple<string, string>>();
-
-			var ilcode = Disassemble(input);
-			var exportIndex = 1;
-
-			ilcode = corFlags.Replace(ilcode, is64
-				? ".corflags 0x00000008    // 64BITREQUIRED"
-				: ".corflags 0x00000002    // 32BITREQUIRED");
-			ilcode = dllExport.Replace(ilcode, m =>
-			{
-				var content = m.Groups["args"].Value;
-				var indent = m.Groups["indent"].Value;
-				var entryPoint = dllExportString.Match(content).Groups[1].Value;
-				var callingConvention = GetCallingConvention((CallingConvention)int.Parse(dllExportInt32.Match(content).Groups[1].Value));
-				var mm = method.Match(ilcode, m.Index);
-
-				replaceMethods.Add(Tuple.Create(mm.Value, mm.Value.Insert((mm.Groups["marshal"].Success ? mm.Groups["marshal"] : mm.Groups["name"]).Index - mm.Index, string.Format("modopt([mscorlib]{0}) ", callingConvention))));
-
-				Console.WriteLine("Exporting {0} at {1}", entryPoint, exportIndex);
-
-				return string.Format("{0}.export [{1}] as {2}", indent, exportIndex++, entryPoint);
-			});
-			ilcode = replaceMethods.Aggregate(ilcode, (x, y) => x.Replace(y.Item1, y.Item2));
-
-			if (!string.IsNullOrEmpty(il))
-				File.WriteAllText(il, ilcode);
-
-			Assemble(ilcode, output, is64, isDebug);
 		}
 
 		static string GetCallingConvention(CallingConvention callingConvention)
@@ -158,7 +169,7 @@ namespace DllExporter
 					Console.Write(p.StandardOutput.ReadToEnd());
 
 					if (p.ExitCode != 0)
-						throw new Exception("Failed to assemble. Error code: " + p.ExitCode);
+						throw new Exception("Failed to assemble. ilasm error code: " + p.ExitCode);
 				}
 			}
 			finally
@@ -215,7 +226,7 @@ namespace DllExporter
 					if (p.ExitCode == 0)
 						return File.ReadAllText(temp);
 					else
-						throw new Exception("Failed to disassemble. Error code: " + p.ExitCode);
+						throw new Exception("Failed to disassemble. ildasm error code: " + p.ExitCode);
 				}
 			}
 			finally

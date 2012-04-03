@@ -40,7 +40,7 @@ call :parseArguments %*
 
 call :initializeTempDirectory
 	call :ilmerge
-	call :export
+	if not errorlevel 1 call :export
 call :cleanTempDirectory
 
 if "%copyTo%" neq "" copy /y %targetPath% %copyTo%
@@ -73,6 +73,13 @@ exit /b
 
 :ilmerge
 	%ilmerge% /t:%target% /%targetplatform% /out:%createTemp%\%targetNameExt% %1 %otherAssemblies% %ilmergeOptions%
+
+	if errorlevel 1 (
+		echo error from ILMerge, batch job failed
+
+		exit /b
+	)
+
 	copy /y %createTemp%\%targetNameExt% > nul
 	if exist %createTemp%\%targetName%.pdb copy /y %createTemp%\%targetName%.pdb > nul
 	
@@ -83,6 +90,12 @@ exit /b
 
 :export
 	%dllexporter% /%configuration% %targetPath%
+
+	if errorlevel 1 (
+		echo error from DllExporter, batch job failed
+
+		exit /b
+	)
 exit /b
 
 :initializeTempDirectory
