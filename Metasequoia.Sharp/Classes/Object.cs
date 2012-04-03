@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Metasequoia.Sharp;
 
@@ -240,7 +241,7 @@ namespace Metasequoia
 
 		public int AddFace(IEnumerable<int> vertices)
 		{
-			return AddFace(vertices);
+			return AddFace(vertices.ToArray());
 		}
 
 		public int AddFace(int[] vertices)
