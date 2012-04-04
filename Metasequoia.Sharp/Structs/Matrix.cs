@@ -74,7 +74,7 @@
 
 		/// <summary>
 		/// 行列のうち左上 3x3 成分のみでベクトルと行列の積を計算します。
-		/// const MQPoint MQMatrix::Mult3(const MQPoint& p);
+		/// const MQPoint MQMatrix::Mult3(const MQPoint&amp; p);
 		/// </summary>
 		/// <param name="p">ベクトル</param>
 		/// <returns>ベクトルと行列の積</returns>
