@@ -39,6 +39,14 @@ namespace Metasequoia.Sharp
 			);
 		}
 
+		public static Face FromObjectAndIndex(Object obj, int index)
+		{
+			return new Face(obj, obj.GetFaceUniqueId(index))
+			{
+				Index = index,
+			};
+		}
+
 		public static Face FromObjectAndId(Object obj, uint uniqueId)
 		{
 			return new Face(obj, uniqueId);
@@ -58,10 +66,8 @@ namespace Metasequoia.Sharp
 
 		public int Index
 		{
-			get
-			{
-				return this.Object.GetFaceIndexFromUniqueId(this.UniqueId);
-			}
+			get;
+			private set;
 		}
 
 		public int PointCount
@@ -161,6 +167,11 @@ namespace Metasequoia.Sharp
 				default:
 					return Point.Zero;
 			}
+		}
+
+		public void UpdateIndex()
+		{
+			this.Index = this.Object.GetFaceIndexFromUniqueId(this.UniqueId);
 		}
 
 		public bool Invert()

@@ -8,6 +8,14 @@
 			this.UniqueId = uniqueId;
 		}
 
+		public static Vertex FromObjectAndIndex(Object obj, int index)
+		{
+			return new Vertex(obj, obj.GetVertexUniqueId(index))
+			{
+				Index = index,
+			};
+		}
+
 		public static Vertex FromObjectAndId(Object obj, uint uniqueId)
 		{
 			return new Vertex(obj, uniqueId);
@@ -27,10 +35,8 @@
 
 		public int Index
 		{
-			get
-			{
-				return this.Object.GetVertexIndexFromUniqueId(this.UniqueId);
-			}
+			get;
+			private set;
 		}
 
 		public Point Point
@@ -78,6 +84,11 @@
 				else
 					Document.Instance.DeleteSelectVertex(this.Object.Index, this.Index);
 			}
+		}
+
+		public void UpdateIndex()
+		{
+			this.Index = this.Object.GetVertexIndexFromUniqueId(this.UniqueId);
 		}
 
 		public void CopyAttributeFrom(Vertex fromVertex)

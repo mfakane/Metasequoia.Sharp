@@ -37,15 +37,15 @@ namespace Metasequoia
 		{
 			this.Vertices = new ReadOnlyIndexer<Vertex>(_ =>
 			{
-				var uniqueId = this.GetVertexUniqueId(_);
+				var refCount = this.GetVertexRefCount(_);
 
-				return uniqueId == 0 ? null : Vertex.FromObjectAndId(this, uniqueId);
+				return refCount == 0 ? null : Vertex.FromObjectAndIndex(this, _);
 			}, () => this.VertexCount);
 			this.Faces = new ReadOnlyIndexer<Face>(_ =>
 			{
-				var uniqueId = this.GetFaceUniqueId(_);
+				var pointCount = this.GetFacePointCount(_);
 
-				return uniqueId == 0 ? null : Face.FromObjectAndId(this, uniqueId);
+				return pointCount == 0 ? null : Face.FromObjectAndIndex(this, _);
 			}, () => this.FaceCount);
 			this.Children = new ReadOnlyIndexer<Object>(_ => Document.Instance.GetChildObject(this, _), () => Document.Instance.GetChildObjectCount(this));
 		}
