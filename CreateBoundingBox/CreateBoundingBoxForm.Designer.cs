@@ -193,6 +193,7 @@
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(244, 123);
 			this.Controls.Add(this.tableLayoutPanel1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "CreateBoundingBoxForm";
