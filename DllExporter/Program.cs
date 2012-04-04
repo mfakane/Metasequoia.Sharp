@@ -38,7 +38,7 @@ namespace DllExporter
 
 								break;
 							case "debug":
-								is64 = true;
+								isDebug = true;
 
 								break;
 							case "out":
