@@ -4,6 +4,9 @@ namespace Metasequoia.Sharp
 {
 	public class MetasequoiaEventArgs : EventArgs
 	{
+		MetasequoiaEventArgs createdFrom;
+		bool handled;
+
 		public Event EventType
 		{
 			get;
@@ -24,8 +27,17 @@ namespace Metasequoia.Sharp
 
 		public bool Handled
 		{
-			get;
-			set;
+			get
+			{
+				return handled;
+			}
+			set
+			{
+				handled = value;
+
+				if (createdFrom != null)
+					createdFrom.Handled = value;
+			}
 		}
 
 		public MetasequoiaEventArgs(Document document, Event eventType, IntPtr option)
@@ -38,6 +50,7 @@ namespace Metasequoia.Sharp
 		public MetasequoiaEventArgs(MetasequoiaEventArgs e)
 			: this(e.Document, e.EventType, e.Option)
 		{
+			createdFrom = e;
 		}
 
 		public static unsafe IntPtr ExtractEventOption(IntPtr option, string name)
