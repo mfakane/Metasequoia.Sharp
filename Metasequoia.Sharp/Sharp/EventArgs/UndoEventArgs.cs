@@ -2,6 +2,10 @@
 {
 	public class UndoEventArgs : MetasequoiaEventArgs
 	{
+		/// <summary>
+		/// アンドゥの状態カウンタ
+		/// undo_state
+		/// </summary>
 		public int State
 		{
 			get
@@ -10,11 +14,15 @@
 			}
 		}
 
+		/// <summary>
+		/// アンドゥの実行可能回数
+		/// undo_size
+		/// </summary>
 		public int Size
 		{
 			get
 			{
-				return MetasequoiaEventArgs.ExtractEventOptionInt(this.Option, "size", 0);
+				return MetasequoiaEventArgs.ExtractEventOptionInt(this.Option, "size", -1);
 			}
 		}
 

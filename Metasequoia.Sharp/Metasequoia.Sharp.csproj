@@ -58,19 +58,27 @@
     <Compile Include="Classes\Material.cs" />
     <Compile Include="Classes\Object.cs" />
     <Compile Include="Classes\ObjectNormal.cs" />
+    <Compile Include="Classes\Sharp\DrawingMaterial.cs" />
+    <Compile Include="Classes\Sharp\DrawingObject.cs" />
     <Compile Include="Classes\Sharp\Face.cs" />
     <Compile Include="Classes\Sharp\MathHelper.cs" />
     <Compile Include="Classes\Sharp\Vertex.cs" />
     <Compile Include="Classes\XmlElement.cs" />
+    <Compile Include="Enums\CursorType.cs" />
+    <Compile Include="Enums\DrawObjectVisibility.cs" />
     <Compile Include="Enums\Enums.Generated.cs">
       <DependentUpon>Enums.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Enums\HitType.cs" />
+    <Compile Include="Enums\SnapGridType.cs" />
+    <Compile Include="Enums\CoordinateType.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Sharp\BasicPluginFeature.cs" />
+    <Compile Include="Sharp\CommandPlugin.cs" />
     <Compile Include="Sharp\EventArgs\MouseEventArgs.cs" />
     <Compile Include="Sharp\EventArgs\UserMessageEventArgs.cs" />
     <Compile Include="Sharp\EventArgs\DrawEventArgs.cs" />
@@ -88,13 +96,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sharp\PluginFeatureBase.cs" />
     <Compile Include="Sharp\EventArgs\BooleanEventArgs.cs" />
+    <Compile Include="Sharp\StationPlugin.cs" />
+    <Compile Include="Sharp\StationPluginAttribute.cs" />
+    <Compile Include="Sharp\CommandPluginAttribute.cs" />
     <Compile Include="Structs\Angle.cs" />
     <Compile Include="Structs\Color.cs" />
     <Compile Include="DllExportAttribute.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Structs\EditOption.cs" />
+    <Compile Include="Enums\HitTestParam.cs" />
     <Compile Include="Structs\Matrix.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="StationCallbackProc.cs" />
+    <Compile Include="Structs\SceneOption.cs" />
     <Compile Include="Structs\SelectVertex.cs" />
     <Compile Include="Structs\Structures.Generated.cs">
       <AutoGen>True</AutoGen>
@@ -110,6 +124,7 @@
       <DependentUpon>NativeMethods.tt</DependentUpon>
     </Compile>
     <Compile Include="ReadWriteIndexer.cs" />
+    <Compile Include="Structs\HitTestResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -17,7 +17,7 @@ namespace Metasequoia.Sharp
 			set;
 		}
 
-		public PluginType Kind
+		public virtual PluginType Kind
 		{
 			get;
 			set;

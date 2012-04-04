@@ -44,7 +44,7 @@ namespace Metasequoia
 		/// <summary>
 		/// マテリアルのインデックスを取得します。
 		/// </summary>
-		public int Index
+		public virtual int Index
 		{
 			get
 			{
@@ -160,7 +160,7 @@ namespace Metasequoia
 		/// マテリアルクラスを消滅させます。
 		/// if (MQMaterial::GetUniqueID() == 0) MQMaterial::DeleteThis()
 		/// </summary>
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			if (this.UniqueId == 0)
 				NativeMethods.MQMat_Delete(this);
