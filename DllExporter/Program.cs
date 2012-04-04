@@ -163,7 +163,7 @@ namespace DllExporter
 							"/nologo",
 							"/quiet",
 							"/dll",
-							is64 ? "/x64" : "",
+							is64 ? "/x64 /pe64" : "",
 							isDebug ? "/debug" : "/debug=opt /optimize",
 							"/pdb",
 							"\"/out:" + output + "\"",
