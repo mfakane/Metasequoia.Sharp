@@ -7,11 +7,26 @@ namespace Metasequoia
 		public static Point Zero = new Point();
 		public static Point One = new Point(1, 1, 1);
 
+		public Point(float value)
+			: this(value, value, value)
+		{
+		}
+
 		public Point(float x, float y, float z)
 		{
 			this.X = x;
 			this.Y = y;
 			this.Z = z;
+		}
+
+		public static Point Transform(Point p, Matrix matrix)
+		{
+			return new Point
+			(
+				p.X * matrix.M11 + p.Y * matrix.M21 + p.Z * matrix.M31 + matrix.M41,
+				p.X * matrix.M12 + p.Y * matrix.M22 + p.Z * matrix.M32 + matrix.M42,
+				p.X * matrix.M13 + p.Y * matrix.M23 + p.Z * matrix.M33 + matrix.M43
+			);
 		}
 
 		/// <summary>

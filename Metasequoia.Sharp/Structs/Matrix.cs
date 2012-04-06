@@ -72,6 +72,26 @@
 			};
 		}
 
+		public static Matrix CreateFromYawPitchRoll(float yaw, float pitch, float roll)
+		{
+			return CreateFromYawPitchRoll(new Angle(yaw, pitch, roll));
+		}
+
+		public static Matrix CreateFromYawPitchRoll(Angle angle)
+		{
+			return Matrix.Identity.SetTransform(Point.One, angle, Point.Zero);
+		}
+
+		public static Matrix CreateTranslation(Point p)
+		{
+			return Matrix.Identity.SetTransform(Point.One, Angle.Zero, p);
+		}
+
+		public static Matrix CreateScale(Point s)
+		{
+			return Matrix.Identity.SetTransform(s, Angle.Zero, Point.Zero);
+		}
+
 		/// <summary>
 		/// 行列のうち左上 3x3 成分のみでベクトルと行列の積を計算します。
 		/// const MQPoint MQMatrix::Mult3(const MQPoint&amp; p);
