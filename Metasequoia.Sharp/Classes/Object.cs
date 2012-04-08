@@ -11,6 +11,8 @@ namespace Metasequoia
 	/// </summary>
 	partial class Object : IDisposable
 	{
+		bool deletable;
+
 		/// <summary>
 		/// Name プロパティで MQObject::GetName() に対して使用するバッファサイズを取得または設定します。
 		/// </summary>
@@ -31,6 +33,7 @@ namespace Metasequoia
 		public Object()
 			: this(NativeMethods.MQ_CreateObject())
 		{
+			deletable = true;
 		}
 
 		partial void Initialize()
@@ -284,11 +287,11 @@ namespace Metasequoia
 
 		/// <summary>
 		/// オブジェクトクラスを消滅させます。
-		/// if (MQObject::GetUniqueID() == 0) MQObject::DeleteThis()
+		/// if (MQObject::GetUniqueID() == 0 && _IS_CREATED_BY_USER_) MQObject::DeleteThis()
 		/// </summary>
 		public virtual void Dispose()
 		{
-			if (this.UniqueId == 0)
+			if (this.UniqueId == 0 && deletable)
 				NativeMethods.MQObj_Delete(this);
 
 			GC.SuppressFinalize(this);

@@ -9,6 +9,8 @@ namespace Metasequoia
 	/// </summary>
 	partial class Material : IDisposable
 	{
+		bool deletable;
+
 		/// <summary>
 		/// Name プロパティで MQMaterial::GetName() に対して使用するバッファサイズを取得または設定します。
 		/// </summary>
@@ -39,6 +41,7 @@ namespace Metasequoia
 		public Material()
 			: this(NativeMethods.MQ_CreateMaterial())
 		{
+			deletable = true;
 		}
 
 		/// <summary>
@@ -158,11 +161,11 @@ namespace Metasequoia
 
 		/// <summary>
 		/// マテリアルクラスを消滅させます。
-		/// if (MQMaterial::GetUniqueID() == 0) MQMaterial::DeleteThis()
+		/// if (MQMaterial::GetUniqueID() == 0 && _IS_CREATED_BY_USER_) MQMaterial::DeleteThis()
 		/// </summary>
 		public virtual void Dispose()
 		{
-			if (this.UniqueId == 0)
+			if (this.UniqueId == 0 && deletable)
 				NativeMethods.MQMat_Delete(this);
 
 			GC.SuppressFinalize(this);
