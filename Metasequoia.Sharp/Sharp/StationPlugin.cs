@@ -260,7 +260,7 @@ namespace Metasequoia.Sharp
 				Option = option,
 			};
 
-			((IPlugin)this).GetPluginId(ref info.Product, ref info.ID);
+			((IPlugin)this).GetPluginId(out info.Product, out info.ID);
 
 			return NativeMethods.MQ_SendMessage((int)message, ref info);
 		}
