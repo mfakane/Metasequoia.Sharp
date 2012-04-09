@@ -14,6 +14,27 @@ namespace Metasequoia
 			}
 		}
 
+		public static string GetSystemPath(Folder folder)
+		{
+			const int MaxPath = 260;
+			var sb = new StringBuilder(MaxPath);
+
+			if (NativeMethods.MQ_GetSystemPath(sb, (int)folder))
+				return sb.ToString();
+			else
+				return null;
+		}
+
+		public static Setting OpenSetting(IPlugin plugin)
+		{
+			uint product;
+			uint id;
+
+			plugin.GetPluginId(out product, out id);
+
+			return new Setting(Plugin.GetSystemPath(Folder.MetaseqIni), string.Format("Plugin.{0:X8}:{1:X8}", product, id));
+		}
+
 		public static unsafe int SendUserMessage(IPlugin plugin, Document doc, uint target_product, uint target_id, string description, IntPtr message)
 		{
 			var info = new SendMessageInfo();
@@ -44,7 +65,7 @@ namespace Metasequoia
 					null,
 				};
 
-				plugin.GetPluginId(ref info.Product, ref info.ID);
+				plugin.GetPluginId(out info.Product, out info.ID);
 
 				fixed (void** arrayPtr = array)
 				{

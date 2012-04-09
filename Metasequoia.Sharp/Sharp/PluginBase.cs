@@ -47,9 +47,14 @@ namespace Metasequoia.Sharp
 
 		protected abstract IEnumerable<IPluginFeature> GetFeatures();
 
+		public Setting OpenSetting()
+		{
+			return Plugin.OpenSetting(this);
+		}
+
 		#region IPlugin
 
-		void IPlugin.GetPluginId(ref uint product, ref uint id)
+		void IPlugin.GetPluginId(out uint product, out uint id)
 		{
 			product = this.PluginAttribute.VendorId;
 			id = this.PluginAttribute.ProductId;

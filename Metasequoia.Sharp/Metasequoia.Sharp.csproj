@@ -58,6 +58,7 @@
     <Compile Include="Classes\Material.cs" />
     <Compile Include="Classes\Object.cs" />
     <Compile Include="Classes\ObjectNormal.cs" />
+    <Compile Include="Classes\Setting.cs" />
     <Compile Include="Classes\Sharp\DrawingMaterial.cs" />
     <Compile Include="Classes\Sharp\DrawingObject.cs" />
     <Compile Include="Classes\Sharp\Face.cs" />
