@@ -44,7 +44,7 @@ namespace Metasequoia
 		[DllExport("MQGetPlugInID", CallingConvention.Cdecl)]
 		public static void MQGetPlugInID(ref uint product, ref uint id)
 		{
-			Instance.GetPluginId(ref product, ref id);
+			Instance.GetPluginId(out product, out id);
 		}
 
 		[DllExport("MQGetPlugInName", CallingConvention.Cdecl)]

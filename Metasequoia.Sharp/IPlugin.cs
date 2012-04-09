@@ -7,7 +7,7 @@ namespace Metasequoia
 	/// </summary>
 	public interface IPlugin
 	{
-		void GetPluginId(ref uint product, ref uint id);
+		void GetPluginId(out uint product, out uint id);
 		string GetPluginName();
 		PluginType GetPluginType();
 		bool ImportFile(int index, string filename, Document doc);
