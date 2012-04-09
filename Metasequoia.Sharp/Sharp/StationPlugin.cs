@@ -305,7 +305,7 @@ namespace Metasequoia.Sharp
 		/// <param name="visibility">可視フラグ</param>
 		/// <param name="instant">自動削除するかどうか</param>
 		/// <returns>描画用オブジェクト</returns>
-		protected unsafe DrawingObject CreateDrawingObject(Document doc, DrawObjectVisibility visibility, bool instant)
+		protected unsafe DrawingObject CreateDrawingObject(Document doc, DrawObjectVisibility visibility, bool instant = true)
 		{
 			var instantInt = instant ? 1 : 0;
 
@@ -362,7 +362,7 @@ namespace Metasequoia.Sharp
 		/// <param name="doc">ドキュメント</param>
 		/// <param name="instant">自動削除するかどうか</param>
 		/// <returns>描画用オブジェクト</returns>
-		protected unsafe DrawingMaterial CreateDrawingMaterial(Document doc, bool instant)
+		protected unsafe DrawingMaterial CreateDrawingMaterial(Document doc, bool instant = true)
 		{
 			var instantInt = instant ? 1 : 0;
 			var index = -1;
