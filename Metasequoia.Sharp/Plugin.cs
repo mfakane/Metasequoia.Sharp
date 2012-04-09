@@ -14,6 +14,11 @@ namespace Metasequoia
 			}
 		}
 
+		public static void RefreshView()
+		{
+			NativeMethods.MQ_RefreshView(IntPtr.Zero);
+		}
+
 		public static string GetSystemPath(Folder folder)
 		{
 			const int MaxPath = 260;
