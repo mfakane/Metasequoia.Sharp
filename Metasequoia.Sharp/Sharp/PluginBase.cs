@@ -41,7 +41,15 @@ namespace Metasequoia.Sharp
 		{
 			get
 			{
-				return features ?? (features = GetFeatures().ToArray());
+				if (features == null)
+				{
+					features = GetFeatures().ToArray();
+
+					foreach (var i in features)
+						i.Plugin = this;
+				}
+
+				return features;
 			}
 		}
 
