@@ -77,5 +77,15 @@ namespace Linearstar.Metaseq.Explosion
 		{
 			rotateEndNumericUpDown.Minimum = rotateBeginNumericUpDown.Value;
 		}
+
+		void powerBeginNumericUpDown_Enter(object sender, EventArgs e)
+		{
+			((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Value.ToString("0.00").Length);
+		}
+
+		void seedNumericUpDown_Enter(object sender, EventArgs e)
+		{
+			((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Value.ToString().Length);
+		}
 	}
 }
