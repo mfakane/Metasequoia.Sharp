@@ -10,7 +10,7 @@ namespace Metasequoia
 		{
 			get
 			{
-				return Process.GetCurrentProcess().MainWindowHandle;
+				return NativeMethods.MQ_GetWindowHandle();
 			}
 		}
 
