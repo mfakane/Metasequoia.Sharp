@@ -56,13 +56,14 @@ namespace Linearstar.Metaseq.Explosion
 				var normal = i.GetNormal();
 				var center = vertices.Select(_ => _.Point).Aggregate((x, y) => x + y) / vertices.Length;
 				var m = Matrix.Identity.SetTransform(new Point(Chaos(r, scale)), new Angle(Chaos(r, rotate), Chaos(r, rotate), Chaos(r, rotate)), center);
+				var pow = Chaos(r, power);
 
 				foreach (var j in vertices)
 				{
 					var pt = j.Point;
 
 					pt = Point.Transform(pt - center, m);
-					pt += normal * Chaos(r, power);
+					pt += normal * pow;
 					j.Point = pt;
 				}
 
