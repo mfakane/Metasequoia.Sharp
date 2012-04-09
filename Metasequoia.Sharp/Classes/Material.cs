@@ -161,7 +161,7 @@ namespace Metasequoia
 
 		/// <summary>
 		/// マテリアルクラスを消滅させます。
-		/// if (MQMaterial::GetUniqueID() == 0 && _IS_CREATED_BY_USER_) MQMaterial::DeleteThis()
+		/// if (MQMaterial::GetUniqueID() == 0 &amp;&amp; _IS_CREATED_BY_USER_) MQMaterial::DeleteThis()
 		/// </summary>
 		public virtual void Dispose()
 		{

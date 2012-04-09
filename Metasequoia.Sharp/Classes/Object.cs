@@ -287,7 +287,7 @@ namespace Metasequoia
 
 		/// <summary>
 		/// オブジェクトクラスを消滅させます。
-		/// if (MQObject::GetUniqueID() == 0 && _IS_CREATED_BY_USER_) MQObject::DeleteThis()
+		/// if (MQObject::GetUniqueID() == 0 &amp;&amp; _IS_CREATED_BY_USER_) MQObject::DeleteThis()
 		/// </summary>
 		public virtual void Dispose()
 		{
