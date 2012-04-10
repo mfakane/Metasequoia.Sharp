@@ -60,7 +60,7 @@ namespace Metasequoia.Sharp
 				var arr = (void**)option;
 
 				for (int i = 0; arr[i] != null; i += 2)
-					if (new string((char*)arr[i]) == name)
+					if (new string((sbyte*)arr[i]) == name)
 						return (IntPtr)arr[i + 1];
 			}
 
