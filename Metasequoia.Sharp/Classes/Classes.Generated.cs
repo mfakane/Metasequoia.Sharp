@@ -460,86 +460,156 @@ namespace Metasequoia
 		}
 
 		/// <summary>
-		/// void SetCameraPosition(const MQPoint&amp; p)
+		/// MQPoint GetCameraPosition()
 		/// </summary>
-		public void SetCameraPosition(ref Point p)
+		public Point CameraPosition
 		{
-			var val = new float[3];
-			val[0]=p.X;
-			val[1]=p.Y;
-			val[2]=p.Z;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetCameraPos,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetCameraPos,val);
+				return new Point(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var p = value;
+				var val = new float[3];
+				val[0]=p.X;
+				val[1]=p.Y;
+				val[2]=p.Z;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetCameraPos,val);
+			}
 		}
 
 		/// <summary>
-		/// void SetCameraAngle(const MQAngle&amp; angle)
+		/// MQAngle GetCameraAngle()
 		/// </summary>
-		public void SetCameraAngle(ref Angle angle)
+		public Angle CameraAngle
 		{
-			var val = new float[3];
-			val[0]=angle.Head;
-			val[1]=angle.Pitch;
-			val[2]=angle.Bank;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetCameraAngle,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetCameraAngle,val);
+				return new Angle(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var angle = value;
+				var val = new float[3];
+				val[0]=angle.Head;
+				val[1]=angle.Pitch;
+				val[2]=angle.Bank;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetCameraAngle,val);
+			}
 		}
 
 		/// <summary>
-		/// void SetLookAtPosition(const MQPoint&amp; p)
+		/// MQPoint GetLookAtPosition()
 		/// </summary>
-		public void SetLookAtPosition(ref Point p)
+		public Point LookAtPosition
 		{
-			var val = new float[6];
-			val[0]=p.X;
-			val[1]=p.Y;
-			val[2]=p.Z;
-			val[3]=0;
-			val[4]=1;
-			val[5]=0;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetLookAtPos,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetLookAtPos,val);
+				return new Point(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var p = value;
+				var val = new float[6];
+				val[0]=p.X;
+				val[1]=p.Y;
+				val[2]=p.Z;
+				val[3]=0;
+				val[4]=1;
+				val[5]=0;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetLookAtPos,val);
+			}
 		}
 
 		/// <summary>
-		/// void SetRotationCenter(const MQPoint&amp; p)
+		/// MQPoint GetRotationCenter()
 		/// </summary>
-		public void SetRotationCenter(ref Point p)
+		public Point RotationCenter
 		{
-			var val = new float[3];
-			val[0]=p.X;
-			val[1]=p.Y;
-			val[2]=p.Z;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetRotationCenter,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetRotationCenter,val);
+				return new Point(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var p = value;
+				var val = new float[3];
+				val[0]=p.X;
+				val[1]=p.Y;
+				val[2]=p.Z;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetRotationCenter,val);
+			}
 		}
 
 		/// <summary>
-		/// void SetFOV(float fov)
+		/// float GetFOV()
 		/// </summary>
-		public void SetFOV(float fov)
+		public float FOV
 		{
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetFov,new[] { fov });
+			get
+			{
+				var val = new float[0];
+				NativeMethods.MQScene_FloatValue(this, (int)MQScene.GetFov, val);
+				return val[0];
+			}
+			set
+			{
+				var fov = value;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetFov,new[] { fov });
+			}
 		}
 
 		/// <summary>
-		/// void SetGlobalDirectionalLight(const MQPoint&amp; vec)
+		/// MQPoint GetGlobalDirectionalLight()
 		/// </summary>
-		public void SetGlobalDirectionalLight(ref Point vec)
+		public Point GlobalDirectionalLight
 		{
-			var val = new float[3];
-			val[0]=vec.X;
-			val[1]=vec.Y;
-			val[2]=vec.Z;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetDirectionalLight,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetDirectionalLight,val);
+				return new Point(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var vec = value;
+				var val = new float[3];
+				val[0]=vec.X;
+				val[1]=vec.Y;
+				val[2]=vec.Z;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetDirectionalLight,val);
+			}
 		}
 
 		/// <summary>
-		/// void SetGlobalAmbientColor(const MQColor&amp; amb)
+		/// MQColor GetGlobalAmbientColor()
 		/// </summary>
-		public void SetGlobalAmbientColor(ref Color amb)
+		public Color GlobalAmbientColor
 		{
-			var val = new float[3];
-			val[0]=amb.R;
-			val[1]=amb.G;
-			val[2]=amb.B;
-			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetAmbientColor,val);
+			get
+			{
+				var val = new float[3];
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetAmbientColor,val);
+				return new Color(val[0],val[1],val[2]);
+			}
+			set
+			{
+				var amb = value;
+				var val = new float[3];
+				val[0]=amb.R;
+				val[1]=amb.G;
+				val[2]=amb.B;
+				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetAmbientColor,val);
+			}
 		}
 
 		/// <summary>

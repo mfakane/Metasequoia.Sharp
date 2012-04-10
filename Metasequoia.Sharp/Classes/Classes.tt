@@ -18,19 +18,19 @@ namespace Metasequoia
 <#
 var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "..", "mqsdk", "MQPlugin.h");
 var enc = Encoding.GetEncoding(932);
-var regex = new Regex(@"^inline (?<returnType>\w+)\s+MQC(?<className>\w+)\:\:(?<methodName>\w+)\((?<params>.+?)\)\s*\{(?<content>(.|\n)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
+var regex = new Regex(@"^inline (?<returnType>\w+)\s+MQC(?<className>\w+)\:\:(?<methodName>\w+)\((?<params>.*?)\)\s*\{(?<content>(.|\n)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
 var defs = regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n"))
 				.Cast<Match>()
 				.Select(_ =>
 				{
 					var parameters = _.Groups["params"].Value;
-					 
+
 					return new
 					{
 						ClassName = _.Groups["className"].Value,
 						ReturnType = _.Groups["returnType"].Value,
 						MethodName = _.Groups["methodName"].Value,
-						Parameters = parameters == "void" ? new string[0] : parameters.Split(','),
+						Parameters = parameters == "void" || string.IsNullOrEmpty(parameters) ? new string[0] : parameters.Split(','),
 						Content = _.Groups["content"].Value,
 						Handled = new[] { false },
 					};
@@ -176,6 +176,7 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, t); mtx = new Matrix(t)")
 				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, t); mtx = new Matrix(t)")
 				.Replace("MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.ToArray());")
+				.Replace("float val; MQScene_FloatValue(this,MQSCENE_GET_FOV,&val); return val;", "var val = new float[0]; MQScene_FloatValue(this, MQSCENE_GET_FOV, val); return val[0];")
 				.Replace("MQDoc_FindMappingFile(this, outPath, filename, mapType)", "MQDoc_FindMappingFile(this, outPath, filename, (uint)mapType)")
 
 				.Replace("if (w != NULL) *w", "w")
