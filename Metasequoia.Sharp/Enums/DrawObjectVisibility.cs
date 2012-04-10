@@ -8,7 +8,7 @@ namespace Metasequoia
 		/// <summary>
 		/// 頂点を表示
 		/// </summary>
-		Poin = 1,
+		Point = 1,
 		/// <summary>
 		/// ラインを表示
 		/// </summary>
