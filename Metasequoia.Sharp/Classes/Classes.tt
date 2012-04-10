@@ -176,7 +176,7 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, t); mtx = new Matrix(t)")
 				.Replace("MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, mtx.t)", "var t = new float[16]; MQObj_GetFloatArray(this, MQOBJ_ID_LOCAL_INVERSE_MATRIX, t); mtx = new Matrix(t)")
 				.Replace("MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.t)", "MQObj_SetFloatArray(this, MQOBJ_ID_LOCAL_MATRIX, mtx.ToArray());")
-				.Replace("float val; MQScene_FloatValue(this,MQSCENE_GET_FOV,&val); return val;", "var val = new float[0]; MQScene_FloatValue(this, MQSCENE_GET_FOV, val); return val[0];")
+				.Replace("float val; MQScene_FloatValue(this,MQSCENE_GET_FOV,&val); return val;", "var val = new float[1]; MQScene_FloatValue(this, MQSCENE_GET_FOV, val); return val[0];")
 				.Replace("MQDoc_FindMappingFile(this, outPath, filename, mapType)", "MQDoc_FindMappingFile(this, outPath, filename, (uint)mapType)")
 
 				.Replace("if (w != NULL) *w", "w")

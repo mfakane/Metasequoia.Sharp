@@ -557,7 +557,7 @@ namespace Metasequoia
 		{
 			get
 			{
-				var val = new float[0];
+				var val = new float[1];
 				NativeMethods.MQScene_FloatValue(this, (int)MQScene.GetFov, val);
 				return val[0];
 			}
