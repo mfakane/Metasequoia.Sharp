@@ -77,5 +77,10 @@
 		{
 			return typeof(Coordinate).GetHashCode() ^ this.U.GetHashCode() ^ this.V.GetHashCode();
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{{U:{0} V:{1}}}", this.U, this.V);
+		}
 	}
 }

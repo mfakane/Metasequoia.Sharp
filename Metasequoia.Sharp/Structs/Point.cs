@@ -217,5 +217,10 @@ namespace Metasequoia
 		{
 			return typeof(Point).GetHashCode() ^ this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{{X:{0} Y:{1} Z:{2}}}", this.X, this.Y, this.Z);
+		}
 	}
 }

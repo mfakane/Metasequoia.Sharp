@@ -76,5 +76,10 @@
 		{
 			return typeof(Color).GetHashCode() ^ this.R.GetHashCode() ^ this.G.GetHashCode() ^ this.B.GetHashCode();
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{{R:{0} G:{1} B:{2}}}", this.R, this.G, this.B);
+		}
 	}
 }

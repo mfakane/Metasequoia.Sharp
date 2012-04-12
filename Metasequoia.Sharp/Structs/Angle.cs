@@ -10,5 +10,10 @@
 			this.Pitch = pitch;
 			this.Bank = bank;
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{{H:{0} P:{1} B:{2}}}", this.Head, this.Pitch, this.Bank);
+		}
 	}
 }
