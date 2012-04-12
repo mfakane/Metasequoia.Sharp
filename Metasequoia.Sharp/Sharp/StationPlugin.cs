@@ -295,6 +295,26 @@ namespace Metasequoia.Sharp
 			NativeMethods.MQ_StationCallback(proc, option);
 		}
 
+		protected void BeginCallback(Action<Document> proc)
+		{
+			BeginCallback((doc, opt) =>
+			{
+				proc(doc);
+
+				return true;
+			}, IntPtr.Zero);
+		}
+
+		protected void BeginCallback(Action<Document, IntPtr> proc, IntPtr option)
+		{
+			BeginCallback((doc, opt) =>
+			{
+				proc(doc, opt);
+
+				return true;
+			}, option);
+		}
+
 		/// <summary>
 		/// OnDraw() 時に描画するオブジェクトを追加します。
 		/// instant に TRUE を指定して作成されたオブジェクトは描画が完了すると自動的に破棄されます。
