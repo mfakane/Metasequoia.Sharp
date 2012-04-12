@@ -105,7 +105,6 @@
     <Compile Include="DllExportAttribute.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Structs\EditOption.cs" />
-    <Compile Include="Enums\HitTestParam.cs" />
     <Compile Include="Structs\Matrix.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="StationCallbackProc.cs" />

@@ -295,7 +295,7 @@ namespace Metasequoia.Sharp
 		/// <param name="p">位置</param>
 		/// <param name="testType">種類</param>
 		/// <returns>結果</returns>
-		protected unsafe HitTestResult HitTest(Scene scene, Point p, HitTestParams testType)
+		protected unsafe HitTestResult HitTest(Scene scene, Point p, HitType testType)
 		{
 			var rt = new HitTestResult();
 
