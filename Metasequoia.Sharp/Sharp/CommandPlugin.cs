@@ -295,7 +295,7 @@ namespace Metasequoia.Sharp
 		/// <param name="p">位置</param>
 		/// <param name="testType">種類</param>
 		/// <returns>結果</returns>
-		protected unsafe HitTestResult HitTest(Scene scene, Point p, HitType testType)
+		protected unsafe HitTestResult HitTest(Scene scene, int[] p, HitType testType)
 		{
 			var rt = new HitTestResult();
 
@@ -309,15 +309,16 @@ namespace Metasequoia.Sharp
 						 hitVertexString = GetASCII("hit_vertex"),
 						 hitLineString = GetASCII("hit_line"),
 						 hitFaceString = GetASCII("hit_face"))
+			fixed (int* point = p)
 			{
 				var array = new void*[]
 				{
 					sceneString,
 					(void*)scene.Handle,
 					xString,
-					&p.X,
+					&point[0],
 					yString,
-					&p.Y,
+					&point[1],
 					testTypeString,
 					&testType,
 					hitTypeString,
