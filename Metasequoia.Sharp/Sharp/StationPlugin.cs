@@ -139,14 +139,17 @@ namespace Metasequoia.Sharp
 					break;
 				case Event.Minimize:
 					Raise(Minimize, new BooleanEventArgs(e));
+					e.Handled = true;
 
 					break;
 				case Event.UserMessage:
 					Raise(UserMessage, new UserMessageEventArgs(e));
+					e.Handled = true;
 
 					break;
 				case Event.Draw:
 					Raise(Draw, new DrawEventArgs(e));
+					e.Handled = true;
 
 					break;
 				case Event.NewDocument:
