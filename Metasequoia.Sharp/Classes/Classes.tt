@@ -270,9 +270,25 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 		/// </summary>
 		public <#=returnType #> <#=name #>(<#=string.Join(", ", parameters) #>)
 		{
+<#
+				if (!parameters.Any(_ => _.Contains("out") || _.Contains("ref")))
+				{
+#>
+			Before<#=name #>(<#=string.Join(", ", parameters.Select(_ => _.Split(' ').Last())) #>);
+<#
+				}
+#>
 			<#=content #>
 		}
 
+<#
+				if (!parameters.Any(_ => _.Contains("out") || _.Contains("ref")))
+				{
+#>
+		partial void Before<#=name #>(<#=string.Join(", ", parameters) #>);
+<#
+				}
+#>
 <#
 				break;
 			case "propreadonly":

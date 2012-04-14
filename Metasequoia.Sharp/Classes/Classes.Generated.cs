@@ -55,9 +55,11 @@ namespace Metasequoia
 		/// </summary>
 		public Object GetObject(int index)
 		{
+			BeforeGetObject(index);
 			return NativeMethods.MQDoc_GetObject(this, index);
 		}
 
+		partial void BeforeGetObject(int index);
 		/// <summary>
 		/// int GetCurrentObjectIndex()
 		/// </summary>
@@ -79,25 +81,31 @@ namespace Metasequoia
 		/// </summary>
 		public int AddObject(Object obj)
 		{
+			BeforeAddObject(obj);
 			return NativeMethods.MQDoc_AddObject(this, obj);
 		}
 
+		partial void BeforeAddObject(Object obj);
 		/// <summary>
 		/// void DeleteObject(int index)
 		/// </summary>
 		public void DeleteObject(int index)
 		{
+			BeforeDeleteObject(index);
 			NativeMethods.MQDoc_DeleteObject(this, index);
 		}
 
+		partial void BeforeDeleteObject(int index);
 		/// <summary>
 		/// int GetObjectIndex(MQObject obj)
 		/// </summary>
 		public int GetObjectIndex(Object obj)
 		{
+			BeforeGetObjectIndex(obj);
 			return NativeMethods.MQDoc_GetObjectIndex(this, obj);
 		}
 
+		partial void BeforeGetObjectIndex(Object obj);
 		/// <summary>
 		/// int GetMaterialCount()
 		/// </summary>
@@ -114,9 +122,11 @@ namespace Metasequoia
 		/// </summary>
 		public Material GetMaterial(int material)
 		{
+			BeforeGetMaterial(material);
 			return NativeMethods.MQDoc_GetMaterial(this, material);
 		}
 
+		partial void BeforeGetMaterial(int material);
 		/// <summary>
 		/// int GetCurrentMaterialIndex()
 		/// </summary>
@@ -138,201 +148,251 @@ namespace Metasequoia
 		/// </summary>
 		public int AddMaterial(Material mat)
 		{
+			BeforeAddMaterial(mat);
 			return NativeMethods.MQDoc_AddMaterial(this, mat);
 		}
 
+		partial void BeforeAddMaterial(Material mat);
 		/// <summary>
 		/// void DeleteMaterial(int index)
 		/// </summary>
 		public void DeleteMaterial(int index)
 		{
+			BeforeDeleteMaterial(index);
 			NativeMethods.MQDoc_DeleteMaterial(this, index);
 		}
 
+		partial void BeforeDeleteMaterial(int index);
 		/// <summary>
 		/// void Compact()
 		/// </summary>
 		public void Compact()
 		{
+			BeforeCompact();
 			NativeMethods.MQDoc_Compact(this);
 		}
 
+		partial void BeforeCompact();
 		/// <summary>
 		/// void ClearSelect(DWORD flag)
 		/// </summary>
 		public void ClearSelect(uint flag)
 		{
+			BeforeClearSelect(flag);
 			NativeMethods.MQDoc_ClearSelect(this, flag);
 		}
 
+		partial void BeforeClearSelect(uint flag);
 		/// <summary>
 		/// BOOL AddSelectVertex(int objindex, int vertindex)
 		/// </summary>
 		public bool AddSelectVertex(int objectIndex, int vertexIndex)
 		{
+			BeforeAddSelectVertex(objectIndex, vertexIndex);
 			return NativeMethods.MQDoc_AddSelectVertex(this, objectIndex, vertexIndex);
 		}
 
+		partial void BeforeAddSelectVertex(int objectIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL DeleteSelectVertex(int objindex, int vertindex)
 		/// </summary>
 		public bool DeleteSelectVertex(int objectIndex, int vertexIndex)
 		{
+			BeforeDeleteSelectVertex(objectIndex, vertexIndex);
 			return NativeMethods.MQDoc_DeleteSelectVertex(this, objectIndex, vertexIndex);
 		}
 
+		partial void BeforeDeleteSelectVertex(int objectIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL IsSelectVertex(int objindex, int vertindex)
 		/// </summary>
 		public bool IsSelectVertex(int objectIndex, int vertexIndex)
 		{
+			BeforeIsSelectVertex(objectIndex, vertexIndex);
 			return NativeMethods.MQDoc_IsSelectVertex(this, objectIndex, vertexIndex);
 		}
 
+		partial void BeforeIsSelectVertex(int objectIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL AddSelectVertex(MQSelectVertex sel)
 		/// </summary>
 		public bool AddSelectVertex(SelectVertex sel)
 		{
+			BeforeAddSelectVertex(sel);
 			return NativeMethods.MQDoc_AddSelectVertex(this, sel.Object, sel.Vertex);
 		}
 
+		partial void BeforeAddSelectVertex(SelectVertex sel);
 		/// <summary>
 		/// BOOL DeleteSelectVertex(MQSelectVertex sel)
 		/// </summary>
 		public bool DeleteSelectVertex(SelectVertex sel)
 		{
+			BeforeDeleteSelectVertex(sel);
 			return NativeMethods.MQDoc_DeleteSelectVertex(this, sel.Object, sel.Vertex);
 		}
 
+		partial void BeforeDeleteSelectVertex(SelectVertex sel);
 		/// <summary>
 		/// BOOL IsSelectVertex(MQSelectVertex sel)
 		/// </summary>
 		public bool IsSelectVertex(SelectVertex sel)
 		{
+			BeforeIsSelectVertex(sel);
 			return NativeMethods.MQDoc_IsSelectVertex(this, sel.Object, sel.Vertex);
 		}
 
+		partial void BeforeIsSelectVertex(SelectVertex sel);
 		/// <summary>
 		/// BOOL AddSelectLine(int objindex, int faceindex, int lineindex)
 		/// </summary>
 		public bool AddSelectLine(int objectIndex, int faceIndex, int lineIndex)
 		{
+			BeforeAddSelectLine(objectIndex, faceIndex, lineIndex);
 			return NativeMethods.MQDoc_AddSelectLine(this, objectIndex, faceIndex, lineIndex);
 		}
 
+		partial void BeforeAddSelectLine(int objectIndex, int faceIndex, int lineIndex);
 		/// <summary>
 		/// BOOL DeleteSelectLine(int objindex, int faceindex, int lineindex)
 		/// </summary>
 		public bool DeleteSelectLine(int objectIndex, int faceIndex, int lineIndex)
 		{
+			BeforeDeleteSelectLine(objectIndex, faceIndex, lineIndex);
 			return NativeMethods.MQDoc_DeleteSelectLine(this, objectIndex, faceIndex, lineIndex);
 		}
 
+		partial void BeforeDeleteSelectLine(int objectIndex, int faceIndex, int lineIndex);
 		/// <summary>
 		/// BOOL IsSelectLine(int objindex, int faceindex, int lineindex)
 		/// </summary>
 		public bool IsSelectLine(int objectIndex, int faceIndex, int lineIndex)
 		{
+			BeforeIsSelectLine(objectIndex, faceIndex, lineIndex);
 			return NativeMethods.MQDoc_IsSelectLine(this, objectIndex, faceIndex, lineIndex);
 		}
 
+		partial void BeforeIsSelectLine(int objectIndex, int faceIndex, int lineIndex);
 		/// <summary>
 		/// BOOL AddSelectLine(MQSelectLine sel)
 		/// </summary>
 		public bool AddSelectLine(SelectLine sel)
 		{
+			BeforeAddSelectLine(sel);
 			return NativeMethods.MQDoc_AddSelectLine(this, sel.Object, sel.Face, sel.Line);
 		}
 
+		partial void BeforeAddSelectLine(SelectLine sel);
 		/// <summary>
 		/// BOOL DeleteSelectLine(MQSelectLine sel)
 		/// </summary>
 		public bool DeleteSelectLine(SelectLine sel)
 		{
+			BeforeDeleteSelectLine(sel);
 			return NativeMethods.MQDoc_DeleteSelectLine(this, sel.Object, sel.Face, sel.Line);
 		}
 
+		partial void BeforeDeleteSelectLine(SelectLine sel);
 		/// <summary>
 		/// BOOL IsSelectLine(MQSelectLine sel)
 		/// </summary>
 		public bool IsSelectLine(SelectLine sel)
 		{
+			BeforeIsSelectLine(sel);
 			return NativeMethods.MQDoc_IsSelectLine(this, sel.Object, sel.Face, sel.Line);
 		}
 
+		partial void BeforeIsSelectLine(SelectLine sel);
 		/// <summary>
 		/// BOOL AddSelectFace(int objindex, int faceindex)
 		/// </summary>
 		public bool AddSelectFace(int objectIndex, int faceIndex)
 		{
+			BeforeAddSelectFace(objectIndex, faceIndex);
 			return NativeMethods.MQDoc_AddSelectFace(this, objectIndex, faceIndex);
 		}
 
+		partial void BeforeAddSelectFace(int objectIndex, int faceIndex);
 		/// <summary>
 		/// BOOL DeleteSelectFace(int objindex, int faceindex)
 		/// </summary>
 		public bool DeleteSelectFace(int objectIndex, int faceIndex)
 		{
+			BeforeDeleteSelectFace(objectIndex, faceIndex);
 			return NativeMethods.MQDoc_DeleteSelectFace(this, objectIndex, faceIndex);
 		}
 
+		partial void BeforeDeleteSelectFace(int objectIndex, int faceIndex);
 		/// <summary>
 		/// BOOL IsSelectFace(int objindex, int faceindex)
 		/// </summary>
 		public bool IsSelectFace(int objectIndex, int faceIndex)
 		{
+			BeforeIsSelectFace(objectIndex, faceIndex);
 			return NativeMethods.MQDoc_IsSelectFace(this, objectIndex, faceIndex);
 		}
 
+		partial void BeforeIsSelectFace(int objectIndex, int faceIndex);
 		/// <summary>
 		/// BOOL AddSelectFace(MQSelectFace sel)
 		/// </summary>
 		public bool AddSelectFace(SelectFace sel)
 		{
+			BeforeAddSelectFace(sel);
 			return NativeMethods.MQDoc_AddSelectFace(this, sel.Object, sel.Face);
 		}
 
+		partial void BeforeAddSelectFace(SelectFace sel);
 		/// <summary>
 		/// BOOL DeleteSelectFace(MQSelectFace sel)
 		/// </summary>
 		public bool DeleteSelectFace(SelectFace sel)
 		{
+			BeforeDeleteSelectFace(sel);
 			return NativeMethods.MQDoc_DeleteSelectFace(this, sel.Object, sel.Face);
 		}
 
+		partial void BeforeDeleteSelectFace(SelectFace sel);
 		/// <summary>
 		/// BOOL IsSelectFace(MQSelectFace sel)
 		/// </summary>
 		public bool IsSelectFace(SelectFace sel)
 		{
+			BeforeIsSelectFace(sel);
 			return NativeMethods.MQDoc_IsSelectFace(this, sel.Object, sel.Face);
 		}
 
+		partial void BeforeIsSelectFace(SelectFace sel);
 		/// <summary>
 		/// BOOL AddSelectUVVertex(int objindex, int faceindex, int vertindex)
 		/// </summary>
 		public bool AddSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex)
 		{
+			BeforeAddSelectUVVertex(objectIndex, faceIndex, vertexIndex);
 			return NativeMethods.MQDoc_AddSelectUVVertex(this, objectIndex, faceIndex, vertexIndex);
 		}
 
+		partial void BeforeAddSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL DeleteSelectUVVertex(int objindex, int faceindex, int vertindex)
 		/// </summary>
 		public bool DeleteSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex)
 		{
+			BeforeDeleteSelectUVVertex(objectIndex, faceIndex, vertexIndex);
 			return NativeMethods.MQDoc_DeleteSelectUVVertex(this, objectIndex, faceIndex, vertexIndex);
 		}
 
+		partial void BeforeDeleteSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL IsSelectUVVertex(int objindex, int faceindex, int vertindex)
 		/// </summary>
 		public bool IsSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex)
 		{
+			BeforeIsSelectUVVertex(objectIndex, faceIndex, vertexIndex);
 			return NativeMethods.MQDoc_IsSelectUVVertex(this, objectIndex, faceIndex, vertexIndex);
 		}
 
+		partial void BeforeIsSelectUVVertex(int objectIndex, int faceIndex, int vertexIndex);
 		/// <summary>
 		/// BOOL FindMappingFile(char *out_path, const char *filename, DWORD map_type)
 		/// </summary>
@@ -346,33 +406,41 @@ namespace Metasequoia
 		/// </summary>
 		public Scene GetScene(int index)
 		{
+			BeforeGetScene(index);
 			return NativeMethods.MQDoc_GetScene(this, index);
 		}
 
+		partial void BeforeGetScene(int index);
 		/// <summary>
 		/// MQObject GetParentObject(MQObject obj)
 		/// </summary>
 		public Object GetParentObject(Object obj)
 		{
+			BeforeGetParentObject(obj);
 			return NativeMethods.MQDoc_GetParentObject(this, obj);
 		}
 
+		partial void BeforeGetParentObject(Object obj);
 		/// <summary>
 		/// int GetChildObjectCount(MQObject obj)
 		/// </summary>
 		public int GetChildObjectCount(Object obj)
 		{
+			BeforeGetChildObjectCount(obj);
 			return NativeMethods.MQDoc_GetChildObjectCount(this, obj);
 		}
 
+		partial void BeforeGetChildObjectCount(Object obj);
 		/// <summary>
 		/// MQObject GetChildObject(MQObject obj, int index)
 		/// </summary>
 		public Object GetChildObject(Object obj, int index)
 		{
+			BeforeGetChildObject(obj, index);
 			return NativeMethods.MQDoc_GetChildObject(this, obj, index);
 		}
 
+		partial void BeforeGetChildObject(Object obj, int index);
 		/// <summary>
 		/// void GetGlobalMatrix(MQObject obj, MQMatrix&amp; mtx)
 		/// </summary>
@@ -398,9 +466,11 @@ namespace Metasequoia
 		/// </summary>
 		public int InsertObject(Object obj, Object before)
 		{
+			BeforeInsertObject(obj, before);
 			return NativeMethods.MQDoc_InsertObject(this, obj, before);
 		}
 
+		partial void BeforeInsertObject(Object obj, Object before);
 	}
 
 	/// <summary>
@@ -440,25 +510,31 @@ namespace Metasequoia
 		/// </summary>
 		public void InitSize(int width, int height)
 		{
+			BeforeInitSize(width, height);
 			NativeMethods.MQScene_InitSize(this, width, height);
 		}
 
+		partial void BeforeInitSize(int width, int height);
 		/// <summary>
 		/// void GetProjMatrix(float *matrix)
 		/// </summary>
 		public void GetProjMatrix(float[] matrix)
 		{
+			BeforeGetProjMatrix(matrix);
 			NativeMethods.MQScene_GetProjMatrix(this, matrix);
 		}
 
+		partial void BeforeGetProjMatrix(float[] matrix);
 		/// <summary>
 		/// void GetViewMatrix(float *matrix)
 		/// </summary>
 		public void GetViewMatrix(float[] matrix)
 		{
+			BeforeGetViewMatrix(matrix);
 			NativeMethods.MQScene_GetViewMatrix(this, matrix);
 		}
 
+		partial void BeforeGetViewMatrix(float[] matrix);
 		/// <summary>
 		/// MQPoint GetCameraPosition()
 		/// </summary>
@@ -644,9 +720,11 @@ namespace Metasequoia
 		/// </summary>
 		public bool GetVisibleFace(Object obj, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] visible)
 		{
+			BeforeGetVisibleFace(obj, visible);
 			return NativeMethods.MQScene_GetVisibleFace(this,obj,visible);
 		}
 
+		partial void BeforeGetVisibleFace(Object obj, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] visible);
 	}
 
 	/// <summary>
@@ -686,33 +764,41 @@ namespace Metasequoia
 		/// </summary>
 		public Object Clone()
 		{
+			BeforeClone();
 			return NativeMethods.MQObj_Clone(this);
 		}
 
+		partial void BeforeClone();
 		/// <summary>
 		/// void Merge(MQObject source)
 		/// </summary>
 		public void Merge(Object source)
 		{
+			BeforeMerge(source);
 			NativeMethods.MQObj_Merge(this, source);
 		}
 
+		partial void BeforeMerge(Object source);
 		/// <summary>
 		/// void Freeze(DWORD flag)
 		/// </summary>
 		public void Freeze(ObjectFreeze flag)
 		{
+			BeforeFreeze(flag);
 			NativeMethods.MQObj_Freeze(this, (uint)flag);
 		}
 
+		partial void BeforeFreeze(ObjectFreeze flag);
 		/// <summary>
 		/// void GetName(char *buffer, int size)
 		/// </summary>
 		public void GetName(StringBuilder buffer, int size)
 		{
+			BeforeGetName(buffer, size);
 			NativeMethods.MQObj_GetName(this, buffer, size);
 		}
 
+		partial void BeforeGetName(StringBuilder buffer, int size);
 		/// <summary>
 		/// int GetVertexCount()
 		/// </summary>
@@ -729,91 +815,113 @@ namespace Metasequoia
 		/// </summary>
 		public Point GetVertex(int index)
 		{
+			BeforeGetVertex(index);
 			var pts = new Point();
 			NativeMethods.MQObj_GetVertex(this, index, ref pts);
 			return pts;
 		}
 
+		partial void BeforeGetVertex(int index);
 		/// <summary>
 		/// void SetVertex(int index, MQPoint pts)
 		/// </summary>
 		public void SetVertex(int index, Point pts)
 		{
+			BeforeSetVertex(index, pts);
 			NativeMethods.MQObj_SetVertex(this, index, ref pts);
 		}
 
+		partial void BeforeSetVertex(int index, Point pts);
 		/// <summary>
 		/// void GetVertexArray(MQPoint *ptsarray)
 		/// </summary>
 		public void GetVertexArray(Point[] ptsarray)
 		{
+			BeforeGetVertexArray(ptsarray);
 			NativeMethods.MQObj_GetVertexArray(this, ptsarray);
 		}
 
+		partial void BeforeGetVertexArray(Point[] ptsarray);
 		/// <summary>
 		/// int AddVertex(MQPoint p)
 		/// </summary>
 		public int AddVertex(Point p)
 		{
+			BeforeAddVertex(p);
 			return NativeMethods.MQObj_AddVertex(this, ref p);
 		}
 
+		partial void BeforeAddVertex(Point p);
 		/// <summary>
 		/// BOOL DeleteVertex(int index)
 		/// </summary>
 		public bool DeleteVertex(int index)
 		{
+			BeforeDeleteVertex(index);
 			return NativeMethods.MQObj_DeleteVertex(this, index, true);
 		}
 
+		partial void BeforeDeleteVertex(int index);
 		/// <summary>
 		/// int GetVertexRefCount(int index)
 		/// </summary>
 		public int GetVertexRefCount(int index)
 		{
+			BeforeGetVertexRefCount(index);
 			return NativeMethods.MQObj_GetVertexRefCount(this, index);
 		}
 
+		partial void BeforeGetVertexRefCount(int index);
 		/// <summary>
 		/// UINT GetVertexUniqueID(int index)
 		/// </summary>
 		public uint GetVertexUniqueId(int index)
 		{
+			BeforeGetVertexUniqueId(index);
 			return NativeMethods.MQObj_GetVertexUniqueID(this, index);
 		}
 
+		partial void BeforeGetVertexUniqueId(int index);
 		/// <summary>
 		/// int GetVertexIndexFromUniqueID(UINT unique_id)
 		/// </summary>
 		public int GetVertexIndexFromUniqueId(uint unique_id)
 		{
+			BeforeGetVertexIndexFromUniqueId(unique_id);
 			return NativeMethods.MQObj_GetVertexIndexFromUniqueID(this, unique_id);
 		}
 
+		partial void BeforeGetVertexIndexFromUniqueId(uint unique_id);
 		/// <summary>
 		/// float GetVertexWeight(int index)
 		/// </summary>
 		public float GetVertexWeight(int index)
 		{
+			BeforeGetVertexWeight(index);
 			return NativeMethods.MQObj_GetVertexWeight(this, index);
 		}
 
+		partial void BeforeGetVertexWeight(int index);
 		/// <summary>
 		/// void SetVertexWeight(int index, float value)
 		/// </summary>
 		public void SetVertexWeight(int index, float value)
 		{
+			BeforeSetVertexWeight(index, value);
 			NativeMethods.MQObj_SetVertexWeight(this, index, value);
 		}
 
+		partial void BeforeSetVertexWeight(int index, float value);
 		/// <summary>
 		/// void CopyVertexAttribute(int vert1, MQObject obj2, int vert2)
 		/// </summary>
 		public void CopyVertexAttribute(int vert1, Object obj2, int vert2)
 		{
+			BeforeCopyVertexAttribute(vert1, obj2, vert2);
 			NativeMethods.MQObj_CopyVertexAttribute(this, vert1, obj2, vert2);
 		}
 
+		partial void BeforeCopyVertexAttribute(int vert1, Object obj2, int vert2);
 		/// <summary>
 		/// int GetFaceCount()
 		/// </summary>
@@ -830,129 +938,161 @@ namespace Metasequoia
 		/// </summary>
 		public int GetFacePointCount(int face)
 		{
+			BeforeGetFacePointCount(face);
 			return NativeMethods.MQObj_GetFacePointCount(this, face);
 		}
 
+		partial void BeforeGetFacePointCount(int face);
 		/// <summary>
 		/// void GetFacePointArray(int face, int *vertex)
 		/// </summary>
 		public void GetFacePointArray(int face, int[] vertex)
 		{
+			BeforeGetFacePointArray(face, vertex);
 			NativeMethods.MQObj_GetFacePointArray(this, face, vertex);
 		}
 
+		partial void BeforeGetFacePointArray(int face, int[] vertex);
 		/// <summary>
 		/// void GetFaceCoordinateArray(int face, MQCoordinate *uvarray)
 		/// </summary>
 		public void GetFaceCoordinateArray(int face, Coordinate[] uvarray)
 		{
+			BeforeGetFaceCoordinateArray(face, uvarray);
 			NativeMethods.MQObj_GetFaceCoordinateArray(this, face, uvarray);
 		}
 
+		partial void BeforeGetFaceCoordinateArray(int face, Coordinate[] uvarray);
 		/// <summary>
 		/// int GetFaceMaterial(int face)
 		/// </summary>
 		public int GetFaceMaterial(int face)
 		{
+			BeforeGetFaceMaterial(face);
 			return NativeMethods.MQObj_GetFaceMaterial(this, face);
 		}
 
+		partial void BeforeGetFaceMaterial(int face);
 		/// <summary>
 		/// UINT GetFaceUniqueID(int face)
 		/// </summary>
 		public uint GetFaceUniqueId(int face)
 		{
+			BeforeGetFaceUniqueId(face);
 			return NativeMethods.MQObj_GetFaceUniqueID(this, face);
 		}
 
+		partial void BeforeGetFaceUniqueId(int face);
 		/// <summary>
 		/// int GetFaceIndexFromUniqueID(UINT unique_id)
 		/// </summary>
 		public int GetFaceIndexFromUniqueId(uint unique_id)
 		{
+			BeforeGetFaceIndexFromUniqueId(unique_id);
 			return NativeMethods.MQObj_GetFaceIndexFromUniqueID(this, unique_id);
 		}
 
+		partial void BeforeGetFaceIndexFromUniqueId(uint unique_id);
 		/// <summary>
 		/// void SetName(const char *buffer)
 		/// </summary>
 		public void SetName(string buffer)
 		{
+			BeforeSetName(buffer);
 			NativeMethods.MQObj_SetName(this, buffer);
 		}
 
+		partial void BeforeSetName(string buffer);
 		/// <summary>
 		/// int AddFace(int count, int *index)
 		/// </summary>
 		public int AddFace(int count, int[] index)
 		{
+			BeforeAddFace(count, index);
 			return NativeMethods.MQObj_AddFace(this, count, index);
 		}
 
+		partial void BeforeAddFace(int count, int[] index);
 		/// <summary>
 		/// BOOL DeleteFace(int index, bool delete_vertex)
 		/// </summary>
 		public bool DeleteFace(int index, bool deleteVertex)
 		{
+			BeforeDeleteFace(index, deleteVertex);
 			return NativeMethods.MQObj_DeleteFace(this, index, deleteVertex);
 		}
 
+		partial void BeforeDeleteFace(int index, bool deleteVertex);
 		/// <summary>
 		/// BOOL InvertFace(int index)
 		/// </summary>
 		public bool InvertFace(int index)
 		{
+			BeforeInvertFace(index);
 			return NativeMethods.MQObj_InvertFace(this, index);
 		}
 
+		partial void BeforeInvertFace(int index);
 		/// <summary>
 		/// void SetFaceMaterial(int face, int material)
 		/// </summary>
 		public void SetFaceMaterial(int face, int material)
 		{
+			BeforeSetFaceMaterial(face, material);
 			NativeMethods.MQObj_SetFaceMaterial(this, face, material);
 		}
 
+		partial void BeforeSetFaceMaterial(int face, int material);
 		/// <summary>
 		/// void SetFaceCoordinateArray(int face, MQCoordinate *uvarray)
 		/// </summary>
 		public void SetFaceCoordinateArray(int face, Coordinate[] uvarray)
 		{
+			BeforeSetFaceCoordinateArray(face, uvarray);
 			NativeMethods.MQObj_SetFaceCoordinateArray(this, face, uvarray);
 		}
 
+		partial void BeforeSetFaceCoordinateArray(int face, Coordinate[] uvarray);
 		/// <summary>
 		/// DWORD GetFaceVertexColor(int face, int vertex)
 		/// </summary>
 		public uint GetFaceVertexColor(int face, int vertex)
 		{
+			BeforeGetFaceVertexColor(face, vertex);
 			return NativeMethods.MQObj_GetFaceVertexColor(this, face, vertex);
 		}
 
+		partial void BeforeGetFaceVertexColor(int face, int vertex);
 		/// <summary>
 		/// void SetFaceVertexColor(int face, int vertex, DWORD color)
 		/// </summary>
 		public void SetFaceVertexColor(int face, int vertex, uint color)
 		{
+			BeforeSetFaceVertexColor(face, vertex, color);
 			NativeMethods.MQObj_SetFaceVertexColor(this, face, vertex, color);
 		}
 
+		partial void BeforeSetFaceVertexColor(int face, int vertex, uint color);
 		/// <summary>
 		/// void OptimizeVertex(float distance, MQBool *apply)
 		/// </summary>
 		public void OptimizeVertex(float distance, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] apply)
 		{
+			BeforeOptimizeVertex(distance, apply);
 			NativeMethods.MQObj_OptimizeVertex(this, distance, apply);
 		}
 
+		partial void BeforeOptimizeVertex(float distance, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] apply);
 		/// <summary>
 		/// void Compact()
 		/// </summary>
 		public void Compact()
 		{
+			BeforeCompact();
 			NativeMethods.MQObj_Compact(this);
 		}
 
+		partial void BeforeCompact();
 		/// <summary>
 		/// DWORD GetVisible()
 		/// </summary>
@@ -1366,9 +1506,11 @@ namespace Metasequoia
 		/// </summary>
 		public void GetName(StringBuilder buffer, int size)
 		{
+			BeforeGetName(buffer, size);
 			NativeMethods.MQMat_GetName(this, buffer, size);
 		}
 
+		partial void BeforeGetName(StringBuilder buffer, int size);
 		/// <summary>
 		/// UINT GetUniqueID()
 		/// </summary>
@@ -1606,57 +1748,71 @@ namespace Metasequoia
 		/// </summary>
 		public void GetTextureName(StringBuilder buffer, int size)
 		{
+			BeforeGetTextureName(buffer, size);
 			NativeMethods.MQMat_GetTextureName(this, buffer, size);
 		}
 
+		partial void BeforeGetTextureName(StringBuilder buffer, int size);
 		/// <summary>
 		/// void GetAlphaName(char *buffer, int size)
 		/// </summary>
 		public void GetAlphaName(StringBuilder buffer, int size)
 		{
+			BeforeGetAlphaName(buffer, size);
 			NativeMethods.MQMat_GetAlphaName(this, buffer, size);
 		}
 
+		partial void BeforeGetAlphaName(StringBuilder buffer, int size);
 		/// <summary>
 		/// void GetBumpName(char *buffer, int size)
 		/// </summary>
 		public void GetBumpName(StringBuilder buffer, int size)
 		{
+			BeforeGetBumpName(buffer, size);
 			NativeMethods.MQMat_GetBumpName(this, buffer, size);
 		}
 
+		partial void BeforeGetBumpName(StringBuilder buffer, int size);
 		/// <summary>
 		/// void SetName(const char *name)
 		/// </summary>
 		public void SetName(string name)
 		{
+			BeforeSetName(name);
 			NativeMethods.MQMat_SetName(this, name);
 		}
 
+		partial void BeforeSetName(string name);
 		/// <summary>
 		/// void SetTextureName(const char *name)
 		/// </summary>
 		public void SetTextureName(string name)
 		{
+			BeforeSetTextureName(name);
 			NativeMethods.MQMat_SetTextureName(this, name);
 		}
 
+		partial void BeforeSetTextureName(string name);
 		/// <summary>
 		/// void SetAlphaName(const char *name)
 		/// </summary>
 		public void SetAlphaName(string name)
 		{
+			BeforeSetAlphaName(name);
 			NativeMethods.MQMat_SetAlphaName(this, name);
 		}
 
+		partial void BeforeSetAlphaName(string name);
 		/// <summary>
 		/// void SetBumpName(const char *name)
 		/// </summary>
 		public void SetBumpName(string name)
 		{
+			BeforeSetBumpName(name);
 			NativeMethods.MQMat_SetBumpName(this, name);
 		}
 
+		partial void BeforeSetBumpName(string name);
 	}
 
 }
