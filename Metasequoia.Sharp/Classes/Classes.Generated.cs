@@ -176,13 +176,13 @@ namespace Metasequoia
 		/// <summary>
 		/// void ClearSelect(DWORD flag)
 		/// </summary>
-		public void ClearSelect(uint flag)
+		public void ClearSelect(Doc flag)
 		{
 			BeforeClearSelect(flag);
-			NativeMethods.MQDoc_ClearSelect(this, flag);
+			NativeMethods.MQDoc_ClearSelect(this, (uint)flag);
 		}
 
-		partial void BeforeClearSelect(uint flag);
+		partial void BeforeClearSelect(Doc flag);
 		/// <summary>
 		/// BOOL AddSelectVertex(int objindex, int vertindex)
 		/// </summary>
