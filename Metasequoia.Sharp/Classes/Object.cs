@@ -291,7 +291,7 @@ namespace Metasequoia
 		/// </summary>
 		public virtual void Dispose()
 		{
-			if (this.UniqueId == 0 && deletable)
+			if (deletable && this.UniqueId == 0)
 				NativeMethods.MQObj_Delete(this);
 
 			GC.SuppressFinalize(this);
