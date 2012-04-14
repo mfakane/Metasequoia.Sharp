@@ -1,4 +1,5 @@
-﻿namespace Metasequoia
+﻿using System;
+namespace Metasequoia
 {
 	public struct Matrix
 	{
@@ -82,6 +83,41 @@
 			return Matrix.Identity.SetTransform(Point.One, angle, Point.Zero);
 		}
 
+		public static Matrix CreateFromAxisAngle(Point axis, float radians)
+		{
+			var x = axis.X;
+			var y = axis.Y;
+			var z = axis.Z;
+			var num = (float)Math.Sin(radians);
+			var num2 = (float)Math.Cos(radians);
+			var num3 = x * x;
+			var num4 = y * y;
+			var num5 = z * z;
+			var num6 = x * y;
+			var num7 = x * z;
+			var num8 = y * z;
+			var result = new Matrix();
+
+			result.M11 = num3 + num2 * (1f - num3);
+			result.M12 = num6 - num2 * num6 + num * z;
+			result.M13 = num7 - num2 * num7 - num * y;
+			result.M14 = 0f;
+			result.M21 = num6 - num2 * num6 - num * z;
+			result.M22 = num4 + num2 * (1f - num4);
+			result.M23 = num8 - num2 * num8 + num * x;
+			result.M24 = 0f;
+			result.M31 = num7 - num2 * num7 + num * y;
+			result.M32 = num8 - num2 * num8 - num * x;
+			result.M33 = num5 + num2 * (1f - num5);
+			result.M34 = 0f;
+			result.M41 = 0f;
+			result.M42 = 0f;
+			result.M43 = 0f;
+			result.M44 = 1f;
+
+			return result;
+		}
+
 		public static Matrix CreateTranslation(Point p)
 		{
 			return Matrix.Identity.SetTransform(Point.One, Angle.Zero, p);
@@ -90,6 +126,69 @@
 		public static Matrix CreateScale(Point s)
 		{
 			return Matrix.Identity.SetTransform(s, Angle.Zero, Point.Zero);
+		}
+
+		public static Matrix Invert(Matrix matrix)
+		{
+			var result = new Matrix();
+			var m = matrix.M11;
+			var m2 = matrix.M12;
+			var m3 = matrix.M13;
+			var m4 = matrix.M14;
+			var m5 = matrix.M21;
+			var m6 = matrix.M22;
+			var m7 = matrix.M23;
+			var m8 = matrix.M24;
+			var m9 = matrix.M31;
+			var m10 = matrix.M32;
+			var m11 = matrix.M33;
+			var m12 = matrix.M34;
+			var m13 = matrix.M41;
+			var m14 = matrix.M42;
+			var m15 = matrix.M43;
+			var m16 = matrix.M44;
+			var num = m11 * m16 - m12 * m15;
+			var num2 = m10 * m16 - m12 * m14;
+			var num3 = m10 * m15 - m11 * m14;
+			var num4 = m9 * m16 - m12 * m13;
+			var num5 = m9 * m15 - m11 * m13;
+			var num6 = m9 * m14 - m10 * m13;
+			var num7 = m6 * num - m7 * num2 + m8 * num3;
+			var num8 = -(m5 * num - m7 * num4 + m8 * num5);
+			var num9 = m5 * num2 - m6 * num4 + m8 * num6;
+			var num10 = -(m5 * num3 - m6 * num5 + m7 * num6);
+			var num11 = 1f / (m * num7 + m2 * num8 + m3 * num9 + m4 * num10);
+			var num12 = m7 * m16 - m8 * m15;
+			var num13 = m6 * m16 - m8 * m14;
+			var num14 = m6 * m15 - m7 * m14;
+			var num15 = m5 * m16 - m8 * m13;
+			var num16 = m5 * m15 - m7 * m13;
+			var num17 = m5 * m14 - m6 * m13;
+			var num18 = m7 * m12 - m8 * m11;
+			var num19 = m6 * m12 - m8 * m10;
+			var num20 = m6 * m11 - m7 * m10;
+			var num21 = m5 * m12 - m8 * m9;
+			var num22 = m5 * m11 - m7 * m9;
+			var num23 = m5 * m10 - m6 * m9;
+
+			result.M11 = num7 * num11;
+			result.M21 = num8 * num11;
+			result.M31 = num9 * num11;
+			result.M41 = num10 * num11;
+			result.M12 = -(m2 * num - m3 * num2 + m4 * num3) * num11;
+			result.M22 = (m * num - m3 * num4 + m4 * num5) * num11;
+			result.M32 = -(m * num2 - m2 * num4 + m4 * num6) * num11;
+			result.M42 = (m * num3 - m2 * num5 + m3 * num6) * num11;
+			result.M13 = (m2 * num12 - m3 * num13 + m4 * num14) * num11;
+			result.M23 = -(m * num12 - m3 * num15 + m4 * num16) * num11;
+			result.M33 = (m * num13 - m2 * num15 + m4 * num17) * num11;
+			result.M43 = -(m * num14 - m2 * num16 + m3 * num17) * num11;
+			result.M14 = -(m2 * num18 - m3 * num19 + m4 * num20) * num11;
+			result.M24 = (m * num18 - m3 * num21 + m4 * num22) * num11;
+			result.M34 = -(m * num19 - m2 * num21 + m4 * num23) * num11;
+			result.M44 = (m * num20 - m2 * num22 + m3 * num23) * num11;
+
+			return result;
 		}
 
 		/// <summary>
