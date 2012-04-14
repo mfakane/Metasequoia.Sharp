@@ -9,7 +9,7 @@ namespace Metasequoia
 	/// </summary>
 	partial class Material : IDisposable
 	{
-		bool deletable;
+		internal bool deletable;
 
 		/// <summary>
 		/// Name プロパティで MQMaterial::GetName() に対して使用するバッファサイズを取得または設定します。

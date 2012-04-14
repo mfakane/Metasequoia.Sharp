@@ -37,5 +37,20 @@ namespace Metasequoia
 
 			return sb.ToString();
 		}
+
+		partial void BeforeAddObject(Object obj)
+		{
+			obj.deletable = false;
+		}
+
+		partial void BeforeInsertObject(Object obj, Object before)
+		{
+			obj.deletable = false;
+		}
+
+		partial void BeforeAddMaterial(Material mat)
+		{
+			mat.deletable = false;
+		}
 	}
 }

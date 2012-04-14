@@ -11,7 +11,7 @@ namespace Metasequoia
 	/// </summary>
 	partial class Object : IDisposable
 	{
-		bool deletable;
+		internal bool deletable;
 
 		/// <summary>
 		/// Name プロパティで MQObject::GetName() に対して使用するバッファサイズを取得または設定します。
