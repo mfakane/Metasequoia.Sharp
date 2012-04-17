@@ -468,9 +468,9 @@ namespace Metasequoia.Sharp
 		/// </summary>
 		/// <param name="doc">ドキュメント</param>
 		/// <returns>表示オプション</returns>
-		protected unsafe SceneOption GetSceneOption(Document doc)
+		protected unsafe SceneOption GetSceneOption(Scene scene)
 		{
-			fixed (byte* documentString = GetASCII("document"),
+			fixed (byte* sceneString = GetASCII("scene"),
 						 showVertexString = GetASCII("show_vertex"),
 						 showLineString = GetASCII("show_line"),
 						 showFaceString = GetASCII("show_face"),
@@ -480,8 +480,8 @@ namespace Metasequoia.Sharp
 				var rt = new SceneOption();
 				var array = new void*[]
 				{
-					documentString,
-					(void*)doc.Handle,
+					sceneString,
+					(void*)scene.Handle,
 					showVertexString,
 					&rt.ShowVertex,
 					showLineString,
