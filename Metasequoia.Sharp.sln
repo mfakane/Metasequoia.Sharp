@@ -19,12 +19,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explosion", "Explosion\Explosion.csproj", "{429D325F-77F7-48AA-BC39-538C4AE8CFA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton", "Skeleton\Skeleton.csproj", "{3225778F-7B04-4933-BA50-32BF8BC18988}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3225778F-7B04-4933-BA50-32BF8BC18988}.Debug|x86.ActiveCfg = Debug|x86
+		{3225778F-7B04-4933-BA50-32BF8BC18988}.Debug|x86.Build.0 = Debug|x86
+		{3225778F-7B04-4933-BA50-32BF8BC18988}.Release|x86.ActiveCfg = Release|x86
+		{3225778F-7B04-4933-BA50-32BF8BC18988}.Release|x86.Build.0 = Release|x86
 		{32DA8C15-40E6-4830-AD5B-6940BF30CEF4}.Debug|x86.ActiveCfg = Debug|x86
 		{32DA8C15-40E6-4830-AD5B-6940BF30CEF4}.Debug|x86.Build.0 = Debug|x86
 		{32DA8C15-40E6-4830-AD5B-6940BF30CEF4}.Release|x86.ActiveCfg = Release|x86
