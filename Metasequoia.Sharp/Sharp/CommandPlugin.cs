@@ -139,7 +139,7 @@ namespace Metasequoia.Sharp
 		/// アンドゥバッファを更新する
 		/// void MQCommandPlugin::UpdateUndo()
 		/// </summary>
-		protected unsafe void UpdateUndo()
+		public unsafe void UpdateUndo()
 		{
 			var array = new void*[1];
 
@@ -152,7 +152,7 @@ namespace Metasequoia.Sharp
 		/// void MQCommandPlugin::RedrawScene(MQScene scene)
 		/// </summary>
 		/// <param name="scene">シーン</param>
-		protected unsafe void RedrawScene(Scene scene)
+		public unsafe void RedrawScene(Scene scene)
 		{
 			fixed (byte* sceneString = GetASCII("scene"))
 			{
@@ -172,7 +172,7 @@ namespace Metasequoia.Sharp
 		/// すべてのシーンの再描画を予約する
 		/// void MQCommandPlugin::RedrawAllScene()
 		/// </summary>
-		protected unsafe void RedrawAllScene()
+		public unsafe void RedrawAllScene()
 		{
 			var array = new void*[1];
 
@@ -185,7 +185,7 @@ namespace Metasequoia.Sharp
 		/// void MQCommandPlugin::GetEditOption(EDIT_OPTION&amp; option)
 		/// </summary>
 		/// <returns>編集オプション</returns>
-		protected unsafe EditOption GetEditOption()
+		public unsafe EditOption GetEditOption()
 		{
 			fixed (byte* editVertexString = GetASCII("edit_vertex"),
 						 editLineString = GetASCII("edit_line"),
@@ -248,7 +248,7 @@ namespace Metasequoia.Sharp
 		/// <param name="p">ポイント</param>
 		/// <param name="type">種類</param>
 		/// <returns>スナップ位置</returns>
-		protected unsafe Point GetSnappedPos(Scene scene, Point p, SnapGridType type)
+		public unsafe Point GetSnappedPos(Scene scene, Point p, SnapGridType type)
 		{
 			fixed (byte* sceneString = GetASCII("scene"),
 						 typeString = GetASCII("type"),
@@ -295,7 +295,7 @@ namespace Metasequoia.Sharp
 		/// <param name="p">位置</param>
 		/// <param name="testType">種類</param>
 		/// <returns>結果</returns>
-		protected unsafe HitTestResult HitTest(Scene scene, int[] p, HitType testType)
+		public unsafe HitTestResult HitTest(Scene scene, int[] p, HitType testType)
 		{
 			var rt = new HitTestResult();
 
@@ -349,7 +349,7 @@ namespace Metasequoia.Sharp
 		/// </summary>
 		/// <param name="cursorType">種類</param>
 		/// <returns>カーソルハンドル</returns>
-		protected unsafe IntPtr GetResourceCursor(CursorType cursorType)
+		public unsafe IntPtr GetResourceCursor(CursorType cursorType)
 		{
 			fixed (byte* indexString = GetASCII("index"),
 						 resultString = GetASCII("result"))
@@ -375,7 +375,7 @@ namespace Metasequoia.Sharp
 		/// void MQCommandPlugin::SetMouseCursor(HCURSOR cursor)
 		/// </summary>
 		/// <param name="cursor">カーソルハンドル</param>
-		protected unsafe void SetMouseCursor(IntPtr cursor)
+		public unsafe void SetMouseCursor(IntPtr cursor)
 		{
 			fixed (byte* cursorString = GetASCII("cursor"))
 			{
@@ -396,7 +396,7 @@ namespace Metasequoia.Sharp
 		/// void MQCommandPlugin::SetStatusString(const char *str)
 		/// </summary>
 		/// <param name="str">文字列</param>
-		protected unsafe void SetStatusString(string str)
+		public unsafe void SetStatusString(string str)
 		{
 			var bytes = Encoding.GetEncoding(932).GetBytes(str);
 

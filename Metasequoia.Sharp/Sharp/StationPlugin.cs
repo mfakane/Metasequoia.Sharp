@@ -251,12 +251,12 @@ namespace Metasequoia.Sharp
 			return e.Handled;
 		}
 
-		protected bool SendMessage(Message message)
+		public bool SendMessage(Message message)
 		{
 			return SendMessage(message, IntPtr.Zero);
 		}
 
-		protected bool SendMessage(Message message, IntPtr option)
+		public bool SendMessage(Message message, IntPtr option)
 		{
 			var info = new SendMessageInfo
 			{
@@ -293,12 +293,12 @@ namespace Metasequoia.Sharp
 		/// </summary>
 		/// <param name="proc">proc</param>
 		/// <param name="option">オプション</param>
-		protected void BeginCallback(StationCallbackProc proc, IntPtr option)
+		public void BeginCallback(StationCallbackProc proc, IntPtr option)
 		{
 			NativeMethods.MQ_StationCallback(proc, option);
 		}
 
-		protected void BeginCallback(Action<Document> proc)
+		public void BeginCallback(Action<Document> proc)
 		{
 			BeginCallback((doc, opt) =>
 			{
@@ -328,7 +328,7 @@ namespace Metasequoia.Sharp
 		/// <param name="visibility">可視フラグ</param>
 		/// <param name="instant">自動削除するかどうか</param>
 		/// <returns>描画用オブジェクト</returns>
-		protected unsafe DrawingObject CreateDrawingObject(Document doc, DrawObjectVisibility visibility, bool instant = true)
+		public unsafe DrawingObject CreateDrawingObject(Document doc, DrawObjectVisibility visibility, bool instant = true)
 		{
 			var instantInt = instant ? 1 : 0;
 
@@ -385,7 +385,7 @@ namespace Metasequoia.Sharp
 		/// <param name="doc">ドキュメント</param>
 		/// <param name="instant">自動削除するかどうか</param>
 		/// <returns>描画用オブジェクト</returns>
-		protected unsafe DrawingMaterial CreateDrawingMaterial(Document doc, bool instant = true)
+		public unsafe DrawingMaterial CreateDrawingMaterial(Document doc, bool instant = true)
 		{
 			var instantInt = instant ? 1 : 0;
 			var index = -1;
@@ -440,7 +440,7 @@ namespace Metasequoia.Sharp
 		/// </summary>
 		/// <param name="doc">ドキュメント</param>
 		/// <returns>状態カウンタ</returns>
-		protected unsafe int GetCurrentUndoState(Document doc)
+		public unsafe int GetCurrentUndoState(Document doc)
 		{
 			fixed (byte* documentString = GetASCII("document"),
 						 resultString = GetASCII("result"))
@@ -468,7 +468,7 @@ namespace Metasequoia.Sharp
 		/// </summary>
 		/// <param name="scene">シーン</param>
 		/// <returns>表示オプション</returns>
-		protected unsafe SceneOption GetSceneOption(Scene scene)
+		public unsafe SceneOption GetSceneOption(Scene scene)
 		{
 			fixed (byte* sceneString = GetASCII("scene"),
 						 showVertexString = GetASCII("show_vertex"),
