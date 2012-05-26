@@ -466,7 +466,7 @@ namespace Metasequoia.Sharp
 		/// シーンの表示オプションを取得
 		/// void MQStationPlugin::GetSceneOption(MQScene scene, SCENE_OPTION&amp; option)
 		/// </summary>
-		/// <param name="doc">ドキュメント</param>
+		/// <param name="scene">シーン</param>
 		/// <returns>表示オプション</returns>
 		protected unsafe SceneOption GetSceneOption(Scene scene)
 		{
