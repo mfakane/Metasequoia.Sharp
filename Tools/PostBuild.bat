@@ -28,7 +28,7 @@ set ilmergeOptions=/wildcards
 set dllexporterOptions=
 
 if "%*" equ "" (
-	echo Usage: %~n0 [/debug] [/copyto:dest] ^<primary assembly^>
+	echo Usage: %~n0 ^<primary assembly^> [/debug] [/mergecoreonly] [/copyto:dest]
 
 	exit /b
 )
@@ -63,6 +63,8 @@ exit /b
 			if /i "%iSubstring:~1%" equ "debug" (
 				set configuration=debug
 				set il=/il
+			) else if /i "%iSubstring:~1%" equ "mergecoreonly" (
+				set otherAssemblies=Metasequoia.Sharp.dll
 			) else if /i "%iSubstring:~1,7%" equ "copyto:" (
 				set copyTo=%iSubstring:~8%
 			)
@@ -77,7 +79,11 @@ exit /b
 exit /b
 
 :ilmerge
-	%ilmerge% /t:%target% /%targetplatform% /out:%createTemp%\%targetNameExt% %1 %otherAssemblies% %ilmergeOptions%
+	set mergeTargetNameExt=%targetNameExt%
+
+	if "%otherAssemblies%" equ "*.dll" set mergeTargetNameExt=
+	
+	%ilmerge% /t:%target% /%targetplatform% /out:%createTemp%\%targetNameExt% %mergeTargetNameExt% %otherAssemblies% %ilmergeOptions%
 
 	if errorlevel 1 (
 		echo error from ILMerge, batch job failed
@@ -88,7 +94,8 @@ exit /b
 	copy /y %createTemp%\%targetNameExt% > nul
 	if exist %createTemp%\%targetName%.pdb copy /y %createTemp%\%targetName%.pdb > nul
 	
-	for %%i in (*.dll;*.pdb) do (
+	::for %%i in (*.dll;*.pdb) do (
+	for %%i in (%otherAssemblies%) do (
 		if "%%~ni" neq "%targetName%" del %%i
 	)
 exit /b
