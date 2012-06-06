@@ -31,7 +31,7 @@ Metasequoia.Sharp 名前空間には、C# で使用するうえで便利なク�
 ----
 
 新しいクラスライブラリプロジェクトを作成した後、参照設定に Metasequoia.Sharp.dll または Metasequoia.Sharp プロジェクトを追加します。
-その後、DllExport プロジェクトをビルドし、Tools\PostBuild.exe に配置されているかを確認します。
+その後、DllExporter プロジェクトをビルドし、Tools\DllExporter.exe に配置されているかを確認します。
 
 ビルド
 -----
