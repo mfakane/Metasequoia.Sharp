@@ -838,7 +838,8 @@ namespace Metasequoia
 		public void GetVertexArray(Point[] ptsarray)
 		{
 			BeforeGetVertexArray(ptsarray);
-			NativeMethods.MQObj_GetVertexArray(this, ptsarray);
+			unsafe { fixed (void* ptr = ptsarray) NativeMethods.MQObj_GetVertexArray(this, (IntPtr)ptr);
+			}
 		}
 
 		partial void BeforeGetVertexArray(Point[] ptsarray);
@@ -959,7 +960,8 @@ namespace Metasequoia
 		public void GetFaceCoordinateArray(int face, Coordinate[] uvarray)
 		{
 			BeforeGetFaceCoordinateArray(face, uvarray);
-			NativeMethods.MQObj_GetFaceCoordinateArray(this, face, uvarray);
+			unsafe { fixed (void* ptr = uvarray) NativeMethods.MQObj_GetFaceCoordinateArray(this, face, (IntPtr)ptr);
+			}
 		}
 
 		partial void BeforeGetFaceCoordinateArray(int face, Coordinate[] uvarray);
@@ -1049,7 +1051,8 @@ namespace Metasequoia
 		public void SetFaceCoordinateArray(int face, Coordinate[] uvarray)
 		{
 			BeforeSetFaceCoordinateArray(face, uvarray);
-			NativeMethods.MQObj_SetFaceCoordinateArray(this, face, uvarray);
+			unsafe { fixed (void* ptr = uvarray) NativeMethods.MQObj_SetFaceCoordinateArray(this, face, (IntPtr)ptr);
+			}
 		}
 
 		partial void BeforeSetFaceCoordinateArray(int face, Coordinate[] uvarray);

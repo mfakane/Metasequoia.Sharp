@@ -434,7 +434,7 @@ namespace Metasequoia
 		public static MQObj_SetVertexDelegate MQObj_SetVertex;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-		public delegate void MQObj_GetVertexArrayDelegate(/* Object */ IntPtr obj, Point[] ptsarray);
+		public delegate void MQObj_GetVertexArrayDelegate(/* Object */ IntPtr obj, IntPtr ptsarray);
 		public static MQObj_GetVertexArrayDelegate MQObj_GetVertexArray;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
@@ -450,7 +450,7 @@ namespace Metasequoia
 		public static MQObj_GetFacePointArrayDelegate MQObj_GetFacePointArray;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-		public delegate void MQObj_GetFaceCoordinateArrayDelegate(/* Object */ IntPtr obj, int face, Coordinate[] uvarray);
+		public delegate void MQObj_GetFaceCoordinateArrayDelegate(/* Object */ IntPtr obj, int face, IntPtr uvarray);
 		public static MQObj_GetFaceCoordinateArrayDelegate MQObj_GetFaceCoordinateArray;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
@@ -521,7 +521,7 @@ namespace Metasequoia
 		public static MQObj_SetFaceMaterialDelegate MQObj_SetFaceMaterial;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-		public delegate void MQObj_SetFaceCoordinateArrayDelegate(/* Object */ IntPtr obj, int face, Coordinate[] uvarray);
+		public delegate void MQObj_SetFaceCoordinateArrayDelegate(/* Object */ IntPtr obj, int face, IntPtr uvarray);
 		public static MQObj_SetFaceCoordinateArrayDelegate MQObj_SetFaceCoordinateArray;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]

@@ -180,6 +180,10 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 				.Replace("float val; MQScene_FloatValue(this,MQSCENE_GET_FOV,&val); return val;", "var val = new float[1]; MQScene_FloatValue(this, MQSCENE_GET_FOV, val); return val[0];")
 				.Replace("MQDoc_FindMappingFile(this, outPath, filename, mapType)", "MQDoc_FindMappingFile(this, outPath, filename, (uint)mapType)")
 
+				.Replace("MQObj_GetVertexArray(this, ptsarray);", "unsafe { fixed (void* ptr = ptsarray) MQObj_GetVertexArray(this, (IntPtr)ptr); }")
+				.Replace("MQObj_GetFaceCoordinateArray(this, face, uvarray);", "unsafe { fixed (void* ptr = uvarray) MQObj_GetFaceCoordinateArray(this, face, (IntPtr)ptr); }")
+				.Replace("MQObj_SetFaceCoordinateArray(this, face, uvarray);", "unsafe { fixed (void* ptr = uvarray) MQObj_SetFaceCoordinateArray(this, face, (IntPtr)ptr); }")
+
 				.Replace("if (w != NULL) *w", "w")
 			
 				.Replace("; ", ";\r\n\t\t\t")
