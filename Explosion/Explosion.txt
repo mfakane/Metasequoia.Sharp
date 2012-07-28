@@ -18,6 +18,10 @@ Explosion
 更新履歴
 =======
 
+Version 0.1, Sat, 15 Jul 2012
+
+	UV 値が消去されるのを修正
+
 Version 0.0, Fri, 06 Apr 2012
 
 	製作
