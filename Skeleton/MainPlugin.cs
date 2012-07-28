@@ -59,7 +59,7 @@ namespace Linearstar.Metaseq.Skeleton
 						bone = new Metasequoia.Object
 						{
 							Name = "bone",
-							Color = new Color(1, 1, 0),
+							Color = new Color(1, 0.8f, 0.5f),
 							ColorValid = true,
 						};
 						this.BeginCallback(_ => _.AddObject(bone));
@@ -77,7 +77,11 @@ namespace Linearstar.Metaseq.Skeleton
 				e.Handled = e.Value;
 			};
 			this.IsActivated += (sender, e) => e.Handled = f.Visible;
-			this.MaterialList += (sender, e) => f.OnMaterialChanged(e.Document);
+			this.MaterialList += (sender, e) =>
+			{
+				f.OnMaterialChanged(e.Document);
+				this.BeginCallback(_ => this.RedrawAllScene());
+			};
 			this.ObjectList += (sender, e) => f.OnObjectChanged(e.Document);
 			this.Undo += (sender, e) =>
 			{
@@ -186,23 +190,24 @@ namespace Linearstar.Metaseq.Skeleton
 									EnsureBoneObject(e.Document);
 
 									if (bone != null)
-										this.BeginCallback(_ =>
+									{
+										createBonePointInfo = new CreateBonePointInfo
 										{
-											createBonePointInfo = new CreateBonePointInfo
-											{
-												BeginVertexIndex = CreateBone
-												(
-													_,
-													bone,
-													createBonePointInfo,
-													f.CreateNewMaterial,
-													f.BoneName
-												),
-												BeginWorld = createBonePointInfo.EndWorld,
-											};
-											f.OnBoneCreated();
-											this.UpdateUndo();
-										});
+											BeginVertexIndex = CreateBone
+											(
+												e.Document,
+												bone,
+												createBonePointInfo,
+												f.CreateNewMaterial,
+												f.BoneName
+											),
+											BeginWorld = createBonePointInfo.EndWorld,
+										};
+										f.OnBoneCreated();
+										this.UpdateUndo();
+									}
+									else
+										createBonePointInfo = null;
 								}
 								else
 									createBonePointInfo.HasEnd = false;
@@ -218,7 +223,7 @@ namespace Linearstar.Metaseq.Skeleton
 								var isDrag = Math.Abs(anchorSelect[1].Item1 - anchorSelect[0].Item1) > 4 || Math.Abs(anchorSelect[1].Item2 - anchorSelect[0].Item2) > 4;
 								var isAdd = Control.ModifierKeys.HasFlag(Keys.Shift);
 								var isRemove = Control.ModifierKeys.HasFlag(Keys.Control);
-								
+
 								if (!isAdd & !isRemove)
 									e.Document.ClearSelect(Doc.ClearselectAll);
 
@@ -313,6 +318,19 @@ namespace Linearstar.Metaseq.Skeleton
 
 						break;
 					case SkeletonMode.Anchor:
+						EnsureBoneObject(e.Document);
+
+						if (bone != null)
+							using (var c = this.CreateDrawingObject(e.Document, DrawObjectVisibility.Point | DrawObjectVisibility.Line))
+							{
+								c.Color = highlightColor;
+								c.ColorValid = true;
+
+								foreach (var i in bone.Faces.Where(_ => _.Material == e.Document.CurrentMaterialIndex && _.PointCount == 3))
+									c.AddFace(i.Points.Select(_ => bone.Vertices[_].Point)
+													  .Select(c.AddVertex));
+							}
+
 						if (anchorSelect != null)
 							using (var c = this.CreateDrawingObject(e.Document, DrawObjectVisibility.Line))
 							{
@@ -355,7 +373,7 @@ namespace Linearstar.Metaseq.Skeleton
 				return;
 
 			var targetObject = doc.Objects[doc.CurrentObjectIndex];
-			var targetBoneFace = bone == null ? null : bone.Faces.FirstOrDefault(_ => _.Material == doc.CurrentMaterialIndex);
+			var targetBoneFace = bone == null ? null : bone.Faces.FirstOrDefault(_ => _.Material == doc.CurrentMaterialIndex && _.PointCount == 3);
 			var targetBone = targetBoneFace == null ? null : new Bone(doc, targetBoneFace);
 			var beginToEnd = targetBone == null ? Point.Zero : targetBone.End.Point - targetBone.Begin.Point;
 			var unit = new Point(0, 1, 0);
@@ -371,7 +389,7 @@ namespace Linearstar.Metaseq.Skeleton
 			var targetBoneInverseMatrix = targetBone == null || !snap
 				? Matrix.Identity
 				: Matrix.Invert(targetBoneMatrix);
-			var anchorName = "anchor|" + targetObject.Name;
+			var anchorName = "anchor|" + targetObject.Name.Split(':').Last();
 
 			while (doc.Objects.Any(_ => _.Name == anchorName))
 				anchorName = anchorName.Replace("|", "_|");
@@ -380,6 +398,10 @@ namespace Linearstar.Metaseq.Skeleton
 									   .Where(_ => _.IsSelected)
 									   .Select(_ => Point.Transform(_.Point, targetBoneInverseMatrix))
 									   .ToArray();
+
+			if (!vertices.Any())
+				return;
+
 			var min = vertices.Aggregate(vertices.First(), (x, y) => new Point(Math.Min(x.X, y.X), Math.Min(x.Y, y.Y), Math.Min(x.Z, y.Z))) - margin;
 			var max = vertices.Aggregate(vertices.First(), (x, y) => new Point(Math.Max(x.X, y.X), Math.Max(x.Y, y.Y), Math.Max(x.Z, y.Z))) + margin;
 			var obj = new Metasequoia.Object

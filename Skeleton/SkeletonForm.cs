@@ -34,7 +34,8 @@ namespace Linearstar.Metaseq.Skeleton
 			{ "薬指２[]", "薬指３[]" },
 			{ "薬指３[]", "小指１[]" },
 			{ "小指１[]", "小指２[]" },
-			{ "小指２[]", "親指１[]" },
+			{ "小指２[]", "小指３[]" },
+			{ "小指３[]", "親指１[]" },
 			{ "親指１[]", "親指２[]" },
 			{ "下半身", "足[]" },
 			{ "足[]", "ひざ[]" },
@@ -114,6 +115,11 @@ namespace Linearstar.Metaseq.Skeleton
 		public SkeletonForm()
 		{
 			InitializeComponent();
+
+			if (Application.RenderWithVisualStyles)
+				foreach (TabPage i in this.mainTabControl.TabPages)
+					i.BackColor = SystemColors.Window;
+
 			this.Font = SystemFonts.MessageBoxFont;
 		}
 

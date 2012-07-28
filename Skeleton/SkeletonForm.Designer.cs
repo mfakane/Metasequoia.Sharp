@@ -75,18 +75,17 @@
 			this.mainTabControl.Location = new System.Drawing.Point(0, 0);
 			this.mainTabControl.Name = "mainTabControl";
 			this.mainTabControl.SelectedIndex = 0;
-			this.mainTabControl.Size = new System.Drawing.Size(175, 194);
+			this.mainTabControl.Size = new System.Drawing.Size(193, 194);
 			this.mainTabControl.TabIndex = 0;
 			this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
 			// 
 			// boneTabPage
 			// 
-			this.boneTabPage.BackColor = System.Drawing.SystemColors.Window;
 			this.boneTabPage.Controls.Add(this.tableLayoutPanel1);
 			this.boneTabPage.Location = new System.Drawing.Point(4, 22);
 			this.boneTabPage.Name = "boneTabPage";
 			this.boneTabPage.Padding = new System.Windows.Forms.Padding(8);
-			this.boneTabPage.Size = new System.Drawing.Size(167, 168);
+			this.boneTabPage.Size = new System.Drawing.Size(185, 168);
 			this.boneTabPage.TabIndex = 0;
 			this.boneTabPage.Text = "ボーン";
 			// 
@@ -109,7 +108,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(151, 152);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(169, 152);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// boneNameLabel
@@ -139,7 +138,7 @@
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(151, 23);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(169, 23);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// normalBoneRadioButton
@@ -153,7 +152,7 @@
 			this.normalBoneRadioButton.Margin = new System.Windows.Forms.Padding(0);
 			this.normalBoneRadioButton.MinimumSize = new System.Drawing.Size(0, 23);
 			this.normalBoneRadioButton.Name = "normalBoneRadioButton";
-			this.normalBoneRadioButton.Size = new System.Drawing.Size(75, 23);
+			this.normalBoneRadioButton.Size = new System.Drawing.Size(84, 23);
 			this.normalBoneRadioButton.TabIndex = 0;
 			this.normalBoneRadioButton.TabStop = true;
 			this.normalBoneRadioButton.Text = "通常";
@@ -166,11 +165,11 @@
 			this.relativeBoneRadioButton.AutoSize = true;
 			this.relativeBoneRadioButton.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.relativeBoneRadioButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.relativeBoneRadioButton.Location = new System.Drawing.Point(75, 0);
+			this.relativeBoneRadioButton.Location = new System.Drawing.Point(84, 0);
 			this.relativeBoneRadioButton.Margin = new System.Windows.Forms.Padding(0);
 			this.relativeBoneRadioButton.MinimumSize = new System.Drawing.Size(0, 23);
 			this.relativeBoneRadioButton.Name = "relativeBoneRadioButton";
-			this.relativeBoneRadioButton.Size = new System.Drawing.Size(76, 23);
+			this.relativeBoneRadioButton.Size = new System.Drawing.Size(85, 23);
 			this.relativeBoneRadioButton.TabIndex = 1;
 			this.relativeBoneRadioButton.Text = "浮動";
 			this.relativeBoneRadioButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -182,7 +181,7 @@
 			this.boneNameTextBox.Location = new System.Drawing.Point(64, 48);
 			this.boneNameTextBox.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
 			this.boneNameTextBox.Name = "boneNameTextBox";
-			this.boneNameTextBox.Size = new System.Drawing.Size(87, 19);
+			this.boneNameTextBox.Size = new System.Drawing.Size(105, 19);
 			this.boneNameTextBox.TabIndex = 3;
 			this.boneNameTextBox.Text = "センター";
 			// 
@@ -204,7 +203,6 @@
 			// 
 			// anchorTabPage
 			// 
-			this.anchorTabPage.BackColor = System.Drawing.SystemColors.Window;
 			this.anchorTabPage.Controls.Add(this.tableLayoutPanel3);
 			this.anchorTabPage.Location = new System.Drawing.Point(4, 22);
 			this.anchorTabPage.Name = "anchorTabPage";
@@ -350,6 +348,7 @@
 			// 
 			// createAnchorButton
 			// 
+			this.createAnchorButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.createAnchorButton.Location = new System.Drawing.Point(38, 0);
 			this.createAnchorButton.Margin = new System.Windows.Forms.Padding(0);
 			this.createAnchorButton.Name = "createAnchorButton";
@@ -382,7 +381,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(175, 194);
+			this.ClientSize = new System.Drawing.Size(193, 194);
 			this.Controls.Add(this.mainTabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.MaximizeBox = false;
