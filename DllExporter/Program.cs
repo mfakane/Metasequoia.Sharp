@@ -25,6 +25,7 @@ namespace DllExporter
 				var input = "";
 				var output = "";
 				var il = "";
+				var version = "v4";
 
 				foreach (var i in args)
 					if (i.StartsWith("/"))
@@ -49,6 +50,11 @@ namespace DllExporter
 								il = sl.Last();
 
 								break;
+							case "v2":
+							case "v4":
+								version = sl.Last().Substring(1);
+
+								break;
 						}
 					}
 					else
@@ -56,7 +62,7 @@ namespace DllExporter
 
 				if (string.IsNullOrEmpty(input))
 				{
-					Console.WriteLine("Usage: DllExporter [/x64] [/debug] [/il:filename] [/out:filename] <assembly>");
+					Console.WriteLine("Usage: DllExporter [/x64] [/debug] [/il:filename] [/out:filename] [/v2 | /v4] <assembly>");
 
 					return 0;
 				}
@@ -115,7 +121,7 @@ namespace DllExporter
 				if (!string.IsNullOrEmpty(il))
 					File.WriteAllText(il, ilcode, encoding);
 
-				Assemble(ilcode, output, is64, isDebug);
+				Assemble(ilcode, output, is64, isDebug, version);
 
 				return 0;
 			}
@@ -145,7 +151,7 @@ namespace DllExporter
 			}
 		}
 
-		static void Assemble(string il, string output, bool is64, bool isDebug)
+		static void Assemble(string il, string output, bool is64, bool isDebug, string version)
 		{
 			var temp = Path.GetTempFileName();
 
@@ -157,7 +163,7 @@ namespace DllExporter
 				{
 					StartInfo =
 					{
-						FileName = GetAssembler(),
+						FileName = GetAssembler(version),
 						Arguments = string.Join(" ", new[]
 						{
 							"/nologo",
@@ -247,9 +253,13 @@ namespace DllExporter
 			}
 		}
 
-		static string GetAssembler()
+		static string GetAssembler(string version)
 		{
-			return Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "ilasm.exe");
+			var dir = RuntimeEnvironment.GetRuntimeDirectory().TrimEnd(Path.DirectorySeparatorChar);
+
+			dir = Directory.EnumerateDirectories(Path.GetDirectoryName(dir)).LastOrDefault(_ => Path.GetFileName(_).StartsWith("v" + version)) ?? dir;
+
+			return Path.Combine(dir, "ilasm.exe");
 		}
 
 		static string GetDisassembler()

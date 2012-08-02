@@ -103,7 +103,7 @@ exit /b
 exit /b
 
 :export
-	%dllexporter% /%configuration% %il% %dllexporterOptions% %targetPath%
+	%dllexporter% /%configuration% /%targetplatform% %il% %dllexporterOptions% %targetPath%
 
 	if errorlevel 1 (
 		echo error from DllExporter, batch job failed
