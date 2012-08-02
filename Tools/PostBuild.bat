@@ -28,7 +28,7 @@ set ilmergeOptions=/wildcards
 set dllexporterOptions=
 
 if "%*" equ "" (
-	echo Usage: %~n0 ^<primary assembly^> [/debug] [/mergecoreonly] [/copyto:dest]
+	echo Usage: %~n0 ^<primary assembly^> [/debug] [/nomerge] [/mergecoreonly] [/copyto:dest]
 
 	exit /b
 )
@@ -43,7 +43,7 @@ set il=
 call :parseArguments %*
 
 call :initializeTempDirectory
-	call :ilmerge
+	if "%otherAssemblies%" neq "" call :ilmerge
 	if not errorlevel 1 call :export
 call :cleanTempDirectory
 
@@ -63,6 +63,8 @@ exit /b
 			if /i "%iSubstring:~1%" equ "debug" (
 				set configuration=debug
 				set il=/il
+			) else if /i "%iSubstring:~1%" equ "nomerge" (
+				set otherAssemblies=
 			) else if /i "%iSubstring:~1%" equ "mergecoreonly" (
 				set otherAssemblies=Metasequoia.Sharp.dll
 			) else if /i "%iSubstring:~1,7%" equ "copyto:" (
