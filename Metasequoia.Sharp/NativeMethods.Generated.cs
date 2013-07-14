@@ -45,18 +45,23 @@ namespace Metasequoia
 				MQ_SendMessage = GetDelegate<MQ_SendMessageDelegate>(hModule, "MQ_SendMessage");
 				MQDoc_GetObjectCount = GetDelegate<MQDoc_GetObjectCountDelegate>(hModule, "MQDoc_GetObjectCount");
 				MQDoc_GetObject = GetDelegate<MQDoc_GetObjectDelegate>(hModule, "MQDoc_GetObject");
+				MQDoc_GetObjectFromUniqueID = GetDelegate<MQDoc_GetObjectFromUniqueIDDelegate>(hModule, "MQDoc_GetObjectFromUniqueID");
 				MQDoc_GetCurrentObjectIndex = GetDelegate<MQDoc_GetCurrentObjectIndexDelegate>(hModule, "MQDoc_GetCurrentObjectIndex");
 				MQDoc_SetCurrentObjectIndex = GetDelegate<MQDoc_SetCurrentObjectIndexDelegate>(hModule, "MQDoc_SetCurrentObjectIndex");
 				MQDoc_AddObject = GetDelegate<MQDoc_AddObjectDelegate>(hModule, "MQDoc_AddObject");
 				MQDoc_DeleteObject = GetDelegate<MQDoc_DeleteObjectDelegate>(hModule, "MQDoc_DeleteObject");
 				MQDoc_GetObjectIndex = GetDelegate<MQDoc_GetObjectIndexDelegate>(hModule, "MQDoc_GetObjectIndex");
+				MQDoc_GetUnusedObjectName = GetDelegate<MQDoc_GetUnusedObjectNameDelegate>(hModule, "MQDoc_GetUnusedObjectName");
 				MQDoc_GetMaterialCount = GetDelegate<MQDoc_GetMaterialCountDelegate>(hModule, "MQDoc_GetMaterialCount");
 				MQDoc_GetMaterial = GetDelegate<MQDoc_GetMaterialDelegate>(hModule, "MQDoc_GetMaterial");
+				MQDoc_GetMaterialFromUniqueID = GetDelegate<MQDoc_GetMaterialFromUniqueIDDelegate>(hModule, "MQDoc_GetMaterialFromUniqueID");
 				MQDoc_GetCurrentMaterialIndex = GetDelegate<MQDoc_GetCurrentMaterialIndexDelegate>(hModule, "MQDoc_GetCurrentMaterialIndex");
 				MQDoc_SetCurrentMaterialIndex = GetDelegate<MQDoc_SetCurrentMaterialIndexDelegate>(hModule, "MQDoc_SetCurrentMaterialIndex");
 				MQDoc_AddMaterial = GetDelegate<MQDoc_AddMaterialDelegate>(hModule, "MQDoc_AddMaterial");
 				MQDoc_DeleteMaterial = GetDelegate<MQDoc_DeleteMaterialDelegate>(hModule, "MQDoc_DeleteMaterial");
+				MQDoc_GetUnusedMaterialName = GetDelegate<MQDoc_GetUnusedMaterialNameDelegate>(hModule, "MQDoc_GetUnusedMaterialName");
 				MQDoc_FindMappingFile = GetDelegate<MQDoc_FindMappingFileDelegate>(hModule, "MQDoc_FindMappingFile");
+				MQDoc_GetMappingImage = GetDelegate<MQDoc_GetMappingImageDelegate>(hModule, "MQDoc_GetMappingImage");
 				MQDoc_Compact = GetDelegate<MQDoc_CompactDelegate>(hModule, "MQDoc_Compact");
 				MQDoc_ClearSelect = GetDelegate<MQDoc_ClearSelectDelegate>(hModule, "MQDoc_ClearSelect");
 				MQDoc_AddSelectVertex = GetDelegate<MQDoc_AddSelectVertexDelegate>(hModule, "MQDoc_AddSelectVertex");
@@ -78,11 +83,14 @@ namespace Metasequoia
 				MQDoc_GetGlobalMatrix = GetDelegate<MQDoc_GetGlobalMatrixDelegate>(hModule, "MQDoc_GetGlobalMatrix");
 				MQDoc_GetGlobalInverseMatrix = GetDelegate<MQDoc_GetGlobalInverseMatrixDelegate>(hModule, "MQDoc_GetGlobalInverseMatrix");
 				MQDoc_InsertObject = GetDelegate<MQDoc_InsertObjectDelegate>(hModule, "MQDoc_InsertObject");
+				MQDoc_CreateUserData = GetDelegate<MQDoc_CreateUserDataDelegate>(hModule, "MQDoc_CreateUserData");
+				MQDoc_DeleteUserData = GetDelegate<MQDoc_DeleteUserDataDelegate>(hModule, "MQDoc_DeleteUserData");
 				MQScene_InitSize = GetDelegate<MQScene_InitSizeDelegate>(hModule, "MQScene_InitSize");
 				MQScene_GetProjMatrix = GetDelegate<MQScene_GetProjMatrixDelegate>(hModule, "MQScene_GetProjMatrix");
 				MQScene_GetViewMatrix = GetDelegate<MQScene_GetViewMatrixDelegate>(hModule, "MQScene_GetViewMatrix");
 				MQScene_FloatValue = GetDelegate<MQScene_FloatValueDelegate>(hModule, "MQScene_FloatValue");
 				MQScene_GetVisibleFace = GetDelegate<MQScene_GetVisibleFaceDelegate>(hModule, "MQScene_GetVisibleFace");
+				MQScene_IntValue = GetDelegate<MQScene_IntValueDelegate>(hModule, "MQScene_IntValue");
 				MQObj_Delete = GetDelegate<MQObj_DeleteDelegate>(hModule, "MQObj_Delete");
 				MQObj_Clone = GetDelegate<MQObj_CloneDelegate>(hModule, "MQObj_Clone");
 				MQObj_Merge = GetDelegate<MQObj_MergeDelegate>(hModule, "MQObj_Merge");
@@ -105,6 +113,7 @@ namespace Metasequoia
 				MQObj_GetVertexRefCount = GetDelegate<MQObj_GetVertexRefCountDelegate>(hModule, "MQObj_GetVertexRefCount");
 				MQObj_GetVertexUniqueID = GetDelegate<MQObj_GetVertexUniqueIDDelegate>(hModule, "MQObj_GetVertexUniqueID");
 				MQObj_GetVertexIndexFromUniqueID = GetDelegate<MQObj_GetVertexIndexFromUniqueIDDelegate>(hModule, "MQObj_GetVertexIndexFromUniqueID");
+				MQObj_GetVertexRelatedFaces = GetDelegate<MQObj_GetVertexRelatedFacesDelegate>(hModule, "MQObj_GetVertexRelatedFaces");
 				MQObj_GetVertexWeight = GetDelegate<MQObj_GetVertexWeightDelegate>(hModule, "MQObj_GetVertexWeight");
 				MQObj_SetVertexWeight = GetDelegate<MQObj_SetVertexWeightDelegate>(hModule, "MQObj_SetVertexWeight");
 				MQObj_CopyVertexAttribute = GetDelegate<MQObj_CopyVertexAttributeDelegate>(hModule, "MQObj_CopyVertexAttribute");
@@ -115,6 +124,10 @@ namespace Metasequoia
 				MQObj_SetFaceCoordinateArray = GetDelegate<MQObj_SetFaceCoordinateArrayDelegate>(hModule, "MQObj_SetFaceCoordinateArray");
 				MQObj_GetFaceVertexColor = GetDelegate<MQObj_GetFaceVertexColorDelegate>(hModule, "MQObj_GetFaceVertexColor");
 				MQObj_SetFaceVertexColor = GetDelegate<MQObj_SetFaceVertexColorDelegate>(hModule, "MQObj_SetFaceVertexColor");
+				MQObj_GetFaceEdgeCrease = GetDelegate<MQObj_GetFaceEdgeCreaseDelegate>(hModule, "MQObj_GetFaceEdgeCrease");
+				MQObj_SetFaceEdgeCrease = GetDelegate<MQObj_SetFaceEdgeCreaseDelegate>(hModule, "MQObj_SetFaceEdgeCrease");
+				MQObj_GetFaceVisible = GetDelegate<MQObj_GetFaceVisibleDelegate>(hModule, "MQObj_GetFaceVisible");
+				MQObj_SetFaceVisible = GetDelegate<MQObj_SetFaceVisibleDelegate>(hModule, "MQObj_SetFaceVisible");
 				MQObj_OptimizeVertex = GetDelegate<MQObj_OptimizeVertexDelegate>(hModule, "MQObj_OptimizeVertex");
 				MQObj_Compact = GetDelegate<MQObj_CompactDelegate>(hModule, "MQObj_Compact");
 				MQObj_GetVisible = GetDelegate<MQObj_GetVisibleDelegate>(hModule, "MQObj_GetVisible");
@@ -143,6 +156,18 @@ namespace Metasequoia
 				MQObj_GetFloatArray = GetDelegate<MQObj_GetFloatArrayDelegate>(hModule, "MQObj_GetFloatArray");
 				MQObj_SetIntValue = GetDelegate<MQObj_SetIntValueDelegate>(hModule, "MQObj_SetIntValue");
 				MQObj_SetFloatArray = GetDelegate<MQObj_SetFloatArrayDelegate>(hModule, "MQObj_SetFloatArray");
+				MQObj_AllocUserData = GetDelegate<MQObj_AllocUserDataDelegate>(hModule, "MQObj_AllocUserData");
+				MQObj_FreeUserData = GetDelegate<MQObj_FreeUserDataDelegate>(hModule, "MQObj_FreeUserData");
+				MQObj_GetUserData = GetDelegate<MQObj_GetUserDataDelegate>(hModule, "MQObj_GetUserData");
+				MQObj_SetUserData = GetDelegate<MQObj_SetUserDataDelegate>(hModule, "MQObj_SetUserData");
+				MQObj_AllocVertexUserData = GetDelegate<MQObj_AllocVertexUserDataDelegate>(hModule, "MQObj_AllocVertexUserData");
+				MQObj_FreeVertexUserData = GetDelegate<MQObj_FreeVertexUserDataDelegate>(hModule, "MQObj_FreeVertexUserData");
+				MQObj_GetVertexUserData = GetDelegate<MQObj_GetVertexUserDataDelegate>(hModule, "MQObj_GetVertexUserData");
+				MQObj_SetVertexUserData = GetDelegate<MQObj_SetVertexUserDataDelegate>(hModule, "MQObj_SetVertexUserData");
+				MQObj_AllocFaceUserData = GetDelegate<MQObj_AllocFaceUserDataDelegate>(hModule, "MQObj_AllocFaceUserData");
+				MQObj_FreeFaceUserData = GetDelegate<MQObj_FreeFaceUserDataDelegate>(hModule, "MQObj_FreeFaceUserData");
+				MQObj_GetFaceUserData = GetDelegate<MQObj_GetFaceUserDataDelegate>(hModule, "MQObj_GetFaceUserData");
+				MQObj_SetFaceUserData = GetDelegate<MQObj_SetFaceUserDataDelegate>(hModule, "MQObj_SetFaceUserData");
 				MQMat_Delete = GetDelegate<MQMat_DeleteDelegate>(hModule, "MQMat_Delete");
 				MQMat_GetIntValue = GetDelegate<MQMat_GetIntValueDelegate>(hModule, "MQMat_GetIntValue");
 				MQMat_GetFloatArray = GetDelegate<MQMat_GetFloatArrayDelegate>(hModule, "MQMat_GetFloatArray");
@@ -170,6 +195,10 @@ namespace Metasequoia
 				MQMat_SetTextureName = GetDelegate<MQMat_SetTextureNameDelegate>(hModule, "MQMat_SetTextureName");
 				MQMat_SetAlphaName = GetDelegate<MQMat_SetAlphaNameDelegate>(hModule, "MQMat_SetAlphaName");
 				MQMat_SetBumpName = GetDelegate<MQMat_SetBumpNameDelegate>(hModule, "MQMat_SetBumpName");
+				MQMat_AllocUserData = GetDelegate<MQMat_AllocUserDataDelegate>(hModule, "MQMat_AllocUserData");
+				MQMat_FreeUserData = GetDelegate<MQMat_FreeUserDataDelegate>(hModule, "MQMat_FreeUserData");
+				MQMat_GetUserData = GetDelegate<MQMat_GetUserDataDelegate>(hModule, "MQMat_GetUserData");
+				MQMat_SetUserData = GetDelegate<MQMat_SetUserDataDelegate>(hModule, "MQMat_SetUserData");
 				MQMatrix_FloatValue = GetDelegate<MQMatrix_FloatValueDelegate>(hModule, "MQMatrix_FloatValue");
 				MQXmlElem_Value = GetDelegate<MQXmlElem_ValueDelegate>(hModule, "MQXmlElem_Value");
 				
@@ -236,6 +265,10 @@ namespace Metasequoia
 		public static MQDoc_GetObjectDelegate MQDoc_GetObject;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate /* Object */ IntPtr MQDoc_GetObjectFromUniqueIDDelegate(/* Document */ IntPtr doc, int id);
+		public static MQDoc_GetObjectFromUniqueIDDelegate MQDoc_GetObjectFromUniqueID;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate int MQDoc_GetCurrentObjectIndexDelegate(/* Document */ IntPtr doc);
 		public static MQDoc_GetCurrentObjectIndexDelegate MQDoc_GetCurrentObjectIndex;
 
@@ -256,12 +289,20 @@ namespace Metasequoia
 		public static MQDoc_GetObjectIndexDelegate MQDoc_GetObjectIndex;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQDoc_GetUnusedObjectNameDelegate(/* Document */ IntPtr doc, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buffer, int buffer_size, [MarshalAs(UnmanagedType.LPStr)] string base_name);
+		public static MQDoc_GetUnusedObjectNameDelegate MQDoc_GetUnusedObjectName;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate int MQDoc_GetMaterialCountDelegate(/* Document */ IntPtr doc);
 		public static MQDoc_GetMaterialCountDelegate MQDoc_GetMaterialCount;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-		public delegate /* Material */ IntPtr MQDoc_GetMaterialDelegate(/* Document */ IntPtr doc, int material);
+		public delegate /* Material */ IntPtr MQDoc_GetMaterialDelegate(/* Document */ IntPtr doc, int index);
 		public static MQDoc_GetMaterialDelegate MQDoc_GetMaterial;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate /* Material */ IntPtr MQDoc_GetMaterialFromUniqueIDDelegate(/* Document */ IntPtr doc, int id);
+		public static MQDoc_GetMaterialFromUniqueIDDelegate MQDoc_GetMaterialFromUniqueID;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate int MQDoc_GetCurrentMaterialIndexDelegate(/* Document */ IntPtr doc);
@@ -280,9 +321,18 @@ namespace Metasequoia
 		public static MQDoc_DeleteMaterialDelegate MQDoc_DeleteMaterial;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQDoc_GetUnusedMaterialNameDelegate(/* Document */ IntPtr doc, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buffer, int buffer_size, [MarshalAs(UnmanagedType.LPStr)] string base_name);
+		public static MQDoc_GetUnusedMaterialNameDelegate MQDoc_GetUnusedMaterialName;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public delegate bool MQDoc_FindMappingFileDelegate(/* Document */ IntPtr doc, [MarshalAs(UnmanagedType.LPStr)] StringBuilder out_path, [MarshalAs(UnmanagedType.LPStr)] string filename, uint map_type);
 		public static MQDoc_FindMappingFileDelegate MQDoc_FindMappingFile;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQDoc_GetMappingImageDelegate(/* Document */ IntPtr doc, [MarshalAs(UnmanagedType.LPStr)] string filename, uint map_type, /* void** */ IntPtr[] array);
+		public static MQDoc_GetMappingImageDelegate MQDoc_GetMappingImage;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQDoc_CompactDelegate(/* Document */ IntPtr doc);
@@ -381,6 +431,14 @@ namespace Metasequoia
 		public static MQDoc_InsertObjectDelegate MQDoc_InsertObject;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate int MQDoc_CreateUserDataDelegate(/* Document */ IntPtr doc, ref UserDataInfo info);
+		public static MQDoc_CreateUserDataDelegate MQDoc_CreateUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQDoc_DeleteUserDataDelegate(/* Document */ IntPtr doc, int userdata_type, int userdata_id);
+		public static MQDoc_DeleteUserDataDelegate MQDoc_DeleteUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQScene_InitSizeDelegate(/* Scene */ IntPtr scene, int width, int height);
 		public static MQScene_InitSizeDelegate MQScene_InitSize;
 
@@ -400,6 +458,10 @@ namespace Metasequoia
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public delegate bool MQScene_GetVisibleFaceDelegate(/* Scene */ IntPtr scene, /* Object */ IntPtr obj, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] visible);
 		public static MQScene_GetVisibleFaceDelegate MQScene_GetVisibleFace;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQScene_IntValueDelegate(/* Scene */ IntPtr scene, int type_id, int[] values);
+		public static MQScene_IntValueDelegate MQScene_IntValue;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQObj_DeleteDelegate(/* Object */ IntPtr obj);
@@ -491,6 +553,10 @@ namespace Metasequoia
 		public static MQObj_GetVertexIndexFromUniqueIDDelegate MQObj_GetVertexIndexFromUniqueID;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate int MQObj_GetVertexRelatedFacesDelegate(/* Object */ IntPtr obj, int vertex, int[] faces);
+		public static MQObj_GetVertexRelatedFacesDelegate MQObj_GetVertexRelatedFaces;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate float MQObj_GetVertexWeightDelegate(/* Object */ IntPtr obj, int index);
 		public static MQObj_GetVertexWeightDelegate MQObj_GetVertexWeight;
 
@@ -531,6 +597,23 @@ namespace Metasequoia
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQObj_SetFaceVertexColorDelegate(/* Object */ IntPtr obj, int face, int vertex, uint color);
 		public static MQObj_SetFaceVertexColorDelegate MQObj_SetFaceVertexColor;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate float MQObj_GetFaceEdgeCreaseDelegate(/* Object */ IntPtr obj, int face, int line);
+		public static MQObj_GetFaceEdgeCreaseDelegate MQObj_GetFaceEdgeCrease;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQObj_SetFaceEdgeCreaseDelegate(/* Object */ IntPtr obj, int face, int line, float crease);
+		public static MQObj_SetFaceEdgeCreaseDelegate MQObj_SetFaceEdgeCrease;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_GetFaceVisibleDelegate(/* Object */ IntPtr obj, int face);
+		public static MQObj_GetFaceVisibleDelegate MQObj_GetFaceVisible;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQObj_SetFaceVisibleDelegate(/* Object */ IntPtr obj, int face, [MarshalAs(UnmanagedType.Bool)] bool flag);
+		public static MQObj_SetFaceVisibleDelegate MQObj_SetFaceVisible;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQObj_OptimizeVertexDelegate(/* Object */ IntPtr obj, float distance, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] apply);
@@ -645,6 +728,63 @@ namespace Metasequoia
 		public static MQObj_SetFloatArrayDelegate MQObj_SetFloatArray;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_AllocUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_AllocUserDataDelegate MQObj_AllocUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQObj_FreeUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_FreeUserDataDelegate MQObj_FreeUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_GetUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_GetUserDataDelegate MQObj_GetUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_SetUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_SetUserDataDelegate MQObj_SetUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_AllocVertexUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_AllocVertexUserDataDelegate MQObj_AllocVertexUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQObj_FreeVertexUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_FreeVertexUserDataDelegate MQObj_FreeVertexUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_GetVertexUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_GetVertexUserDataDelegate MQObj_GetVertexUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_SetVertexUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_SetVertexUserDataDelegate MQObj_SetVertexUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_AllocFaceUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_AllocFaceUserDataDelegate MQObj_AllocFaceUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQObj_FreeFaceUserDataDelegate(/* Object */ IntPtr obj, int userdata_id);
+		public static MQObj_FreeFaceUserDataDelegate MQObj_FreeFaceUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_GetFaceUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_GetFaceUserDataDelegate MQObj_GetFaceUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQObj_SetFaceUserDataDelegate(/* Object */ IntPtr obj, int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer);
+		public static MQObj_SetFaceUserDataDelegate MQObj_SetFaceUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQMat_DeleteDelegate(/* Material */ IntPtr mat);
 		public static MQMat_DeleteDelegate MQMat_Delete;
 
@@ -751,6 +891,25 @@ namespace Metasequoia
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQMat_SetBumpNameDelegate(/* Material */ IntPtr mat, [MarshalAs(UnmanagedType.LPStr)] string name);
 		public static MQMat_SetBumpNameDelegate MQMat_SetBumpName;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQMat_AllocUserDataDelegate(/* Material */ IntPtr mat, int userdata_id);
+		public static MQMat_AllocUserDataDelegate MQMat_AllocUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public delegate void MQMat_FreeUserDataDelegate(/* Material */ IntPtr mat, int userdata_id);
+		public static MQMat_FreeUserDataDelegate MQMat_FreeUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQMat_GetUserDataDelegate(/* Material */ IntPtr mat, int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		public static MQMat_GetUserDataDelegate MQMat_GetUserData;
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public delegate bool MQMat_SetUserDataDelegate(/* Material */ IntPtr mat, int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		public static MQMat_SetUserDataDelegate MQMat_SetUserData;
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
 		public delegate void MQMatrix_FloatValueDelegate(float[] mtx, int type_id, float[] values);

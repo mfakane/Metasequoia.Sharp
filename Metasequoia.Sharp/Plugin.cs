@@ -88,7 +88,7 @@ namespace Metasequoia
 			return Encoding.ASCII.GetBytes(value);
 		}
 
-		static byte[] Get932(string value)
+		internal static byte[] Get932(string value)
 		{
 			return Encoding.GetEncoding(932).GetBytes(value);
 		}

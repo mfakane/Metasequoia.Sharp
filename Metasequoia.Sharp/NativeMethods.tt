@@ -50,6 +50,7 @@ var map = new Dictionary<string, string>
 	{ "MQPoint *ptsarray", "IntPtr ptsarray" },
 	{ "MQPoint *pts", "ref Point pts" },
 	{ "MQPoint *p", "ref Point p" },
+	{ "MQUserDataInfo *", "ref UserDataInfo " },
 	{ "MQCoordinate *", "IntPtr " },
 	{ "MQColor *", "out Color " },
 	{ "MQBool *", "[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] " },
@@ -64,6 +65,7 @@ var map = new Dictionary<string, string>
 	{ "BOOL", "[MarshalAs(UnmanagedType.Bool)] bool" },
 	{ "UINT", "uint" },
 	{ "HWND", "IntPtr" },
+	{ "void **", "/* void** */ IntPtr[] " },
 	{ "void *", "/* void* */ IntPtr " },
 	{ "MQ", "" },
 };
@@ -94,6 +96,7 @@ var functions = File.ReadLines(path, enc)
 							parameters = "";
 						else
 							parameters = string.Join(", ", parameters.Split(',')
+																	 .Select(_ => name.Contains("UserData") ? _.Replace("const void *", "byte[] ").Replace("void *", "byte[] ") : _)
 																	 .Select(_ => map.Aggregate(_.Trim(), (x, y) => x.Replace(y.Key, y.Value))));
 						
 						switch (name)

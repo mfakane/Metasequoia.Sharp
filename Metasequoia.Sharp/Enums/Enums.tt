@@ -30,7 +30,9 @@ var enums = regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n"))
 						 .Replace("file_type", "fileType")
 						 .Replace("object_lathe_x", "object_lathe_axis_x")
 						 .Replace("object_lathe_y", "object_lathe_axis_y")
-						 .Replace("object_lathe_z", "object_lathe_axis_z");
+						 .Replace("object_lathe_z", "object_lathe_axis_z")
+						 .Replace("point_light", "pointLight")
+						 .Replace("directional_light", "directionalLight");
 					 var idx = name.StartsWith("plugin_type") || name.StartsWith("object_") || name.StartsWith("material_")
 						 ? name.LastIndexOf('_')
 						 : name.IndexOf('_');

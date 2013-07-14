@@ -61,6 +61,16 @@ namespace Metasequoia
 
 		partial void BeforeGetObject(int index);
 		/// <summary>
+		/// MQObject GetObjectFromUniqueID(int id)
+		/// </summary>
+		public Object GetObjectFromUniqueId(int id)
+		{
+			BeforeGetObjectFromUniqueId(id);
+			return NativeMethods.MQDoc_GetObjectFromUniqueID(this, id);
+		}
+
+		partial void BeforeGetObjectFromUniqueId(int id);
+		/// <summary>
 		/// int GetCurrentObjectIndex()
 		/// </summary>
 		public int CurrentObjectIndex
@@ -107,6 +117,26 @@ namespace Metasequoia
 
 		partial void BeforeGetObjectIndex(Object obj);
 		/// <summary>
+		/// void GetUnusedObjectName(char *buffer, int buffer_size)
+		/// </summary>
+		public void GetUnusedObjectName(StringBuilder buffer, int buffer_size)
+		{
+			BeforeGetUnusedObjectName(buffer, buffer_size);
+			NativeMethods.MQDoc_GetUnusedObjectName(this, buffer, buffer_size, null);
+		}
+
+		partial void BeforeGetUnusedObjectName(StringBuilder buffer, int buffer_size);
+		/// <summary>
+		/// void GetUnusedObjectName(char *buffer, int buffer_size, const char *base_name)
+		/// </summary>
+		public void GetUnusedObjectName(StringBuilder buffer, int buffer_size, string base_name)
+		{
+			BeforeGetUnusedObjectName(buffer, buffer_size, base_name);
+			NativeMethods.MQDoc_GetUnusedObjectName(this, buffer, buffer_size, base_name);
+		}
+
+		partial void BeforeGetUnusedObjectName(StringBuilder buffer, int buffer_size, string base_name);
+		/// <summary>
 		/// int GetMaterialCount()
 		/// </summary>
 		public int MaterialCount
@@ -127,6 +157,16 @@ namespace Metasequoia
 		}
 
 		partial void BeforeGetMaterial(int material);
+		/// <summary>
+		/// MQMaterial GetMaterialFromUniqueID(int id)
+		/// </summary>
+		public Material GetMaterialFromUniqueId(int id)
+		{
+			BeforeGetMaterialFromUniqueId(id);
+			return NativeMethods.MQDoc_GetMaterialFromUniqueID(this, id);
+		}
+
+		partial void BeforeGetMaterialFromUniqueId(int id);
 		/// <summary>
 		/// int GetCurrentMaterialIndex()
 		/// </summary>
@@ -163,6 +203,26 @@ namespace Metasequoia
 		}
 
 		partial void BeforeDeleteMaterial(int index);
+		/// <summary>
+		/// void GetUnusedMaterialName(char *buffer, int buffer_size)
+		/// </summary>
+		public void GetUnusedMaterialName(StringBuilder buffer, int buffer_size)
+		{
+			BeforeGetUnusedMaterialName(buffer, buffer_size);
+			NativeMethods.MQDoc_GetUnusedMaterialName(this, buffer, buffer_size, null);
+		}
+
+		partial void BeforeGetUnusedMaterialName(StringBuilder buffer, int buffer_size);
+		/// <summary>
+		/// void GetUnusedMaterialName(char *buffer, int buffer_size, const char *base_name)
+		/// </summary>
+		public void GetUnusedMaterialName(StringBuilder buffer, int buffer_size, string base_name)
+		{
+			BeforeGetUnusedMaterialName(buffer, buffer_size, base_name);
+			NativeMethods.MQDoc_GetUnusedMaterialName(this, buffer, buffer_size, base_name);
+		}
+
+		partial void BeforeGetUnusedMaterialName(StringBuilder buffer, int buffer_size, string base_name);
 		/// <summary>
 		/// void Compact()
 		/// </summary>
@@ -471,6 +531,126 @@ namespace Metasequoia
 		}
 
 		partial void BeforeInsertObject(Object obj, Object before);
+		/// <summary>
+		/// int CreateObjectUserData(DWORD productID, DWORD pluginID, const char *identifier, int bytes_per_object)
+		/// </summary>
+		public int CreateObjectUserData(uint productID, uint pluginID, string identifier, int bytes_per_object)
+		{
+			BeforeCreateObjectUserData(productID, pluginID, identifier, bytes_per_object);
+			return CreateUserData(productID, pluginID, identifier, (int)Userdata.Object, bytes_per_object);
+		}
+
+		partial void BeforeCreateObjectUserData(uint productID, uint pluginID, string identifier, int bytes_per_object);
+		/// <summary>
+		/// void DeleteObjectUserData(int userdata_id)
+		/// </summary>
+		public void DeleteObjectUserData(int userdata_id)
+		{
+			BeforeDeleteObjectUserData(userdata_id);
+			NativeMethods.MQDoc_DeleteUserData(this, (int)Userdata.Object, userdata_id);
+		}
+
+		partial void BeforeDeleteObjectUserData(int userdata_id);
+		/// <summary>
+		/// int FindObjectUserData(DWORD productID, DWORD pluginID, const char *identifier)
+		/// </summary>
+		public int FindObjectUserData(uint productID, uint pluginID, string identifier)
+		{
+			BeforeFindObjectUserData(productID, pluginID, identifier);
+			return FindUserData(productID, pluginID, identifier, (int)Userdata.Object);
+		}
+
+		partial void BeforeFindObjectUserData(uint productID, uint pluginID, string identifier);
+		/// <summary>
+		/// int CreateVertexUserData(DWORD productID, DWORD pluginID, const char *identifier, int bytes_per_vertex)
+		/// </summary>
+		public int CreateVertexUserData(uint productID, uint pluginID, string identifier, int bytes_per_vertex)
+		{
+			BeforeCreateVertexUserData(productID, pluginID, identifier, bytes_per_vertex);
+			return CreateUserData(productID, pluginID, identifier, (int)Userdata.Vertex, bytes_per_vertex);
+		}
+
+		partial void BeforeCreateVertexUserData(uint productID, uint pluginID, string identifier, int bytes_per_vertex);
+		/// <summary>
+		/// void DeleteVertexUserData(int userdata_id)
+		/// </summary>
+		public void DeleteVertexUserData(int userdata_id)
+		{
+			BeforeDeleteVertexUserData(userdata_id);
+			NativeMethods.MQDoc_DeleteUserData(this, (int)Userdata.Vertex, userdata_id);
+		}
+
+		partial void BeforeDeleteVertexUserData(int userdata_id);
+		/// <summary>
+		/// int FindVertexUserData(DWORD productID, DWORD pluginID, const char *identifier)
+		/// </summary>
+		public int FindVertexUserData(uint productID, uint pluginID, string identifier)
+		{
+			BeforeFindVertexUserData(productID, pluginID, identifier);
+			return FindUserData(productID, pluginID, identifier, (int)Userdata.Vertex);
+		}
+
+		partial void BeforeFindVertexUserData(uint productID, uint pluginID, string identifier);
+		/// <summary>
+		/// int CreateFaceUserData(DWORD productID, DWORD pluginID, const char *identifier, int bytes_per_face)
+		/// </summary>
+		public int CreateFaceUserData(uint productID, uint pluginID, string identifier, int bytes_per_face)
+		{
+			BeforeCreateFaceUserData(productID, pluginID, identifier, bytes_per_face);
+			return CreateUserData(productID, pluginID, identifier, (int)Userdata.Face, bytes_per_face);
+		}
+
+		partial void BeforeCreateFaceUserData(uint productID, uint pluginID, string identifier, int bytes_per_face);
+		/// <summary>
+		/// void DeleteFaceUserData(int userdata_id)
+		/// </summary>
+		public void DeleteFaceUserData(int userdata_id)
+		{
+			BeforeDeleteFaceUserData(userdata_id);
+			NativeMethods.MQDoc_DeleteUserData(this, (int)Userdata.Face, userdata_id);
+		}
+
+		partial void BeforeDeleteFaceUserData(int userdata_id);
+		/// <summary>
+		/// int FindFaceUserData(DWORD productID, DWORD pluginID, const char *identifier)
+		/// </summary>
+		public int FindFaceUserData(uint productID, uint pluginID, string identifier)
+		{
+			BeforeFindFaceUserData(productID, pluginID, identifier);
+			return FindUserData(productID, pluginID, identifier, (int)Userdata.Face);
+		}
+
+		partial void BeforeFindFaceUserData(uint productID, uint pluginID, string identifier);
+		/// <summary>
+		/// int CreateMaterialUserData(DWORD productID, DWORD pluginID, const char *identifier, int bytes_per_material)
+		/// </summary>
+		public int CreateMaterialUserData(uint productID, uint pluginID, string identifier, int bytes_per_material)
+		{
+			BeforeCreateMaterialUserData(productID, pluginID, identifier, bytes_per_material);
+			return CreateUserData(productID, pluginID, identifier, (int)Userdata.Material, bytes_per_material);
+		}
+
+		partial void BeforeCreateMaterialUserData(uint productID, uint pluginID, string identifier, int bytes_per_material);
+		/// <summary>
+		/// void DeleteMaterialUserData(int userdata_id)
+		/// </summary>
+		public void DeleteMaterialUserData(int userdata_id)
+		{
+			BeforeDeleteMaterialUserData(userdata_id);
+			NativeMethods.MQDoc_DeleteUserData(this, (int)Userdata.Material, userdata_id);
+		}
+
+		partial void BeforeDeleteMaterialUserData(int userdata_id);
+		/// <summary>
+		/// int FindMaterialUserData(DWORD productID, DWORD pluginID, const char *identifier)
+		/// </summary>
+		public int FindMaterialUserData(uint productID, uint pluginID, string identifier)
+		{
+			BeforeFindMaterialUserData(productID, pluginID, identifier);
+			return FindUserData(productID, pluginID, identifier, (int)Userdata.Material);
+		}
+
+		partial void BeforeFindMaterialUserData(uint productID, uint pluginID, string identifier);
 	}
 
 	/// <summary>
@@ -645,28 +825,6 @@ namespace Metasequoia
 		}
 
 		/// <summary>
-		/// MQPoint GetGlobalDirectionalLight()
-		/// </summary>
-		public Point GlobalDirectionalLight
-		{
-			get
-			{
-				var val = new float[3];
-				NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetDirectionalLight,val);
-				return new Point(val[0],val[1],val[2]);
-			}
-			set
-			{
-				var vec = value;
-				var val = new float[3];
-				val[0]=vec.X;
-				val[1]=vec.Y;
-				val[2]=vec.Z;
-				NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetDirectionalLight,val);
-			}
-		}
-
-		/// <summary>
 		/// MQColor GetGlobalAmbientColor()
 		/// </summary>
 		public Color GlobalAmbientColor
@@ -725,6 +883,96 @@ namespace Metasequoia
 		}
 
 		partial void BeforeGetVisibleFace(Object obj, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool)] bool[] visible);
+		/// <summary>
+		/// int AddGlobalDirectionalLight()
+		/// </summary>
+		public int AddGlobalDirectionalLight()
+		{
+			BeforeAddGlobalDirectionalLight();
+			var val = new int[1];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.AddMultilight,val);
+			return val[0];
+		}
+
+		partial void BeforeAddGlobalDirectionalLight();
+		/// <summary>
+		/// BOOL DeleteGlobalDirectionalLight(int index)
+		/// </summary>
+		public bool DeleteGlobalDirectionalLight(int index)
+		{
+			BeforeDeleteGlobalDirectionalLight(index);
+			var val = new int[2];
+			val[0]=index;
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.DeleteMultilight,val);
+			return val[1] != 0;
+		}
+
+		partial void BeforeDeleteGlobalDirectionalLight(int index);
+		/// <summary>
+		/// int GetGlobalDirectionalLightNum()
+		/// </summary>
+		public int GlobalDirectionalLightNum
+		{
+			get
+			{
+				var val = new int[1];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.GetMultilightNumber,val);
+			return val[0];
+			}
+		}
+
+		/// <summary>
+		/// MQPoint GetGlobalDirectionalLightDirection(int index)
+		/// </summary>
+		public Point GetGlobalDirectionalLightDirection(int index)
+		{
+			BeforeGetGlobalDirectionalLightDirection(index);
+			var val = new float[3];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.SetMultilightIndex,new[]{index});
+			NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetMultilightDir,val);
+			return new Point(val[0],val[1],val[2]);
+		}
+
+		partial void BeforeGetGlobalDirectionalLightDirection(int index);
+		/// <summary>
+		/// MQColor GetGlobalDirectionalLightColor(int index)
+		/// </summary>
+		public Color GetGlobalDirectionalLightColor(int index)
+		{
+			BeforeGetGlobalDirectionalLightColor(index);
+			var val = new float[3];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.SetMultilightIndex,new[]{index});
+			NativeMethods.MQScene_FloatValue(this,(int)MQScene.GetMultilightColor,val);
+			return new Color(val[0],val[1],val[2]);
+		}
+
+		partial void BeforeGetGlobalDirectionalLightColor(int index);
+		/// <summary>
+		/// void SetGlobalDirectionalLightDirection(int index, const MQPoint&amp; dir)
+		/// </summary>
+		public void SetGlobalDirectionalLightDirection(int index, ref Point dir)
+		{
+			var val = new float[3];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.SetMultilightIndex,new[]{index});
+			val[0]=dir.X;
+			val[1]=dir.Y;
+			val[2]=dir.Z;
+			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetMultilightDir,val);
+		}
+
+		/// <summary>
+		/// void SetGlobalDirectionalLightColor(int index, const MQColor&amp; col)
+		/// </summary>
+		public void SetGlobalDirectionalLightColor(int index, ref Color col)
+		{
+			var val = new float[3];
+			NativeMethods.MQScene_IntValue(this,(int)MQScene.SetMultilightIndex,new[]{index});
+			val[0]=col.R;
+			val[1]=col.G;
+			val[2]=col.B;
+			NativeMethods.MQScene_FloatValue(this,(int)MQScene.SetMultilightColor,val);
+		}
+
 	}
 
 	/// <summary>
@@ -893,6 +1141,16 @@ namespace Metasequoia
 		}
 
 		partial void BeforeGetVertexIndexFromUniqueId(uint unique_id);
+		/// <summary>
+		/// int GetVertexRelatedFaces(int vertex, int *faces)
+		/// </summary>
+		public int GetVertexRelatedFaces(int vertex, int[] faces)
+		{
+			BeforeGetVertexRelatedFaces(vertex, faces);
+			return NativeMethods.MQObj_GetVertexRelatedFaces(this, vertex, faces);
+		}
+
+		partial void BeforeGetVertexRelatedFaces(int vertex, int[] faces);
 		/// <summary>
 		/// float GetVertexWeight(int index)
 		/// </summary>
@@ -1077,6 +1335,46 @@ namespace Metasequoia
 
 		partial void BeforeSetFaceVertexColor(int face, int vertex, uint color);
 		/// <summary>
+		/// float GetFaceEdgeCrease(int face, int line)
+		/// </summary>
+		public float GetFaceEdgeCrease(int face, int line)
+		{
+			BeforeGetFaceEdgeCrease(face, line);
+			return NativeMethods.MQObj_GetFaceEdgeCrease(this, face, line );
+		}
+
+		partial void BeforeGetFaceEdgeCrease(int face, int line);
+		/// <summary>
+		/// void SetFaceEdgeCrease(int face, int line, float crease)
+		/// </summary>
+		public void SetFaceEdgeCrease(int face, int line, float crease)
+		{
+			BeforeSetFaceEdgeCrease(face, line, crease);
+			NativeMethods.MQObj_SetFaceEdgeCrease(this, face, line, crease);
+		}
+
+		partial void BeforeSetFaceEdgeCrease(int face, int line, float crease);
+		/// <summary>
+		/// BOOL GetFaceVisible(int face)
+		/// </summary>
+		public bool GetFaceVisible(int face)
+		{
+			BeforeGetFaceVisible(face);
+			return NativeMethods.MQObj_GetFaceVisible(this, face);
+		}
+
+		partial void BeforeGetFaceVisible(int face);
+		/// <summary>
+		/// void SetFaceVisible(int face, BOOL flag)
+		/// </summary>
+		public void SetFaceVisible(int face, bool flag)
+		{
+			BeforeSetFaceVisible(face, flag);
+			NativeMethods.MQObj_SetFaceVisible(this, face, flag);
+		}
+
+		partial void BeforeSetFaceVisible(int face, bool flag);
+		/// <summary>
 		/// void OptimizeVertex(float distance, MQBool *apply)
 		/// </summary>
 		public void OptimizeVertex(float distance, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] apply)
@@ -1141,6 +1439,22 @@ namespace Metasequoia
 			{
 				var segment = value;
 				NativeMethods.MQObj_SetPatchSegment(this, segment);
+			}
+		}
+
+		/// <summary>
+		/// BOOL GetPatchTriangle()
+		/// </summary>
+		public bool PatchTriangle
+		{
+			get
+			{
+				return NativeMethods.MQObj_GetIntValue(this, (int)ObjId.PatchTriangle) != 0;
+			}
+			set
+			{
+				var flag = value;
+				NativeMethods.MQObj_SetIntValue(this, (int)ObjId.PatchTriangle, flag ? 1 : 0);
 			}
 		}
 
@@ -1470,6 +1784,292 @@ namespace Metasequoia
 			}
 		}
 
+		/// <summary>
+		/// int GetType()
+		/// </summary>
+		public ObjectType Type
+		{
+			get
+			{
+				return (ObjectType)NativeMethods.MQObj_GetIntValue(this, (int)ObjId.Type);
+			}
+			set
+			{
+				var type = value;
+				NativeMethods.MQObj_SetIntValue(this, (int)ObjId.Type, (int)type);
+			}
+		}
+
+		/// <summary>
+		/// float GetLightValue()
+		/// </summary>
+		public float LightValue
+		{
+			get
+			{
+				var val = new float[1];
+				NativeMethods.MQObj_GetFloatArray(this, (int)ObjId.LightValue, val);
+				return val[0];
+			}
+			set
+			{
+				var val = new float[1];
+				val[0]=value;
+				NativeMethods.MQObj_SetFloatArray(this, (int)ObjId.LightValue, val);
+			}
+		}
+
+		/// <summary>
+		/// int GetLightAttenuation()
+		/// </summary>
+		public int LightAttenuation
+		{
+			get
+			{
+				return NativeMethods.MQObj_GetIntValue(this, (int)ObjId.LightAttenuation);
+			}
+			set
+			{
+				NativeMethods.MQObj_SetIntValue(this, (int)ObjId.LightAttenuation, value);
+			}
+		}
+
+		/// <summary>
+		/// float GetLightFallOffEnd()
+		/// </summary>
+		public float LightFallOffEnd
+		{
+			get
+			{
+				var val = new float[1];
+				NativeMethods.MQObj_GetFloatArray(this, (int)ObjId.LightFalloffEnd, val);
+				return val[0];
+			}
+			set
+			{
+				var distance = value;
+				var val = new float[1];
+				val[0]=distance;
+				NativeMethods.MQObj_SetFloatArray(this, (int)ObjId.LightFalloffEnd, val);
+			}
+		}
+
+		/// <summary>
+		/// float GetLightFallOffHalf()
+		/// </summary>
+		public float LightFallOffHalf
+		{
+			get
+			{
+				var val = new float[1];
+				NativeMethods.MQObj_GetFloatArray(this, (int)ObjId.LightFalloffHalf, val);
+				return val[0];
+			}
+			set
+			{
+				var distance = value;
+				var val = new float[1];
+				val[0]=distance;
+				NativeMethods.MQObj_SetFloatArray(this, (int)ObjId.LightFalloffHalf, val);
+			}
+		}
+
+		/// <summary>
+		/// BOOL GetSelected()
+		/// </summary>
+		public bool Selected
+		{
+			get
+			{
+				return NativeMethods.MQObj_GetIntValue(this, (int)ObjId.Selected) != 0;
+			}
+			set
+			{
+				var flag = value;
+				NativeMethods.MQObj_SetIntValue(this, (int)ObjId.Selected, flag ? 1 : 0);
+			}
+		}
+
+		/// <summary>
+		/// BOOL AllocUserData(int userdata_id)
+		/// </summary>
+		public bool AllocUserData(int userdata_id)
+		{
+			BeforeAllocUserData(userdata_id);
+			return NativeMethods.MQObj_AllocUserData(this, userdata_id);
+		}
+
+		partial void BeforeAllocUserData(int userdata_id);
+		/// <summary>
+		/// void FreeUserData(int userdata_id)
+		/// </summary>
+		public void FreeUserData(int userdata_id)
+		{
+			BeforeFreeUserData(userdata_id);
+			NativeMethods.MQObj_FreeUserData(this, userdata_id);
+		}
+
+		partial void BeforeFreeUserData(int userdata_id);
+		/// <summary>
+		/// BOOL GetUserData(int userdata_id, void *buffer)
+		/// </summary>
+		public bool GetUserData(int userdata_id, byte[] buffer)
+		{
+			BeforeGetUserData(userdata_id, buffer);
+			return NativeMethods.MQObj_GetUserData(this, userdata_id, 0, 0, buffer);
+		}
+
+		partial void BeforeGetUserData(int userdata_id, byte[] buffer);
+		/// <summary>
+		/// BOOL GetUserDataPart(int userdata_id, int offset, int copy_bytes, void *buffer)
+		/// </summary>
+		public bool GetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeGetUserDataPart(userdata_id, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_GetUserData(this, userdata_id, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeGetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL SetUserData(int userdata_id, const void *buffer)
+		/// </summary>
+		public bool SetUserData(int userdata_id, byte[] buffer)
+		{
+			BeforeSetUserData(userdata_id, buffer);
+			return NativeMethods.MQObj_SetUserData(this, userdata_id, 0, 0, buffer);
+		}
+
+		partial void BeforeSetUserData(int userdata_id, byte[] buffer);
+		/// <summary>
+		/// BOOL SetUserDataPart(int userdata_id, int offset, int copy_bytes, const void *buffer)
+		/// </summary>
+		public bool SetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeSetUserDataPart(userdata_id, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_SetUserData(this, userdata_id, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeSetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL AllocVertexUserData(int userdata_id)
+		/// </summary>
+		public bool AllocVertexUserData(int userdata_id)
+		{
+			BeforeAllocVertexUserData(userdata_id);
+			return NativeMethods.MQObj_AllocVertexUserData(this, userdata_id);
+		}
+
+		partial void BeforeAllocVertexUserData(int userdata_id);
+		/// <summary>
+		/// void FreeVertexUserData(int userdata_id)
+		/// </summary>
+		public void FreeVertexUserData(int userdata_id)
+		{
+			BeforeFreeVertexUserData(userdata_id);
+			NativeMethods.MQObj_FreeVertexUserData(this, userdata_id);
+		}
+
+		partial void BeforeFreeVertexUserData(int userdata_id);
+		/// <summary>
+		/// BOOL GetVertexUserData(int userdata_id, int vertex_index, void *buffer)
+		/// </summary>
+		public bool GetVertexUserData(int userdata_id, int vertex_index, byte[] buffer)
+		{
+			BeforeGetVertexUserData(userdata_id, vertex_index, buffer);
+			return NativeMethods.MQObj_GetVertexUserData(this, userdata_id, vertex_index, 1, 0, 0, buffer);
+		}
+
+		partial void BeforeGetVertexUserData(int userdata_id, int vertex_index, byte[] buffer);
+		/// <summary>
+		/// BOOL GetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, void *buffer)
+		/// </summary>
+		public bool GetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeGetVertexUserDataPart(userdata_id, vertex_start_index, copy_vertex_num, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_GetVertexUserData(this, userdata_id, vertex_start_index, copy_vertex_num, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeGetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL SetVertexUserData(int userdata_id, int vertex_index, const void *buffer)
+		/// </summary>
+		public bool SetVertexUserData(int userdata_id, int vertex_index, byte[] buffer)
+		{
+			BeforeSetVertexUserData(userdata_id, vertex_index, buffer);
+			return NativeMethods.MQObj_SetVertexUserData(this, userdata_id, vertex_index, 1, 0, 0, buffer);
+		}
+
+		partial void BeforeSetVertexUserData(int userdata_id, int vertex_index, byte[] buffer);
+		/// <summary>
+		/// BOOL SetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, const void *buffer)
+		/// </summary>
+		public bool SetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeSetVertexUserDataPart(userdata_id, vertex_start_index, copy_vertex_num, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_SetVertexUserData(this, userdata_id, vertex_start_index, copy_vertex_num, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeSetVertexUserDataPart(int userdata_id, int vertex_start_index, int copy_vertex_num, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL AllocFaceUserData(int userdata_id)
+		/// </summary>
+		public bool AllocFaceUserData(int userdata_id)
+		{
+			BeforeAllocFaceUserData(userdata_id);
+			return NativeMethods.MQObj_AllocFaceUserData(this, userdata_id);
+		}
+
+		partial void BeforeAllocFaceUserData(int userdata_id);
+		/// <summary>
+		/// void FreeFaceUserData(int userdata_id)
+		/// </summary>
+		public void FreeFaceUserData(int userdata_id)
+		{
+			BeforeFreeFaceUserData(userdata_id);
+			NativeMethods.MQObj_FreeFaceUserData(this, userdata_id);
+		}
+
+		partial void BeforeFreeFaceUserData(int userdata_id);
+		/// <summary>
+		/// BOOL GetFaceUserData(int userdata_id, int face_index, void *buffer)
+		/// </summary>
+		public bool GetFaceUserData(int userdata_id, int face_index, byte[] buffer)
+		{
+			BeforeGetFaceUserData(userdata_id, face_index, buffer);
+			return NativeMethods.MQObj_GetFaceUserData(this, userdata_id, face_index, 1, 0, 0, buffer);
+		}
+
+		partial void BeforeGetFaceUserData(int userdata_id, int face_index, byte[] buffer);
+		/// <summary>
+		/// BOOL GetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, void *buffer)
+		/// </summary>
+		public bool GetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeGetFaceUserDataPart(userdata_id, face_start_index, copy_face_num, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_GetFaceUserData(this, userdata_id, face_start_index, copy_face_num, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeGetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL SetFaceUserData(int userdata_id, int face_index, const void *buffer)
+		/// </summary>
+		public bool SetFaceUserData(int userdata_id, int face_index, byte[] buffer)
+		{
+			BeforeSetFaceUserData(userdata_id, face_index, buffer);
+			return NativeMethods.MQObj_SetFaceUserData(this, userdata_id, face_index, 1, 0, 0, buffer);
+		}
+
+		partial void BeforeSetFaceUserData(int userdata_id, int face_index, byte[] buffer);
+		/// <summary>
+		/// BOOL SetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, const void *buffer)
+		/// </summary>
+		public bool SetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeSetFaceUserDataPart(userdata_id, face_start_index, copy_face_num, offset, copy_bytes, buffer);
+			return NativeMethods.MQObj_SetFaceUserData(this, userdata_id, face_start_index, copy_face_num, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeSetFaceUserDataPart(int userdata_id, int face_start_index, int copy_face_num, int offset, int copy_bytes, byte[] buffer);
 	}
 
 	/// <summary>
@@ -1553,6 +2153,37 @@ namespace Metasequoia
 			set
 			{
 				NativeMethods.MQMat_SetIntValue(this, (int)MatId.Vertexcolor, (int)value);
+			}
+		}
+
+		/// <summary>
+		/// BOOL GetSelected()
+		/// </summary>
+		public bool Selected
+		{
+			get
+			{
+				return NativeMethods.MQMat_GetIntValue(this, (int)MatId.Selected) != 0;
+			}
+			set
+			{
+				var flag = value;
+				NativeMethods.MQMat_SetIntValue(this, (int)MatId.Selected, flag ? 1 : 0);
+			}
+		}
+
+		/// <summary>
+		/// BOOL GetDoubleSided()
+		/// </summary>
+		public bool DoubleSided
+		{
+			get
+			{
+				return NativeMethods.MQMat_GetIntValue(this, (int)MatId.Doublesided) != 0;
+			}
+			set
+			{
+				NativeMethods.MQMat_SetIntValue(this, (int)MatId.Doublesided, value ? 1: 0);
 			}
 		}
 
@@ -1816,6 +2447,66 @@ namespace Metasequoia
 		}
 
 		partial void BeforeSetBumpName(string name);
+		/// <summary>
+		/// BOOL AllocUserData(int userdata_id)
+		/// </summary>
+		public bool AllocUserData(int userdata_id)
+		{
+			BeforeAllocUserData(userdata_id);
+			return NativeMethods.MQMat_AllocUserData(this, userdata_id);
+		}
+
+		partial void BeforeAllocUserData(int userdata_id);
+		/// <summary>
+		/// void FreeUserData(int userdata_id)
+		/// </summary>
+		public void FreeUserData(int userdata_id)
+		{
+			BeforeFreeUserData(userdata_id);
+			NativeMethods.MQMat_FreeUserData(this, userdata_id);
+		}
+
+		partial void BeforeFreeUserData(int userdata_id);
+		/// <summary>
+		/// BOOL GetUserData(int userdata_id, void *buffer)
+		/// </summary>
+		public bool GetUserData(int userdata_id, byte[] buffer)
+		{
+			BeforeGetUserData(userdata_id, buffer);
+			return NativeMethods.MQMat_GetUserData(this, userdata_id, 0, 0, buffer);
+		}
+
+		partial void BeforeGetUserData(int userdata_id, byte[] buffer);
+		/// <summary>
+		/// BOOL GetUserDataPart(int userdata_id, int offset, int copy_bytes, void *buffer)
+		/// </summary>
+		public bool GetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeGetUserDataPart(userdata_id, offset, copy_bytes, buffer);
+			return NativeMethods.MQMat_GetUserData(this, userdata_id, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeGetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer);
+		/// <summary>
+		/// BOOL SetUserData(int userdata_id, const void *buffer)
+		/// </summary>
+		public bool SetUserData(int userdata_id, byte[] buffer)
+		{
+			BeforeSetUserData(userdata_id, buffer);
+			return NativeMethods.MQMat_SetUserData(this, userdata_id, 0, 0, buffer);
+		}
+
+		partial void BeforeSetUserData(int userdata_id, byte[] buffer);
+		/// <summary>
+		/// BOOL SetUserDataPart(int userdata_id, int offset, int copy_bytes, const void *buffer)
+		/// </summary>
+		public bool SetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer)
+		{
+			BeforeSetUserDataPart(userdata_id, offset, copy_bytes, buffer);
+			return NativeMethods.MQMat_SetUserData(this, userdata_id, offset, copy_bytes, buffer);
+		}
+
+		partial void BeforeSetUserDataPart(int userdata_id, int offset, int copy_bytes, byte[] buffer);
 	}
 
 }

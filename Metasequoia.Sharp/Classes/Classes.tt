@@ -18,7 +18,13 @@ namespace Metasequoia
 <#
 var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "..", "mqsdk", "MQPlugin.h");
 var enc = Encoding.GetEncoding(932);
-var regex = new Regex(@"^inline (?<returnType>\w+)\s+MQC(?<className>\w+)\:\:(?<methodName>\w+)\((?<params>.*?)\)\s*\{(?<content>(.|\n)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
+var regex = new Regex(@"^inline (?<returnType>\w+)\s+MQC(?<className>\w+)\:\:(?<methodName>\w+)\((?<params>.*?)\)\s*\{(?<content>(\{(.|\n)*?\}|.|\n)+?)\}", RegexOptions.Compiled | RegexOptions.Multiline);
+var ignore = new[]
+{
+	"Document.GetMappingImageSize",
+	"Document.CreateUserData",
+	"Document.FindUserData",
+};
 var defs = regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n"))
 				.Cast<Match>()
 				.Select(_ =>
@@ -34,7 +40,8 @@ var defs = regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\n"))
 						Content = _.Groups["content"].Value,
 						Handled = new[] { false },
 					};
-				});
+				})
+				.Where(_ => !ignore.Contains(_.ClassName + "." + _.MethodName));
 var map = new Dictionary<string, string>
 {
 	{ "MQMatrix&", "ref Matrix" },
@@ -54,7 +61,9 @@ var map = new Dictionary<string, string>
 	{ "uint map_type", "Mapping map_type" },
 	{ "float *", "float[] " },
 	{ "int *", "int[] " },
+	{ "int&", "out int" },
 	{ "UINT", "uint" },
+	{ "void *", "byte[] " },
 	{ "MQ", "" },
 };
 var flagMap = new Dictionary<string, string[]>
@@ -67,6 +76,7 @@ var flagMap = new Dictionary<string, string[]>
 	{ "Object.GetMirrorAxis", new[] { "ObjectMirrorAxis", "axis" } },
 	{ "Object.GetLatheType", new[] { "ObjectLathe", "type", "int" } },
 	{ "Object.GetLatheAxis", new[] { "ObjectLatheAxis", "axis" } },
+	{ "Object.GetType", new[] { "ObjectType", "type", "int" } },
 	{ "Material.GetShader", new[] { "MaterialShader", "shader", "int" } },
 	{ "Material.GetVertexColor", new[] { "MaterialVertexcolor", "value", "int" } },
 	{ "Material.GetMappingType", new[] { "MaterialProjection", "type", "int" } },
@@ -184,6 +194,13 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 				.Replace("MQObj_GetFaceCoordinateArray(this, face, uvarray);", "unsafe { fixed (void* ptr = uvarray) MQObj_GetFaceCoordinateArray(this, face, (IntPtr)ptr); }")
 				.Replace("MQObj_SetFaceCoordinateArray(this, face, uvarray);", "unsafe { fixed (void* ptr = uvarray) MQObj_SetFaceCoordinateArray(this, face, (IntPtr)ptr); }")
 
+				.Replace("return MQDoc_GetUnusedObjectName", "MQDoc_GetUnusedObjectName")
+				.Replace("return MQDoc_GetUnusedMaterialName", "MQDoc_GetUnusedMaterialName")
+				.Replace("MQObj_GetIntValue(this, MQOBJ_ID_SELECTED)", "MQObj_GetIntValue(this, MQOBJ_ID_SELECTED) != 0")
+				.Replace("MQObj_SetIntValue(this, MQOBJ_ID_SELECTED, flag)", "MQObj_SetIntValue(this, MQOBJ_ID_SELECTED, flag ? 1 : 0)")
+				.Replace("MQMat_GetIntValue(this, MQMAT_ID_SELECTED)", "MQMat_GetIntValue(this, MQMAT_ID_SELECTED) != 0")
+				.Replace("MQMat_SetIntValue(this, MQMAT_ID_SELECTED, flag)", "MQMat_SetIntValue(this, MQMAT_ID_SELECTED, flag ? 1 : 0)")
+
 				.Replace("if (w != NULL) *w", "w")
 			
 				.Replace("; ", ";\r\n\t\t\t")
@@ -217,9 +234,23 @@ foreach (var k in defs.GroupBy(_ => _.ClassName))
 				.Replace("MQPoint(", "new Point(")
 				.Replace("MQAngle(", "new Angle(")
 				.Replace("VALID, flag)", "VALID, flag ? 1 : 0)")
+				.Replace("!= 0 ? TRUE : FALSE", "!= 0")
 				.Replace("? TRUE : FALSE", "!= 0")
 
+				.Replace("MQUSERDATA_OBJECT", "(int)Userdata.Object")
+				.Replace("MQUSERDATA_VERTEX", "(int)Userdata.Vertex")
+				.Replace("MQUSERDATA_FACE", "(int)Userdata.Face")
+				.Replace("MQUSERDATA_MATERIAL", "(int)Userdata.Material")
+				.Replace("MQUserDataInfo", "UserDataInfo")
+
+				.Replace("int val[1];", "var val = new int[1];")
+				.Replace("int val[2];", "var val = new int[2];")
+				.Replace("int val[3];", "var val = new int[3];")
+				.Replace("MQSCENE_SET_MULTILIGHT_INDEX,&index", "MQSCENE_SET_MULTILIGHT_INDEX,new[]{index}")
+
 				.Replace("TRUE", "true")
+				.Replace("FALSE", "false")
+				.Replace("NULL", "null")
 				.Replace("MQ", "NativeMethods.MQ")
 				.Replace("\n", "\r\n")
 				.Replace("\r\r\n", "\r\n");

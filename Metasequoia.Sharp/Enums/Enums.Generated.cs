@@ -12,7 +12,7 @@ namespace Metasequoia
 		/// <summary>
 		/// MQPLUGIN_VERSION
 		/// </summary>
-		public const int Version = 0x0249;
+		public const int Version = 0x0311;
 	}
 
 	public enum PluginType
@@ -339,6 +339,26 @@ namespace Metasequoia
 		Bump = 3,
 	}
 
+	public enum Userdata
+	{
+		/// <summary>
+		/// MQUSERDATA_OBJECT
+		/// </summary>
+		Object = 1,
+		/// <summary>
+		/// MQUSERDATA_MATERIAL
+		/// </summary>
+		Material = 2,
+		/// <summary>
+		/// MQUSERDATA_VERTEX
+		/// </summary>
+		Vertex = 3,
+		/// <summary>
+		/// MQUSERDATA_FACE
+		/// </summary>
+		Face = 4,
+	}
+
 	public enum MQScene
 	{
 		/// <summary>
@@ -405,6 +425,54 @@ namespace Metasequoia
 		/// MQSCENE_CONVERT_SCREEN_TO_3D
 		/// </summary>
 		ConvertScreenTo3d = 0x301,
+		/// <summary>
+		/// MQSCENE_ADD_MULTILIGHT
+		/// </summary>
+		AddMultilight = 0x400,
+		/// <summary>
+		/// MQSCENE_DELETE_MULTILIGHT
+		/// </summary>
+		DeleteMultilight = 0x401,
+		/// <summary>
+		/// MQSCENE_GET_MULTILIGHT_NUMBER
+		/// </summary>
+		GetMultilightNumber = 0x402,
+		/// <summary>
+		/// MQSCENE_SET_MULTILIGHT_INDEX
+		/// </summary>
+		SetMultilightIndex = 0x403,
+		/// <summary>
+		/// MQSCENE_GET_MULTILIGHT_DIR
+		/// </summary>
+		GetMultilightDir = 0x404,
+		/// <summary>
+		/// MQSCENE_SET_MULTILIGHT_DIR
+		/// </summary>
+		SetMultilightDir = 0x405,
+		/// <summary>
+		/// MQSCENE_GET_MULTILIGHT_COLOR
+		/// </summary>
+		GetMultilightColor = 0x406,
+		/// <summary>
+		/// MQSCENE_SET_MULTILIGHT_COLOR
+		/// </summary>
+		SetMultilightColor = 0x407,
+	}
+
+	public enum ObjectType
+	{
+		/// <summary>
+		/// MQOBJECT_TYPE_NORMAL
+		/// </summary>
+		Normal = 0,
+		/// <summary>
+		/// MQOBJECT_TYPE_POINT_LIGHT
+		/// </summary>
+		PointLight = 1,
+		/// <summary>
+		/// MQOBJECT_TYPE_DIRECTIONAL_LIGHT
+		/// </summary>
+		DirectionalLight = 2,
 	}
 
 	[Flags]
@@ -621,6 +689,18 @@ namespace Metasequoia
 		/// </summary>
 		UniqueId = 0x104,
 		/// <summary>
+		/// MQOBJ_ID_TYPE
+		/// </summary>
+		Type = 0x105,
+		/// <summary>
+		/// MQOBJ_ID_SELECTED
+		/// </summary>
+		Selected = 0x106,
+		/// <summary>
+		/// MQOBJ_ID_PATCH_TRIANGLE
+		/// </summary>
+		PatchTriangle = 0x107,
+		/// <summary>
 		/// MQOBJ_ID_COLOR
 		/// </summary>
 		Color = 0x201,
@@ -648,6 +728,22 @@ namespace Metasequoia
 		/// MQOBJ_ID_LOCAL_INVERSE_MATRIX
 		/// </summary>
 		LocalInverseMatrix = 0x305,
+		/// <summary>
+		/// MQOBJ_ID_LIGHT_VALUE
+		/// </summary>
+		LightValue = 0x401,
+		/// <summary>
+		/// MQOBJ_ID_LIGHT_ATTENUATION
+		/// </summary>
+		LightAttenuation = 0x402,
+		/// <summary>
+		/// MQOBJ_ID_LIGHT_FALLOFF_END
+		/// </summary>
+		LightFalloffEnd = 0x403,
+		/// <summary>
+		/// MQOBJ_ID_LIGHT_FALLOFF_HALF
+		/// </summary>
+		LightFalloffHalf = 0x404,
 	}
 
 	public enum MatId
@@ -664,6 +760,14 @@ namespace Metasequoia
 		/// MQMAT_ID_UNIQUE_ID
 		/// </summary>
 		UniqueId = 0x103,
+		/// <summary>
+		/// MQMAT_ID_DOUBLESIDED
+		/// </summary>
+		Doublesided = 0x104,
+		/// <summary>
+		/// MQMAT_ID_SELECTED
+		/// </summary>
+		Selected = 0x106,
 		/// <summary>
 		/// MQMAT_ID_MAPPROJ
 		/// </summary>

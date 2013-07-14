@@ -115,6 +115,41 @@ namespace Metasequoia
 	}
 	
 	/// <summary>
+	/// MQUserDataInfo 
+	/// </summary>
+	public partial struct UserDataInfo 
+	{
+		/// <summary>
+		/// DWORD dwSize
+		/// </summary>
+		public uint dwSize;
+		/// <summary>
+		/// DWORD productID
+		/// </summary>
+		public uint ProductID;
+		/// <summary>
+		/// DWORD pluginID
+		/// </summary>
+		public uint PluginID;
+		/// <summary>
+		/// char identifier
+		/// </summary>
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)] public byte[] Identifier;
+		/// <summary>
+		/// int userdata_type
+		/// </summary>
+		public int UserdataType;
+		/// <summary>
+		/// int bytes_per_element
+		/// </summary>
+		public int BytesPerElement;
+		/// <summary>
+		/// bool create
+		/// </summary>
+		public bool Create;
+	}
+	
+	/// <summary>
 	/// MQSendMessageInfo 
 	/// </summary>
 	public partial struct SendMessageInfo 

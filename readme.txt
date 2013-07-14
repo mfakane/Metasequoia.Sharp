@@ -12,8 +12,8 @@ Metasequoia.Sharp 名前空間には、C# で使用するうえで便利なク�
 
 * Microsoft Visual Studio 2010 以降
 * .NET Framework 4.0 以降
-* Metasequoia Ver2.4.9 以降
-* Metasequoia Plugin SDK Rev2.49b 以降
+* Metasequoia Ver3.1.1 以降
+* Metasequoia Plugin SDK Rev3.11 以降
 * ILMerge
 
 事前準備
@@ -69,6 +69,10 @@ mfakane <star@glasscore.net>
 更新履歴
 =======
 
+Version 0.2, Sun, 14 Jul 2013
+
+	mqsdk 3.11 ベースへ更新
+
 Version 0.1, Thu, 05 Apr 2012
 
 	Station/Command プラグイン関係の機能を追加
@@ -88,15 +92,6 @@ Version 0.0, Tue, 03 Apr 2012
 Do What The Fuck You Want To Public License, Version 2 (WTFPL) および自らの責任において
 自由に複製、改変、再配布、などが可能です。WTFPL についての詳細は次の URL か、
 以下の条文を参照してください。http://sam.zoy.org/wtfpl/
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
-                    Version 2, December 2004 
-
- Copyright (C) 2012 mfakane <star@glasscore.net>
-
- Everyone is permitted to copy and distribute verbatim or modified 
- copies of this license document, and changing it is allowed as long 
- as the name is changed. 
 
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 

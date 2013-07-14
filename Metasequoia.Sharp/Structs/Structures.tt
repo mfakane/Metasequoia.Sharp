@@ -19,11 +19,12 @@ namespace Metasequoia
 var path = Path.Combine(Path.GetDirectoryName(this.Host.TemplateFile), "..", "..", "mqsdk", "MQPlugin.h");
 var enc = Encoding.GetEncoding(932);
 var regex = new Regex(@"typedef struct (?<name>.+?)\n{\n(?<content>(?:.|\n)+?)\n} \1;|typedef struct {\n(?<content>(?:.|\n)+?)\n} (?<name>.+?);|struct (?<name>.+?){\n(?<content>(?:.|\n)+?)\n};", RegexOptions.Compiled);
-var fieldRegex = new Regex(@"^\s*(?<type>(const )?[a-zA-Z0-9_]+ \*?)(?<names>[a-zA-Z0-9_,]+);", RegexOptions.Compiled | RegexOptions.Multiline);
+var fieldRegex = new Regex(@"^\s*(?<type>(const )?[a-zA-Z0-9_]+ \*?)(?<names>[a-zA-Z0-9_,]+)(?<size>\[[0-9]+\])?;", RegexOptions.Compiled | RegexOptions.Multiline);
 var map = new Dictionary<string, string>
 {
 	{ "DWORD", "uint" },
 	{ "const char*", "[MarshalAs(UnmanagedType.LPStr)] string" },
+	{ "char", "byte" },
 	{ "void*", "/* void* */ IntPtr" },
 };
 
@@ -52,6 +53,12 @@ foreach (Match i in regex.Matches(File.ReadAllText(path, enc).Replace("\r\n", "\
 
 			attr = sl[0] + "] ";
 			type = sl[1].Trim();
+		}
+
+		if (j.Groups["size"].Success)
+		{
+			attr = "[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + j.Groups["size"].Value.Trim('[', ']') + ")] ";
+			type += "[]";
 		}
 
 		foreach (var k in j.Groups["names"].Value.Split(','))
