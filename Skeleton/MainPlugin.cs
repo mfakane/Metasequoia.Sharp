@@ -65,6 +65,8 @@ namespace Linearstar.Metaseq.Skeleton
 						this.BeginCallback(_ => _.AddObject(bone));
 					}
 
+					f.OnMaterialChanged(e.Document);
+					f.OnObjectChanged(e.Document);
 					f.Show(NativeWindow.FromHandle(Plugin.MainWindowHandle));
 				}
 				else
@@ -79,10 +81,17 @@ namespace Linearstar.Metaseq.Skeleton
 			this.IsActivated += (sender, e) => e.Handled = f.Visible;
 			this.MaterialList += (sender, e) =>
 			{
-				f.OnMaterialChanged(e.Document);
-				this.BeginCallback(_ => this.RedrawAllScene());
+				if (f.Visible)
+				{
+					f.OnMaterialChanged(e.Document);
+					this.BeginCallback(_ => this.RedrawAllScene());
+				}
 			};
-			this.ObjectList += (sender, e) => f.OnObjectChanged(e.Document);
+			this.ObjectList += (sender, e) =>
+			{
+				if (f.Visible)
+					f.OnObjectChanged(e.Document);
+			};
 			this.Undo += (sender, e) =>
 			{
 				if (createBonePointInfo != null)
@@ -184,37 +193,38 @@ namespace Linearstar.Metaseq.Skeleton
 						case SkeletonMode.Bone:
 							if (createBonePointInfo != null &&
 								createBonePointInfo.HasEnd)
-							{
-								if (createBonePointInfo.HasSize || f.CreateRelativeBone)
+								this.BeginCallback(document =>
 								{
-									EnsureBoneObject(e.Document);
-
-									if (bone != null)
+									if (createBonePointInfo.HasSize || f.CreateRelativeBone)
 									{
-										createBonePointInfo = new CreateBonePointInfo
+										EnsureBoneObject(document);
+
+										if (bone != null)
 										{
-											BeginVertexIndex = CreateBone
-											(
-												e.Document,
-												bone,
-												createBonePointInfo,
-												f.CreateNewMaterial,
-												f.BoneName
-											),
-											BeginWorld = createBonePointInfo.EndWorld,
-										};
-										f.OnBoneCreated();
-										this.UpdateUndo();
+											createBonePointInfo = new CreateBonePointInfo
+											{
+												BeginVertexIndex = CreateBone
+												(
+													document,
+													bone,
+													createBonePointInfo,
+													f.CreateNewMaterial,
+													f.BoneName
+												),
+												BeginWorld = createBonePointInfo.EndWorld,
+											};
+											f.OnBoneCreated();
+											this.UpdateUndo();
+										}
+										else
+											createBonePointInfo = null;
 									}
 									else
-										createBonePointInfo = null;
-								}
-								else
-									createBonePointInfo.HasEnd = false;
+										createBonePointInfo.HasEnd = false;
 
-								this.RedrawAllScene();
-								e.Handled = true;
-							}
+									this.RedrawAllScene();
+									e.Handled = true;
+								});
 
 							break;
 						case SkeletonMode.Anchor:
