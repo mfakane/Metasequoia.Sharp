@@ -266,30 +266,20 @@ namespace DllExporter
 		{
 			foreach (var i in new[]
 			{
-				@"SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A",
-				@"SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0A",
+				Registry.CurrentUser,
+				Registry.LocalMachine,
 			})
-				foreach (var j in new[]
-				{
-					Registry.CurrentUser,
-					Registry.LocalMachine,
-				})
-					using (var key = j.OpenSubKey(i))
-						if (key != null)
-							foreach (var k in new[]
-							{
-								@"bin\NETFX 4.0 Tools",
-								@"bin",
-							})
-							{
-								var p = (string)key.GetValue("InstallationFolder");
+				using (var key = i.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SDKs\Windows"))
+					if (key != null)
+					{
+						var p = (string)key.GetValue("CurrentInstallFolder");
 
-								if (p != null)
-									p = Path.Combine(p, k, @"ildasm.exe");
+						if (p != null)
+							p = Path.Combine(Directory.GetDirectories(Path.Combine(p, "bin"), "NETFX * Tools").DefaultIfEmpty(Path.Combine(p, "bin")).First(), @"ildasm.exe");
 
-								if (File.Exists(p))
-									return p;
-							}
+						if (File.Exists(p))
+							return p;
+					}
 
 			throw new Exception("DllExporter: error : ildasm not found");
 		}
